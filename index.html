@@ -1,95 +1,587 @@
 <!doctype html>
-<html lang="az"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1220">
-<meta name="description" content="Şəxsi gəlir və xərc idarəetmə tətbiqi"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><title>Mənim Büdcəm</title>
+<html lang="az" data-mode="dark" data-theme="midnight">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0e1a">
+<meta name="description" content="Şəxsi maliyyə idarəetmə sistemi">
+<title>Mənim Büdcəm</title>
 <style>
-:root{--bg:#0b1220;--panel:#111c2e;--line:#26364e;--text:#eef4ff;--muted:#91a2ba;--blue:#729cff;--green:#35c98a;--red:#ff727d;--radius:18px}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 Inter,system-ui,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:grid;grid-template-columns:250px minmax(0,1fr)}.sidebar{background:#0e192a;border-right:1px solid var(--line);padding:24px 16px;display:flex;flex-direction:column;gap:26px;position:sticky;top:0;height:100vh}.brand{display:flex;align-items:center;gap:12px;padding:0 8px}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#82aaff,#526fe4);display:grid;place-items:center;font-size:23px;font-weight:800}.brand strong{display:block;font-size:15px}.brand small{color:var(--muted);font-size:11px}.nav-label{color:#687c97;font-size:10px;font-weight:800;letter-spacing:1.3px;padding:0 12px;margin-bottom:8px}.nav{display:grid;gap:5px}.nav button{border:0;background:transparent;color:#aebdd1;text-align:left;padding:11px 12px;border-radius:11px;display:flex;align-items:center;gap:12px;font-weight:600}.nav button:hover{background:#17263c;color:white}.nav button.active{background:#1b3151;color:#a9c5ff}.ico{width:20px;text-align:center;font-size:17px}.side-bottom{margin-top:auto;border-top:1px solid var(--line);padding:16px 8px 0}.side-user{display:flex;align-items:center;gap:10px}.avatar{width:34px;height:34px;border-radius:50%;background:#263d5d;display:grid;place-items:center;color:#c8dcff;font-weight:800}.user-info{min-width:0;flex:1}.user-info b{display:block;font-size:12px;overflow:hidden;text-overflow:ellipsis}.user-info small{color:var(--muted);font-size:11px}main{min-width:0;padding:28px clamp(18px,3vw,42px) 50px;max-width:1500px;width:100%;margin:auto}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:28px}.eyebrow{color:var(--muted);font-size:12px}.page-title{font-size:25px;letter-spacing:-.7px;margin:2px 0 0}.top-actions{display:flex;gap:9px;align-items:center}.btn{border:1px solid var(--line);border-radius:11px;background:#16243a;color:var(--text);padding:10px 14px;font-weight:650}.btn:hover{filter:brightness(1.15)}.btn.primary{background:#668ff0;border-color:#668ff0;color:#fff}.btn.danger{color:#ff9ba2}.btn:disabled{opacity:.55;cursor:not-allowed}.page{display:none}.page.active{display:block}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:18px}.card{background:linear-gradient(145deg,#142239,#101a2b);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 12px 35px #00000014}.metric-head{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px}.metric-icon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:#20334d;font-size:16px}.metric-value{font-size:clamp(23px,2.6vw,31px);font-weight:780;letter-spacing:-1px;margin-top:12px}.income{color:var(--green)}.expense{color:var(--red)}.muted{color:var(--muted)}.section-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}.card h2{font-size:15px;margin:0 0 16px}.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.card-head h2{margin:0}.activity{display:grid;gap:9px}.tx{display:flex;align-items:center;gap:11px;padding:12px;background:#0d1829;border:1px solid #22334b;border-radius:13px}.tx-icon{width:38px;height:38px;border-radius:12px;background:#1c2c43;display:grid;place-items:center;font-size:17px}.tx-main{min-width:0;flex:1}.tx-title{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tx-meta{font-size:11px;color:var(--muted);margin-top:2px}.tx-right{text-align:right;white-space:nowrap}.tx-amount{font-weight:750}.tx-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:3px}.mini{border:0;background:transparent;color:#91a2ba;padding:2px;font-size:11px}.mini:hover{color:white}.bar-row{display:grid;grid-template-columns:100px 1fr 88px;gap:10px;align-items:center;margin:14px 0;font-size:12px}.bar-label{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.track{height:9px;background:#26364e;border-radius:20px;overflow:hidden}.fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#668ff0,#83b4ff)}.bar-value{text-align:right;font-weight:700}.form-card{max-width:720px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}label{font-size:12px;color:var(--muted)}input,select{width:100%;background:#0b1525;border:1px solid #30425c;border-radius:11px;color:var(--text);padding:12px;outline:none}input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px #79a9ff1c}.type-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px}.type-switch button{border:1px solid var(--line);background:#0b1525;color:var(--muted);padding:11px;border-radius:11px;font-weight:700}.type-switch button.active.income-tab{background:#143b30;border-color:#267451;color:var(--green)}.type-switch button.active.expense-tab{background:#43232c;border-color:#85404b;color:#ff9ba2}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}.filters{display:flex;gap:8px;flex-wrap:wrap}.filters input,.filters select{width:auto;min-width:145px;padding:9px 10px;font-size:12px}.empty{padding:28px 12px;text-align:center;color:var(--muted);border:1px dashed #34465f;border-radius:13px}.notice{font-size:12px;color:var(--muted);line-height:1.6;margin-top:14px}.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}.login-wrap{min-height:100vh;display:grid;place-items:center;padding:20px}.login{width:min(440px,100%);text-align:center}.login p{color:var(--muted);margin:8px 0 22px}.login .logo{margin:0 auto 14px}.hidden{display:none!important}.status{font-size:11px;color:var(--muted);padding:7px 10px;border:1px solid var(--line);border-radius:10px}.status.ok{color:var(--green);border-color:#28684f}.status.bad{color:var(--red);border-color:#743b46}
-@media(max-width:900px){.app{grid-template-columns:210px 1fr}.section-grid{grid-template-columns:1fr}}@media(max-width:650px){.app{display:block}.sidebar{position:fixed;z-index:5;left:0;right:0;bottom:0;top:auto;height:auto;padding:8px 8px calc(8px + env(safe-area-inset-bottom));border-right:0;border-top:1px solid var(--line);display:block}.brand,.nav-label,.side-bottom{display:none}.nav{display:flex;justify-content:space-around;gap:2px}.nav button{padding:9px 5px;flex:1;justify-content:center;flex-direction:column;gap:2px;font-size:10px}.nav .ico{font-size:17px}.app main{padding:20px 13px 105px}.topbar{margin-bottom:20px}.page-title{font-size:21px}.cards{gap:8px}.card{padding:14px}.metric-head{font-size:10px;display:block}.metric-icon{display:none}.metric-value{font-size:19px;letter-spacing:-.5px}.section-grid,.split{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.filters{width:100%}.filters input,.filters select{flex:1;min-width:0}.top-actions .status{display:none}}
+:root{--radius:20px;--ease:cubic-bezier(.2,.8,.2,1);--green:#2fbf8f;--red:#ef6f7d}
+:root[data-mode=dark]{color-scheme:dark;--bg:#0a0e1a;--bg2:#0d1322;--panel:#131a2b;--panel2:#0f1626;--line:#243049;--text:#eef2ff;--muted:#8d9ab4;--shadow:0 14px 40px #0006;--glow:#1c2150;--green:#4ad3a4;--red:#ff7f8d}
+:root[data-mode=light]{color-scheme:light;--bg:#f4f6fb;--bg2:#fff;--panel:#fff;--panel2:#f6f8fc;--line:#e5e9f2;--text:#1f2740;--muted:#7d879d;--shadow:0 12px 34px #33436a14;--glow:#e8ecff}
+:root[data-mode=dark][data-theme=midnight]{--accent:#8f96ff;--accent2:#5560d6}
+:root[data-mode=dark][data-theme=emerald]{--accent:#46c9a0;--accent2:#25806c;--glow:#123a35}
+:root[data-mode=dark][data-theme=ocean]{--accent:#5db8e8;--accent2:#336fa3;--glow:#123650}
+:root[data-mode=dark][data-theme=ember]{--accent:#f0987a;--accent2:#b5584d;--glow:#46282a}
+:root[data-mode=dark][data-theme=graphite]{--accent:#a8b7cf;--accent2:#5d6c85;--glow:#2b3649}
+:root[data-mode=light][data-theme=midnight]{--accent:#6f7bdc;--accent2:#5260c4}
+:root[data-mode=light][data-theme=emerald]{--accent:#35a07f;--accent2:#25806c;--glow:#e1f5ee}
+:root[data-mode=light][data-theme=ocean]{--accent:#4a95c0;--accent2:#336fa3;--glow:#e1f1fa}
+:root[data-mode=light][data-theme=ember]{--accent:#d4805f;--accent2:#b5584d;--glow:#fdece4}
+:root[data-mode=light][data-theme=graphite]{--accent:#68758f;--accent2:#4b586f;--glow:#e8ecf2}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:radial-gradient(ellipse at 8% -10%,var(--glow) 0,transparent 42%),var(--bg);color:var(--text);font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;transition:background .3s,color .3s}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}
+h1,h2,h3{margin:0}
+.hidden{display:none!important}.muted{color:var(--muted)}.inc{color:var(--green)}.exp{color:var(--red)}
+/* login */
+.login-wrap{min-height:100vh;display:grid;place-items:center;padding:20px}
+.login{width:min(360px,100%);text-align:center;padding:38px 28px}
+.logo{width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:#fff;font-size:28px;font-weight:800;box-shadow:0 10px 26px color-mix(in srgb,var(--accent) 40%,transparent);margin:0 auto}
+.login h1{font-size:24px;margin:16px 0 26px;letter-spacing:-.5px}
+#loginError{color:var(--red);font-size:12px;margin-top:12px;min-height:18px}
+/* layout */
+.app{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;padding:24px 14px;background:color-mix(in srgb,var(--bg2) 92%,transparent);backdrop-filter:blur(18px);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:24px;z-index:5}
+.brand{display:flex;align-items:center;gap:11px;padding:0 8px}.brand .logo{width:40px;height:40px;font-size:21px;border-radius:13px;margin:0}.brand b{font-size:15px}
+.nav{display:grid;gap:4px}
+.nav button{display:flex;align-items:center;gap:12px;border:0;background:none;color:var(--muted);padding:11px 12px;border-radius:12px;font-weight:600;text-align:left;transition:.2s var(--ease)}
+.nav button:hover{background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--text);transform:translateX(2px)}
+.nav button.active{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}
+.nav .ico{width:22px;text-align:center;font-size:17px}
+.nav .add-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}.nav .add-btn:hover{color:#fff;filter:brightness(1.1)}
+.side-bottom{margin-top:auto;border-top:1px solid var(--line);padding:14px 8px 0;display:flex;gap:10px;align-items:center}
+.avatar{width:34px;height:34px;border-radius:50%;background:color-mix(in srgb,var(--accent) 22%,var(--panel));display:grid;place-items:center;font-weight:800;color:var(--accent);flex:none}
+.side-bottom b{display:block;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px}
+main{padding:28px clamp(16px,3vw,40px) 60px;max-width:1280px;width:100%;margin:auto;min-width:0}
+.page{display:none}.page.active{display:block;animation:pageIn .35s var(--ease) both}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.top h1{font-size:26px;letter-spacing:-.7px}.top .sub{color:var(--muted);font-size:12px}
+.status{font-size:11px;color:var(--muted);padding:6px 10px;border:1px solid var(--line);border-radius:10px}.status.ok{color:var(--green)}.status.bad{color:var(--red)}
+/* ui */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:background .3s,border-color .3s}
+.card h2{font-size:15px}.card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin-bottom:16px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:10px 15px;border-radius:12px;font-weight:650;transition:.2s var(--ease)}
+.btn:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--accent) 50%,var(--line))}.btn:active{transform:scale(.97)}
+.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#fff;box-shadow:0 8px 20px color-mix(in srgb,var(--accent) 32%,transparent)}
+.btn.danger{background:linear-gradient(135deg,#f08a96,#d95b6c);border-color:transparent;color:#fff}
+.btn.block{width:100%}.btn:disabled{opacity:.55;cursor:not-allowed}
+.link{border:0;background:none;color:var(--accent);font-weight:700;padding:4px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{border:1px solid var(--line);background:var(--panel2);color:var(--muted);padding:7px 13px;border-radius:999px;font-weight:650;font-size:12px;transition:.2s}
+.chip:hover{color:var(--text)}.chip.active{background:color-mix(in srgb,var(--accent) 18%,var(--panel));border-color:var(--accent);color:var(--text)}
+input,select,textarea{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 12px;outline:none;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}.field{margin-bottom:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.empty{text-align:center;color:var(--muted);padding:26px 12px;border:1px dashed var(--line);border-radius:14px}
+/* hero */
+.hero{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 22%,var(--panel)),var(--panel));margin-bottom:16px;padding:26px}
+.hero .lbl{color:var(--muted);font-size:12px}.hero .big{font-size:clamp(32px,5vw,46px);font-weight:800;letter-spacing:-1.5px;margin:4px 0 18px}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hero-stat{background:color-mix(in srgb,var(--panel2) 70%,transparent);border:1px solid var(--line);border-radius:16px;padding:14px}
+.hero-stat b{display:block;font-size:20px;letter-spacing:-.5px;margin-top:2px}
+/* category icon */
+.ci{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;font-size:19px;flex:none;background:color-mix(in srgb,var(--c,#888) 20%,transparent);color:var(--c)}
+.ci.sm{width:30px;height:30px;font-size:15px;border-radius:10px}
+/* bars */
+.bars{display:grid;gap:13px}.brow{display:grid;grid-template-columns:minmax(100px,170px) 1fr 100px;gap:12px;align-items:center;width:100%;text-align:left;background:none;border:0;padding:4px 6px;border-radius:12px;transition:.2s var(--ease)}
+button.brow:hover{background:color-mix(in srgb,var(--accent) 9%,transparent);transform:translateX(3px)}
+.bname{display:flex;align-items:center;gap:9px;font-weight:650;font-size:13px;min-width:0}.bname span.t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.track{height:10px;border-radius:20px;background:color-mix(in srgb,var(--muted) 20%,transparent);overflow:hidden}.fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--c,var(--accent)),color-mix(in srgb,var(--c,var(--accent)) 55%,transparent));animation:grow .6s var(--ease) both;transform-origin:left}
+@keyframes grow{from{transform:scaleX(.02)}to{transform:none}}
+.bval{text-align:right;font-weight:750;font-size:12px}.bval small{display:block;color:var(--muted);font-weight:500;font-size:10px}
+.dchart{display:flex;align-items:flex-end;gap:8px;height:170px;overflow-x:auto;padding-top:8px}
+.dcol{flex:1;min-width:34px;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.dbars{display:flex;align-items:flex-end;gap:3px;height:128px;width:100%;justify-content:center}
+.dbar{width:42%;max-width:18px;min-height:3px;border-radius:7px 7px 3px 3px;animation:up .55s var(--ease) both;transform-origin:bottom}
+.dbar.i{background:var(--green)}.dbar.e{background:var(--red)}.dbar.a{background:linear-gradient(180deg,var(--accent),var(--accent2));max-width:24px;width:60%}
+@keyframes up{from{transform:scaleY(.02)}to{transform:none}}
+.dcol small{font-size:10px;color:var(--muted);white-space:nowrap}
+.legend{display:flex;gap:14px;font-size:11px;color:var(--muted)}.legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px}
+/* tx + swipe */
+.list{display:grid;gap:9px}
+.swipe{position:relative;border-radius:16px;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none;animation:txIn .3s var(--ease) both}
+@keyframes txIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.sbg{position:absolute;inset:0;display:flex;align-items:center;padding:0 22px;font-size:22px;color:#fff;opacity:0;transition:opacity .15s}
+.sbg.edit{background:linear-gradient(90deg,#1fa56f,#35c98a);justify-content:flex-start}.sbg.del{background:linear-gradient(270deg,#d6455a,#ef6f7d);justify-content:flex-end}
+.swipe.show-edit .sbg.edit,.swipe.show-del .sbg.del{opacity:1}
+.tx{position:relative;display:flex;align-items:center;gap:12px;padding:12px;background:var(--panel2);border:1px solid var(--line);border-radius:16px;transition:transform .28s var(--ease),background .3s;cursor:pointer;will-change:transform}
+.tx-main{flex:1;min-width:0}.tx-title{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tx-meta{font-size:11px;color:var(--muted)}
+.tx-amt{font-weight:780;white-space:nowrap}
+.swipe.out-l .tx{transform:translateX(-110%)}.swipe.out-r .tx{transform:translateX(110%)}
+/* filters */
+.filters{display:grid;gap:12px;margin-bottom:16px}.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.stat4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}.stat4 div{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px}.stat4 small{color:var(--muted);font-size:11px;display:block}.stat4 b{font-size:16px}
+/* categories grid */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.ccard{text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:10px;transition:.25s var(--ease);width:100%}.ccard:hover{transform:translateY(-3px);border-color:var(--c);box-shadow:var(--shadow)}
+.ccard b{font-size:16px;letter-spacing:-.4px}
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.theme-choice{text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:4px;transition:.2s}.theme-choice.selected{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}
+.dots{display:flex;gap:5px}.dots i{width:18px;height:18px;border-radius:50%}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.seg button{border:1px solid var(--line);background:var(--panel2);padding:12px;border-radius:12px;font-weight:700;color:var(--muted);transition:.2s}
+.seg button.active.e{background:color-mix(in srgb,var(--red) 16%,var(--panel));border-color:var(--red);color:var(--red)}.seg button.active.i{background:color-mix(in srgb,var(--green) 16%,var(--panel));border-color:var(--green);color:var(--green)}
+.cat-pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
+.cat-opt{display:grid;justify-items:center;gap:5px;padding:10px 4px;border:1px solid var(--line);background:var(--panel2);border-radius:14px;font-size:11px;font-weight:650;transition:.2s}.cat-opt.active{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--panel))}
+/* modal */
+.overlay{position:fixed;inset:0;z-index:50;background:#050914a8;backdrop-filter:blur(7px);display:grid;place-items:center;padding:16px;animation:fade .2s ease both}
+.overlay.closing{animation:fadeOut .2s ease both}.overlay.closing .modal{animation:popOut .2s ease both}
+.modal{width:min(560px,100%);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:26px;padding:22px;box-shadow:0 30px 90px #0007;animation:pop .28s var(--ease) both}
+.modal.wide{width:min(760px,100%)}.modal.small{width:min(400px,100%)}
+@keyframes fade{from{opacity:0}to{opacity:1}}@keyframes fadeOut{to{opacity:0}}
+@keyframes pop{from{opacity:0;transform:scale(.92) translateY(10px)}to{opacity:1;transform:none}}@keyframes popOut{to{opacity:0;transform:scale(.94)}}
+.mhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:18px}.mhead h2{font-size:19px;margin-top:2px}.xbtn{width:36px;height:36px;padding:0;border-radius:11px}
+.msym{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-size:23px;margin-bottom:14px;background:color-mix(in srgb,var(--red) 16%,transparent);color:var(--red)}.msym.warn{background:color-mix(in srgb,#f0b43c 18%,transparent);color:#f0b43c}.msym.ok{background:color-mix(in srgb,var(--green) 18%,transparent);color:var(--green)}
+.mact{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.kv:last-child{border:0}.kv span:first-child{color:var(--muted)}
+.sumbox{display:flex;justify-content:space-between;align-items:center;padding:14px;margin:14px 0;border-radius:14px;background:color-mix(in srgb,var(--accent) 10%,var(--panel2));border:1px solid var(--line);color:var(--muted);font-size:12px}.sumbox strong{font-size:20px;color:var(--text)}
+.sec{font-size:12px;font-weight:800;letter-spacing:.8px;color:var(--muted);margin:18px 0 10px;text-transform:uppercase}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:80;background:#27324a;color:#fff;padding:12px 18px;border-radius:14px;box-shadow:0 12px 32px #0005;font-size:13px;max-width:90vw;transition:.3s var(--ease)}
+.toast.show{opacity:1;transform:translate(-50%,0)}.toast.warn{background:#a56a12}.toast.ok{background:#1b8a63}
+@media(max-width:1000px){.grid2{grid-template-columns:1fr}}
+@media(max-width:700px){
+.app{display:block}
+.sidebar{position:fixed;top:auto;bottom:0;left:0;right:0;height:auto;padding:6px 6px calc(6px + env(safe-area-inset-bottom));border-right:0;border-top:1px solid var(--line);flex-direction:row}
+.brand,.side-bottom{display:none}.nav{display:flex;width:100%;gap:0;justify-content:space-around}
+.nav button{flex-direction:column;gap:1px;padding:7px 2px;font-size:9.5px;flex:1;justify-content:center;align-items:center;text-align:center}.nav button:hover{transform:none}
+.nav .ico{font-size:18px;width:auto}.nav .add-btn{border-radius:14px;margin:0 2px}
+main{padding:20px 13px 110px}.top h1{font-size:22px}.grid3{grid-template-columns:1fr}.hero{padding:20px}
+.stat4{grid-template-columns:1fr 1fr}.brow{grid-template-columns:minmax(80px,1fr) 1fr 76px;gap:8px}.row2{grid-template-columns:1fr 1fr}
+.toast{bottom:92px}.modal{padding:18px;border-radius:22px}.card{padding:16px}.status{display:none}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
 
-/* Premium soft interface */
-:root{--bg:#f4f6fb;--panel:#ffffff;--line:#e7eaf2;--text:#20283a;--muted:#8992a5;--blue:#7589df;--green:#269b79;--red:#df7884;--radius:20px}
-body{background:radial-gradient(ellipse at 10% 0%,#eef1ff 0,transparent 34%),linear-gradient(135deg,#f7f8fc,#f1f4f9);color:var(--text)}
-.sidebar{background:rgba(255,255,255,.86);backdrop-filter:blur(18px);border-color:#e8ebf3;box-shadow:8px 0 32px #26365e08}
-.logo{background:linear-gradient(135deg,#9baaf2,#7789dc);box-shadow:0 8px 18px #7789dc35;color:#fff}
-.nav button{color:#68738b;transition:background .22s ease,color .22s ease,transform .22s ease}.nav button:hover{background:#f0f2fc;color:#4e5fba;transform:translateX(2px)}.nav button.active{background:linear-gradient(100deg,#edf0ff,#f5f6ff);color:#5d70c5}
-.card{background:rgba(255,255,255,.88);border-color:#e8ebf3;box-shadow:0 12px 34px #33436a0b;transition:transform .25s ease,box-shadow .25s ease}.card:hover{box-shadow:0 16px 38px #33436a12}
-.metric-icon{background:#f0f2ff;color:#7889d8}.tx{background:#fff;border-color:#edf0f6;box-shadow:0 4px 14px #35446a08;transition:transform .22s ease,background .22s ease,border-color .22s ease;touch-action:pan-y;position:relative;overflow:hidden}.swipe-hint{color:#a2aabd;font-size:10px}.tx.swipe-edit{background:#f1f5ff;border-color:#cbd5ff}.tx.swipe-delete{background:#fff2f3;border-color:#f3c8ce}.tx-icon{background:#f1f3fb;color:#7e8bd0}.income{color:#269b79}.expense{color:#d97582}
-.btn{background:#fff;border-color:#e4e8f1;color:#4f5a70;transition:all .2s ease}.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px #35446a12}.btn.primary{background:linear-gradient(135deg,#8999e8,#7185d8);border-color:transparent;box-shadow:0 7px 18px #7889dc35}.type-switch button{background:#f8f9fc;border-color:#e7eaf2;color:#7d879b;transition:all .2s ease}.type-switch button.active.expense-tab{background:#fff0f1;border-color:#efc7cd;color:#d97582}.type-switch button.active.income-tab{background:#eaf7f2;border-color:#c6e8da;color:#269b79}
-input,select{background:#fbfcff;border-color:#e2e7f0;color:#293247}input:focus,select:focus{border-color:#98a6eb;box-shadow:0 0 0 4px #8999e81c}
-.track{background:#edf0f7}.fill{background:linear-gradient(90deg,#8c9be9,#b3bdf3)}.status{background:#fff;border-color:#e6eaf2}.status.ok{color:#269b79;border-color:#c9e8dc}.empty{border-color:#e2e7f0;background:#fbfcff}
-.page.active{animation:pageIn .32s ease both}@keyframes pageIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
-.tx{animation:txIn .28s ease both}@keyframes txIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.confirm-overlay{position:fixed;inset:0;z-index:20;background:#20283a66;backdrop-filter:blur(7px);display:grid;place-items:center;padding:20px;animation:fadeIn .18s ease}.confirm-overlay.hidden{display:none}.confirm-box{width:min(390px,100%);background:#fff;border:1px solid #edf0f6;border-radius:24px;padding:26px;box-shadow:0 24px 80px #18213b30;animation:popIn .22s ease}.confirm-symbol{width:46px;height:46px;border-radius:15px;background:#fff0f1;color:#d97582;display:grid;place-items:center;font-size:23px}.confirm-box h2{font-size:18px;margin:16px 0 7px}.confirm-box p{font-size:13px;line-height:1.6;color:#8992a5;margin:0}.confirm-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:23px}.danger-fill{background:linear-gradient(135deg,#e58c96,#d97582);border-color:transparent;color:#fff}.toast{position:fixed;z-index:25;left:50%;bottom:26px;transform:translate(-50%,18px);opacity:0;pointer-events:none;background:#28334a;color:#fff;padding:11px 16px;border-radius:13px;box-shadow:0 10px 30px #1e2a4530;transition:all .25s ease;font-size:12px}.toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:650px){.sidebar{background:rgba(255,255,255,.94);backdrop-filter:blur(20px);box-shadow:0 -8px 28px #26365e0b}.nav button.active{background:#f0f2ff}.toast{bottom:90px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+<div id="loginView" class="login-wrap hidden">
+  <div class="card login">
+    <div class="logo">₼</div>
+    <h1>Mənim Büdcəm</h1>
+    <button id="loginBtn" class="btn primary block">Google ilə daxil ol</button>
+    <div id="loginError"></div>
+  </div>
+</div>
 
-/* Dashboard charts, themes and refined interactions */
-.spending-card{margin:16px 0 18px}.period-switch{display:flex;gap:4px;padding:4px;background:#f2f4fa;border-radius:12px}.period-switch button{border:0;background:transparent;color:var(--muted);padding:7px 11px;border-radius:9px;font-size:12px;font-weight:700}.period-switch button.active{background:#fff;color:#5367bd;box-shadow:0 3px 10px #34446a12}.spending-chart{display:grid;gap:13px}.spend-row{display:grid;grid-template-columns:minmax(90px,145px) 1fr 92px;gap:12px;align-items:center}.spend-name{font-size:12px;font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.spend-track{height:12px;background:#f0f2f8;border-radius:20px;overflow:hidden}.spend-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--accent,#8999e8),var(--accent-soft,#c5cdf8));transform-origin:left;animation:barGrow .55s ease both}.spend-value{text-align:right;font-size:12px;font-weight:750}.theme-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.theme-choice{display:grid;gap:5px;text-align:left;padding:13px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--text);transition:.2s}.theme-choice.selected{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 15%,transparent)}.theme-choice b{font-size:12px}.theme-choice small{font-size:10px;color:var(--muted)}.theme-dots{display:flex;gap:5px;margin-bottom:3px}.theme-dots i{width:18px;height:18px;border-radius:50%}.tx{touch-action:pan-y;user-select:none}.tx-actions{display:none!important}.tx-meta .swipe-hint{font-size:10px;color:#a3aabd}.tx.swipe-delete{transform:translateX(-7px)}.tx.swipe-edit{transform:translateX(7px)}
-:root[data-theme="mint"]{--accent:#53ad91;--accent-soft:#bde6d7}body.theme-mint{background:radial-gradient(ellipse at 10% 0%,#e6f6ef 0,transparent 36%),linear-gradient(135deg,#f7fbf8,#eff7f3)}.theme-mint .logo,.theme-mint .btn.primary{background:linear-gradient(135deg,#69bea0,#479b7f)}.theme-mint .nav button.active{background:#e8f6ef;color:#36866c}.theme-mint .spend-fill{background:linear-gradient(90deg,#53ad91,#a8dfc9)}
-:root[data-theme="ocean"]{--accent:#5d9fc5;--accent-soft:#b9dced}body.theme-ocean{background:radial-gradient(ellipse at 10% 0%,#e7f4fb 0,transparent 36%),linear-gradient(135deg,#f7fbfd,#eef5f9)}.theme-ocean .logo,.theme-ocean .btn.primary{background:linear-gradient(135deg,#78b6d7,#4e91b8)}.theme-ocean .nav button.active{background:#e8f3fa;color:#397da5}.theme-ocean .spend-fill{background:linear-gradient(90deg,#5d9fc5,#b1d8ec)}
-:root[data-theme="peach"]{--accent:#d99276;--accent-soft:#f2c9b6}body.theme-peach{background:radial-gradient(ellipse at 10% 0%,#fff0e8 0,transparent 36%),linear-gradient(135deg,#fffaf7,#f9f1ed)}.theme-peach .logo,.theme-peach .btn.primary{background:linear-gradient(135deg,#e4a184,#cc8065)}.theme-peach .nav button.active{background:#fff0e8;color:#b66d53}.theme-peach .spend-fill{background:linear-gradient(90deg,#d99276,#f1c2ad)}
-:root[data-theme="slate"]{--accent:#68758f;--accent-soft:#c4ccda}body.theme-slate{background:radial-gradient(ellipse at 10% 0%,#eef1f6 0,transparent 36%),linear-gradient(135deg,#fafbfc,#f0f2f6)}.theme-slate .logo,.theme-slate .btn.primary{background:linear-gradient(135deg,#8794aa,#65738e)}.theme-slate .nav button.active{background:#edf0f5;color:#596780}.theme-slate .spend-fill{background:linear-gradient(90deg,#68758f,#b9c2d2)}
-@keyframes barGrow{from{transform:scaleX(.02);opacity:.45}to{transform:scaleX(1);opacity:1}}.suggestion-pulse{animation:suggestPulse .3s ease}@keyframes suggestPulse{50%{background:#f2f5ff}}@media(max-width:650px){.theme-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.spend-row{grid-template-columns:78px 1fr 78px;gap:8px}.spend-name,.spend-value{font-size:11px}.period-switch button{padding:7px 8px}}
+<div id="appView" class="app hidden">
+  <aside class="sidebar">
+    <div class="brand"><div class="logo">₼</div><b>Mənim Büdcəm</b></div>
+    <nav class="nav" id="nav">
+      <button data-page="dashboard" class="active"><span class="ico">⌂</span>İcmal</button>
+      <button data-page="transactions"><span class="ico">⇄</span>Əməliyyatlar</button>
+      <button data-act="add" class="add-btn"><span class="ico">＋</span>Əlavə et</button>
+      <button data-page="reports"><span class="ico">▥</span>Hesabatlar</button>
+      <button data-page="categories"><span class="ico">◍</span>Kateqoriyalar</button>
+      <button data-page="settings"><span class="ico">⚙</span>Tənzimləmələr</button>
+    </nav>
+    <div class="side-bottom"><div class="avatar" id="avatar">₼</div><div><b id="sideEmail">—</b><small class="muted">Şəxsi hesab</small></div></div>
+  </aside>
 
-/* Premium dark mode: consistent surfaces across all sections */
-:root{color-scheme:dark;--bg:#090d18;--panel:#121a2a;--line:#26334a;--text:#edf2ff;--muted:#8e9bb3;--blue:#929aff;--green:#4bd0a5;--red:#ff8291;--accent:#929aff;--accent-soft:#4a527e;--radius:20px}
-body{background:radial-gradient(ellipse at 12% -8%,#22264a 0,transparent 38%),radial-gradient(ellipse at 92% 5%,#132d3d 0,transparent 30%),#090d18;color:var(--text)}
-.sidebar{background:rgba(13,19,33,.94);border-color:#202b40;box-shadow:10px 0 35px #0005}.nav button{color:#a5b1c7}.nav button:hover{background:#1b2740;color:#fff}.nav button.active{background:linear-gradient(100deg,#24294c,#1b2940);color:#c2c8ff}
-.card{background:linear-gradient(145deg,#151f32,#111a2a);border-color:#26334a;box-shadow:0 14px 38px #0003}.card:hover{box-shadow:0 18px 44px #0005}.metric-icon,.tx-icon{background:#202b43;color:#aeb9ff}.tx{background:#101a2b;border-color:#26344b;box-shadow:0 5px 16px #0002}.tx.swipe-edit{background:#182642;border-color:#536aab}.tx.swipe-delete{background:#351e2a;border-color:#9b4b60}.tx-meta .swipe-hint{color:#75839d}
-.btn{background:#19243a;border-color:#2c3a54;color:#e6edff}.btn:hover{background:#202e48}.btn.primary{background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 65%,#34405f));border-color:transparent;color:#0b1020}.income{color:var(--green)}.expense{color:var(--red)}
-input,select{background:#0c1423;border-color:#2a3851;color:#edf2ff}input::placeholder{color:#687791}input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}
-.type-switch button{background:#0d1626;border-color:#2a3851;color:#9aa8c0}.type-switch button.active.expense-tab{background:#39212c;border-color:#85495a;color:#ff9aa7}.type-switch button.active.income-tab{background:#15372f;border-color:#327b65;color:#60d8b1}
-.period-switch{background:#0c1525}.period-switch button{color:#96a4bc}.period-switch button.active{background:#26324c;color:#fff;box-shadow:0 3px 12px #0005}.spend-track,.track{background:#28344a}.spend-fill{background:linear-gradient(90deg,var(--accent),var(--accent-soft))}.spend-value small{color:var(--muted);font-size:10px;display:block;font-weight:500}.spend-rank{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:7px;background:#26334b;color:#aebaff;font-size:10px;margin-right:7px}.spending-total{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;margin-bottom:3px;border:1px solid #2a3851;background:#0e1727;border-radius:13px;color:var(--muted);font-size:12px}.spending-total strong{color:var(--text);font-size:17px}
-.theme-choice{background:#111b2c;border-color:#2b3850;color:var(--text)}.theme-choice.selected{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}.theme-choice small{color:var(--muted)}.confirm-overlay{background:#030712b8}.confirm-box{background:#151f31;border-color:#2d3a51;color:var(--text)}.confirm-box p{color:#9aa8bd}.confirm-symbol{background:#3b202d;color:#ff9aa7}.toast{background:#26344c;color:#f6f8ff}
-body.theme-midnight{background:radial-gradient(ellipse at 12% -8%,#29284f 0,transparent 40%),#090d18}body.theme-midnight .logo{background:linear-gradient(135deg,#a3a4ff,#676bd2)}body.theme-midnight .spend-fill{background:linear-gradient(90deg,#929aff,#565fa8)}
-:root[data-theme="emerald"]{--accent:#4bc6a0;--accent-soft:#276d61}body.theme-emerald{background:radial-gradient(ellipse at 12% -8%,#173e3a 0,transparent 40%),#090f18}body.theme-emerald .logo{background:linear-gradient(135deg,#59d6ae,#287c6b)}body.theme-emerald .spend-fill{background:linear-gradient(90deg,#4bc6a0,#276d61)}
-:root[data-theme="ocean"]{--accent:#62b9e8;--accent-soft:#315f8d}body.theme-ocean{background:radial-gradient(ellipse at 12% -8%,#183d58 0,transparent 40%),#08111c}body.theme-ocean .logo{background:linear-gradient(135deg,#75d0f5,#397da9)}body.theme-ocean .spend-fill{background:linear-gradient(90deg,#62b9e8,#315f8d)}
-:root[data-theme="ember"]{--accent:#ef9a79;--accent-soft:#8e4f49}body.theme-ember{background:radial-gradient(ellipse at 12% -8%,#482a2b 0,transparent 40%),#140e13}body.theme-ember .logo{background:linear-gradient(135deg,#f3b08c,#b96558)}body.theme-ember .spend-fill{background:linear-gradient(90deg,#ef9a79,#8e4f49)}
-:root[data-theme="graphite"]{--accent:#a9b8d0;--accent-soft:#56647b}body.theme-graphite{background:radial-gradient(ellipse at 12% -8%,#303c50 0,transparent 40%),#0b1019}body.theme-graphite .logo{background:linear-gradient(135deg,#bdc9dc,#64758f)}body.theme-graphite .spend-fill{background:linear-gradient(90deg,#a9b8d0,#56647b)}
-@media(max-width:650px){.sidebar{background:rgba(12,18,31,.97);border-color:#26334a}.nav button.active{background:#242b4a}.spending-total{padding:10px}.spend-row{grid-template-columns:minmax(90px,1fr) 1fr 78px}}
+  <main>
+    <div class="top"><div><div class="sub" id="pageSub"></div><h1 id="pageTitle">İcmal</h1></div><span id="connection" class="status">Qoşulur...</span></div>
 
-/* v5 category drilldown, dual appearance and motion */
-.mode-switch{display:flex;gap:8px;margin:0 0 16px}.mode-choice{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:12px;padding:10px 15px;font-weight:700}.mode-choice.active{border-color:var(--accent);color:var(--text);background:color-mix(in srgb,var(--accent) 14%,var(--panel));box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 12%,transparent)}
-.category-row{width:100%;display:grid;grid-template-columns:minmax(85px,1fr) 1.2fr 90px 20px;gap:10px;align-items:center;text-align:left;border:1px solid transparent;background:transparent;color:var(--text);padding:11px 9px;border-radius:12px;cursor:pointer;transition:background .2s,transform .2s,border-color .2s}.category-row:hover{background:color-mix(in srgb,var(--accent) 10%,var(--panel));border-color:color-mix(in srgb,var(--accent) 24%,var(--line));transform:translateX(3px)}.category-row .bar-label{color:var(--text)}.category-row .chev{color:var(--muted)}
-.detail-box{width:min(760px,100%);max-height:min(88vh,900px);overflow:auto;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 28px 90px #0006;animation:popIn .22s ease}.detail-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.detail-head h2{margin:3px 0 0;font-size:20px}.detail-filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}.detail-filters .btn{padding:8px 12px;font-size:12px}.detail-filters .btn.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 18%,var(--panel));color:var(--text)}.detail-dates{display:flex;align-items:end;gap:10px;flex-wrap:wrap}.detail-dates label{flex:1;min-width:135px;display:grid;gap:6px}.detail-dates input{min-width:0}.detail-total{display:flex;justify-content:space-between;align-items:center;margin:18px 0 14px;padding:14px;border-radius:14px;background:color-mix(in srgb,var(--accent) 10%,var(--panel));border:1px solid var(--line);color:var(--muted);font-size:12px}.detail-total strong{font-size:20px;color:var(--text)}.daily-chart{display:flex;align-items:end;gap:7px;min-height:150px;padding:12px 4px 4px;border-bottom:1px solid var(--line);overflow-x:auto}.daily-col{min-width:28px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:end;height:130px;gap:6px}.daily-bar-wrap{height:100px;width:100%;display:flex;align-items:end;justify-content:center}.daily-bar{width:min(24px,75%);min-height:3px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--accent),var(--accent-soft));animation:barGrow .45s ease both;transform-origin:bottom}.daily-col small{font-size:9px;color:var(--muted);white-space:nowrap}.detail-list{margin-top:14px}.tx{transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .28s ease,background .2s,border-color .2s}.tx.swipe-out-left{transform:translateX(-115%) rotate(-3deg);opacity:0}.tx.swipe-out-right{transform:translateX(115%) rotate(3deg);opacity:0}
-body{transition:background .28s ease,color .2s ease}.card,.sidebar,.tx,.btn,input,select{transition:background-color .22s ease,border-color .22s ease,color .22s ease,box-shadow .22s ease}
-body.light-mode{color-scheme:light;--bg:#f4f6fb;--panel:#fff;--line:#e7eaf2;--text:#20283a;--muted:#8992a5;background:radial-gradient(ellipse at 10% 0%,color-mix(in srgb,var(--accent) 12%,white) 0,transparent 36%),#f5f7fb;color:var(--text)}
-body.light-mode .sidebar{background:rgba(255,255,255,.9);border-color:var(--line);box-shadow:8px 0 32px #26365e08}body.light-mode .nav button{color:#68738b}body.light-mode .nav button.active{background:color-mix(in srgb,var(--accent) 12%,white);color:var(--accent)}body.light-mode .card{background:rgba(255,255,255,.92);border-color:var(--line);box-shadow:0 12px 34px #33436a0b}body.light-mode .tx{background:#fff;border-color:#edf0f6;box-shadow:0 4px 14px #35446a08}body.light-mode .tx-icon,body.light-mode .metric-icon{background:color-mix(in srgb,var(--accent) 12%,white);color:var(--accent)}body.light-mode .btn{background:#fff;border-color:var(--line);color:#4f5a70}body.light-mode .btn.primary{background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 72%,white));color:#fff;border-color:transparent}body.light-mode input,body.light-mode select{background:#fbfcff;border-color:#e2e7f0;color:#293247}body.light-mode .type-switch button{background:#f8f9fc;border-color:#e7eaf2;color:#7d879b}body.light-mode .period-switch{background:#f2f4fa}body.light-mode .period-switch button.active{background:#fff;color:var(--accent)}body.light-mode .spend-track,body.light-mode .track{background:#edf0f7}body.light-mode .spending-total{background:#fbfcff;border-color:var(--line)}body.light-mode .theme-choice{background:#fff;border-color:var(--line);color:var(--text)}body.light-mode .confirm-box,body.light-mode .detail-box{background:#fff;color:#20283a;border-color:#edf0f6}body.light-mode .confirm-box p{color:#8992a5}body.light-mode .confirm-overlay{background:#20283a66}body.light-mode .toast{background:#28334a;color:#fff}body.light-mode .category-row:hover{background:color-mix(in srgb,var(--accent) 8%,white)}body.light-mode .detail-total{background:color-mix(in srgb,var(--accent) 8%,white)}
-body.light-mode.theme-midnight{--accent:#737fe0;--accent-soft:#c4caf8}body.light-mode.theme-emerald{--accent:#399b7e;--accent-soft:#b7e5d5}body.light-mode.theme-ocean{--accent:#438db7;--accent-soft:#b9dced}body.light-mode.theme-ember{--accent:#c77c60;--accent-soft:#f0c5b1}body.light-mode.theme-graphite{--accent:#68758f;--accent-soft:#c4ccda}
-@media(max-width:650px){.detail-box{padding:16px;border-radius:20px}.detail-dates{display:grid;grid-template-columns:1fr 1fr}.detail-dates button{grid-column:1/-1}.category-row{grid-template-columns:minmax(75px,1fr) 1fr 75px 14px;gap:6px;padding:10px 5px}.mode-choice{flex:1}}
+    <!-- DASHBOARD -->
+    <section class="page active" id="page-dashboard">
+      <div class="card hero">
+        <div class="lbl">Ümumi balans</div>
+        <div class="big" id="dBalance">0,00 ₼</div>
+        <div class="hero-stats">
+          <div class="hero-stat"><span class="muted">Bu ayın gəliri</span><b class="inc" id="dInc">0 ₼</b></div>
+          <div class="hero-stat"><span class="muted">Bu ayın xərci</span><b class="exp" id="dExp">0 ₼</b></div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-head"><h2>Son 7 gün</h2><div class="legend"><span><i style="background:var(--green)"></i>Gəlir</span><span><i style="background:var(--red)"></i>Xərc</span></div></div>
+          <div id="dChart" class="dchart"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Xərc kateqoriyaları</h2><button class="link" data-goto="categories">Hamısı →</button></div>
+          <div id="dCats" class="bars"></div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-head"><div><h2>Ən çox pul gedən məhsullar</h2><div class="muted" style="font-size:12px">Toxunaraq ətraflı statistikaya bax</div></div>
+          <div class="chips" id="dPeriod"><button class="chip" data-p="today">Gün</button><button class="chip" data-p="week">Həftə</button><button class="chip active" data-p="month">Ay</button></div></div>
+        <div id="dProducts" class="bars"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>Son əməliyyatlar</h2><div style="display:flex;gap:8px"><button class="btn" id="dayBtn">📅 Günün əməliyyatları</button><button class="link" data-goto="transactions">Hamısı →</button></div></div>
+        <div id="dRecent" class="list"></div>
+      </div>
+    </section>
 
-</style></head><body>
-<div id="loginView" class="login-wrap hidden"><div class="card login"><div class="logo">₼</div><h1>Mənim Büdcəm</h1><p>Gəlir və xərclərini təhlükəsiz şəkildə idarə et.</p><button id="loginBtn" class="btn primary" style="width:100%">Google hesabı ilə daxil ol</button><div id="loginError" class="notice"></div></div></div>
-<div id="appView" class="app hidden"><aside class="sidebar"><div class="brand"><div class="logo">₼</div><div><strong>Mənim Büdcəm</strong><small>Şəxsi maliyyə paneli</small></div></div><div><div class="nav-label">İŞ SAHƏSİ</div><nav class="nav"><button class="active" data-page="dashboard"><span class="ico">⌂</span>İcmal</button><button data-page="transactions"><span class="ico">⇄</span>Əməliyyatlar</button><button data-page="add"><span class="ico">＋</span>Əlavə et</button><button data-page="reports"><span class="ico">▥</span>Hesabatlar</button><button data-page="settings"><span class="ico">⚙</span>Tənzimləmələr</button></nav></div><div class="side-bottom"><div class="side-user"><div class="avatar">₼</div><div class="user-info"><b id="sideEmail">Google istifadəçisi</b><small>Şəxsi hesab</small></div></div></div></aside>
-<main><div class="topbar"><div><div class="eyebrow">Şəxsi maliyyə idarəetməsi</div><h1 class="page-title" id="pageTitle">İcmal</h1></div><div class="top-actions"><span id="connection" class="status">Qoşulur...</span></div></div>
-<section class="page active" id="page-dashboard"><div class="cards"><div class="card"><div class="metric-head"><span>Ümumi balans</span><span class="metric-icon">◉</span></div><div id="totalBalance" class="metric-value">0,00 ₼</div></div><div class="card"><div class="metric-head"><span>Ümumi gəlir</span><span class="metric-icon">↗</span></div><div id="totalIncome" class="metric-value income">0,00 ₼</div></div><div class="card"><div class="metric-head"><span>Ümumi xərc</span><span class="metric-icon">↘</span></div><div id="totalExpense" class="metric-value expense">0,00 ₼</div></div></div><div class="card spending-card"><div class="card-head"><div><h2>Ən çox pul hara gedir?</h2><div class="muted" style="font-size:12px">Açıqlamalara görə ən çox aldığın məhsul və xidmətlər</div></div><div class="period-switch"><button class="active" data-period="day">Gün</button><button data-period="week">Həftə</button><button data-period="month">Ay</button></div></div><div id="spendingPeriodLabel" class="muted" style="font-size:12px;margin-bottom:10px">Bu gün</div><div id="spendingChart" class="spending-chart"><div class="empty">Xərcləriniz burada görünəcək.</div></div></div><div class="section-grid"><div class="card"><div class="card-head"><h2>Son əməliyyatlar</h2><button class="mini" data-goto="transactions">Hamısına bax →</button></div><div id="recentList" class="activity"><div class="empty">Məlumatlar yüklənir...</div></div></div><div class="card"><h2>Bu ayın xülasəsi</h2><div id="monthSummary" class="muted"></div><div class="bar-row"><span class="bar-label">Gəlir</span><div class="track"><div id="monthIncomeBar" class="fill" style="background:var(--green);width:0"></div></div><span id="monthIncomeValue" class="bar-value income">0 ₼</span></div><div class="bar-row"><span class="bar-label">Xərc</span><div class="track"><div id="monthExpenseBar" class="fill" style="background:var(--red);width:0"></div></div><span id="monthExpenseValue" class="bar-value expense">0 ₼</span></div><div class="notice">Göstəricilər cari ay üzrə hesablanır.</div></div></div></section>
-<section class="page" id="page-transactions"><div class="card"><div class="toolbar"><h2 style="margin:0">Bütün əməliyyatlar</h2><div class="filters"><input id="search" type="search" placeholder="Axtar..."><select id="monthFilter"><option value="all">Bütün aylar</option></select><select id="typeFilter"><option value="all">Hamısı</option><option value="income">Gəlir</option><option value="expense">Xərc</option></select></div></div><div id="transactionList" class="activity"><div class="empty">Məlumatlar yüklənir...</div></div><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:15px"><span id="countLabel" class="muted">0 əməliyyat</span><button id="exportBtn" class="btn">CSV ixrac et ↓</button></div></div></section>
-<section class="page" id="page-add"><div class="card form-card"><h2 id="formHeading">Yeni əməliyyat</h2><form id="transactionForm"><div class="field" style="margin-bottom:14px"><label>Əməliyyatın növü</label><div class="type-switch"><button type="button" id="incomeTab" class="income-tab">＋ Gəlir</button><button type="button" id="expenseTab" class="active expense-tab">－ Xərc</button></div></div><div class="form-grid"><div class="field full"><label for="amount">Məbləğ (AZN)</label><input id="amount" type="number" min="0.01" step="0.01" placeholder="Məsələn: 150" required></div><div class="field"><label for="category">Kateqoriya</label><select id="category" required></select></div><div class="field"><label for="date">Tarix</label><input id="date" type="date" required></div><div class="field full"><label for="description">Açıqlama</label><input id="description" maxlength="100" list="descriptionSuggestions" autocomplete="off" placeholder="Məsələn: Çörək, market, yanacaq"><datalist id="descriptionSuggestions"></datalist><div id="suggestionNote" class="muted" style="font-size:11px;margin-top:3px">Əvvəl yazdığın açıqlamalar növbəti dəfə təklif olunacaq.</div></div></div><button id="saveBtn" class="btn primary" style="width:100%;margin-top:18px" type="submit">Əməliyyatı yadda saxla</button><button id="cancelEdit" class="btn hidden" style="width:100%;margin-top:8px" type="button">Redaktədən imtina et</button></form><div class="notice">Məlumatlar şəxsi Google hesabına bağlı Firebase bazasında saxlanılır.</div></div></section>
-<section class="page" id="page-reports"><div class="split"><div class="card"><h2>Məhsul və açıqlamalar üzrə xərclər</h2><div class="muted" style="font-size:12px;margin:-8px 0 12px">Kateqoriyaya toxunaraq tarix üzrə detallara bax</div><div id="categoryBreakdown"><div class="empty">Hələ xərc qeydə alınmayıb.</div></div></div><div class="card"><h2>Aylıq maliyyə nəticəsi</h2><div id="reportSummary" class="notice">Məlumatlar hesablanır...</div></div></div></section>
-<section class="page" id="page-settings"><div class="card form-card"><h2>Görünüş və tema</h2><div class="mode-switch"><button type="button" class="mode-choice active" data-mode="dark">☾ Dark mode</button><button type="button" class="mode-choice" data-mode="light">☀ Light mode</button></div><div class="theme-grid"><button class="theme-choice" data-theme="midnight"><span class="theme-dots"><i style="background:#8b91ff"></i><i style="background:#242746"></i></span><b>Midnight</b><small>Tünd bənövşəyi</small></button><button class="theme-choice" data-theme="emerald"><span class="theme-dots"><i style="background:#48c6a0"></i><i style="background:#173b37"></i></span><b>Emerald</b><small>Tünd yaşıl</small></button><button class="theme-choice" data-theme="ocean"><span class="theme-dots"><i style="background:#55b9e8"></i><i style="background:#17364b"></i></span><b>Ocean</b><small>Dərin mavi</small></button><button class="theme-choice" data-theme="ember"><span class="theme-dots"><i style="background:#f09a75"></i><i style="background:#482b2a"></i></span><b>Ember</b><small>İsti tünd ton</small></button><button class="theme-choice" data-theme="graphite"><span class="theme-dots"><i style="background:#a4b1c5"></i><i style="background:#303b4c"></i></span><b>Graphite</b><small>Minimal qrafit</small></button></div><div class="notice">Əvvəlcə Light və ya Dark rejimini, sonra həmin rejimə uyğun rəng temasını seç. Seçim bu cihazda yadda saxlanılır.</div></div><div class="card form-card" style="margin-top:16px"><h2>Hesab və məlumatlar</h2><div class="field"><label>Google hesabı</label><input id="settingsEmail" readonly></div><div class="notice">Əməliyyatlar daxil olduğun Google hesabının UID-si altında saxlanılır. Digər istifadəçilərin girişinin məhdudlaşdırılması üçün Firestore Security Rules düzgün qurulmalıdır.</div><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><button id="settingsExport" class="btn">Məlumatları CSV ixrac et</button><button id="logoutBtn" class="btn danger">Hesabdan çıxış</button></div></div></section>
-</main></div>
-<div id="confirmOverlay" class="confirm-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"><div class="confirm-box"><div class="confirm-symbol">⌫</div><h2 id="confirmTitle">Əməliyyatı silmək istəyirsiniz?</h2><p id="confirmText">Bu əməliyyat siyahıdan silinəcək. Bu addımı geri qaytarmaq mümkün deyil.</p><div class="confirm-actions"><button id="confirmCancel" class="btn">Ləğv et</button><button id="confirmDelete" class="btn danger-fill">Bəli, sil</button></div></div></div>
-<div id="categoryOverlay" class="confirm-overlay hidden" role="dialog" aria-modal="true"><div class="detail-box"><div class="detail-head"><div><div class="muted" style="font-size:11px">KATEQORİYA ÜZRƏ HESABAT</div><h2 id="categoryDetailTitle">Kateqoriya</h2></div><button id="closeCategoryDetail" class="btn">✕</button></div><div class="detail-filters"><button class="btn active" data-cat-range="today">Bu gün</button><button class="btn" data-cat-range="yesterday">Dünən</button><button class="btn" data-cat-range="week">Həftə</button><button class="btn" data-cat-range="month">Ay</button></div><div class="detail-dates"><label>Başlanğıc tarix<input id="catDateFrom" type="date"></label><label>Son tarix<input id="catDateTo" type="date"></label><button id="applyCatDates" class="btn primary">Göstər</button></div><div class="detail-total"><span>Seçilən dövrün xərci</span><strong id="catDetailTotal">0,00 ₼</strong></div><div id="categoryDailyChart" class="daily-chart"></div><div id="categoryTxList" class="activity detail-list"></div></div></div>
+    <!-- TRANSACTIONS -->
+    <section class="page" id="page-transactions">
+      <div class="card filters">
+        <div class="chips" id="fRange">
+          <button class="chip" data-r="all">Hamısı</button><button class="chip" data-r="today">Bu gün</button><button class="chip" data-r="yesterday">Dünən</button><button class="chip" data-r="7d">Son 7 gün</button><button class="chip" data-r="week">Bu həftə</button><button class="chip active" data-r="month">Bu ay</button><button class="chip" data-r="custom">Özəl tarix</button>
+        </div>
+        <div class="row2 hidden" id="fCustom"><div><label>Başlanğıc</label><input type="date" id="fFrom"></div><div><label>Son</label><input type="date" id="fTo"></div></div>
+        <div class="fgrid">
+          <input id="fSearch" type="search" placeholder="🔍 Məhsul, kateqoriya axtar...">
+          <select id="fType"><option value="all">Gəlir + Xərc</option><option value="income">Gəlir</option><option value="expense">Xərc</option></select>
+          <select id="fCat"></select>
+          <select id="fAcc"><option value="all">Bütün hesablar</option><option>Nağd</option><option>Kart</option></select>
+          <input id="fMin" type="number" min="0" step="0.01" placeholder="Min məbləğ">
+          <input id="fMax" type="number" min="0" step="0.01" placeholder="Max məbləğ">
+          <select id="fSort"><option value="new">Ən yeni</option><option value="old">Ən köhnə</option><option value="high">Ən böyük məbləğ</option><option value="low">Ən kiçik məbləğ</option></select>
+        </div>
+      </div>
+      <div id="fProduct"></div>
+      <div class="card">
+        <div class="card-head"><h2>Əməliyyatlar</h2><span class="muted" id="fCount"></span></div>
+        <div id="txList" class="list"></div>
+        <div style="display:flex;justify-content:flex-end;margin-top:14px"><button class="btn" id="exportBtn">CSV ixrac et ↓</button></div>
+      </div>
+    </section>
+
+    <!-- REPORTS -->
+    <section class="page" id="page-reports">
+      <div class="card" style="margin-bottom:16px">
+        <div class="chips" id="rRange"><button class="chip" data-r="today">Bu gün</button><button class="chip" data-r="yesterday">Dünən</button><button class="chip" data-r="7d">Son 7 gün</button><button class="chip" data-r="week">Bu həftə</button><button class="chip active" data-r="month">Bu ay</button><button class="chip" data-r="year">İl</button><button class="chip" data-r="custom">Özəl tarix</button></div>
+        <div class="row2 hidden" id="rCustom" style="margin-top:12px"><div><label>Başlanğıc</label><input type="date" id="rFrom"></div><div><label>Son</label><input type="date" id="rTo"></div></div>
+      </div>
+      <div id="rBody"></div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="page" id="page-categories"><div id="catBody"></div></section>
+
+    <!-- SETTINGS -->
+    <section class="page" id="page-settings">
+      <div class="card" style="margin-bottom:16px;max-width:760px">
+        <h2 style="margin-bottom:14px">Görünüş</h2>
+        <div class="chips" id="modeSw" style="margin-bottom:14px"><button class="chip" data-mode="dark">☾ Dark</button><button class="chip" data-mode="light">☀ Light</button></div>
+        <div class="theme-grid" id="themeGrid"></div>
+      </div>
+      <div class="card" style="max-width:760px">
+        <h2 style="margin-bottom:14px">Hesab</h2>
+        <div class="field"><label>Google hesabı</label><input id="setEmail" readonly></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="setExport">Məlumatları CSV ixrac et</button><button class="btn" id="logoutBtn" style="color:var(--red)">Çıxış</button></div>
+      </div>
+    </section>
+  </main>
+</div>
+
 <div id="toast" class="toast" aria-live="polite"></div>
-<script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";import{getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";import{getFirestore,collection,addDoc,updateDoc,deleteDoc,doc,onSnapshot,serverTimestamp}from"https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
-const firebaseConfig={apiKey:"AIzaSyAoqCXkBRxPQVrPbwPhkYxLqt9TV3KTPI0",authDomain:"gelirxercapp.firebaseapp.com",projectId:"gelirxercapp",storageBucket:"gelirxercapp.firebasestorage.app",messagingSenderId:"890522144800",appId:"1:890522144800:web:8d0ef1644d182979126c45",measurementId:"G-V2WNKG8HK4"};
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider(),$=id=>document.getElementById(id);const money=n=>new Intl.NumberFormat("az-AZ",{style:"currency",currency:"AZN"}).format(Number(n)||0);const dateNow=()=>{const d=new Date();return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};const monthKey=d=>String(d||"").slice(0,7);const monthName=k=>{if(!k||k==="all")return"Bütün aylar";const[y,m]=k.split("-").map(Number);return new Intl.DateTimeFormat("az-AZ",{month:"long",year:"numeric"}).format(new Date(y,m-1,1))};const categories={income:["Əməkhaqqı","Əlavə gəlir","Bonus","Hədiyyə","Digər gəlir"],expense:["Ərzaq","Kirayə","Kommunal","Nəqliyyat","Kredit / Borc","Uşaq","Sağlamlıq","Geyim","Restoran","Əyləncə","Təhsil","Digər xərc"]};let currentType="expense",transactions=[],stopListener=null,editingId=null,currentUser=null;
-function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}function status(msg,kind=""){$("connection").textContent=msg;$("connection").className="status"+(kind?" "+kind:"")}function setType(type){currentType=type;$("incomeTab").classList.toggle("active",type==="income");$("expenseTab").classList.toggle("active",type==="expense");const s=$("category"),old=s.value;s.innerHTML=categories[type].map(c=>`<option>${esc(c)}</option>`).join("");if(categories[type].includes(old))s.value=old}function resetForm(){editingId=null;$("transactionForm").reset();$("date").value=dateNow();$("formHeading").textContent="Yeni əməliyyat";$("saveBtn").textContent="Əməliyyatı yadda saxla";$("cancelEdit").classList.add("hidden");setType("expense")}function go(page){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));const titles={dashboard:"İcmal",transactions:"Əməliyyatlar",add:"Yeni əməliyyat",reports:"Hesabatlar",settings:"Tənzimləmələr"};$("pageTitle").textContent=titles[page]||"İcmal";if(page==="add"&&!editingId)resetForm();window.scrollTo({top:0,behavior:"smooth"})}
-document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.goto)));$("incomeTab").addEventListener("click",()=>setType("income"));$("expenseTab").addEventListener("click",()=>setType("expense"));$("cancelEdit").addEventListener("click",resetForm);$("date").value=dateNow();setType("expense");$("description").addEventListener("input",()=>{const q=$("description").value.trim().toLocaleLowerCase("az");const matches=[...new Set(transactions.map(t=>(t.description||"").trim()).filter(v=>v&&q&&v.toLocaleLowerCase("az").includes(q)))];$("descriptionSuggestions").innerHTML=matches.map(v=>`<option value="${esc(v)}"></option>`).join("")});
-$("loginBtn").addEventListener("click",async()=>{$("loginError").textContent="";try{await signInWithPopup(auth,provider)}catch(e){$("loginError").textContent="Giriş alınmadı: "+(e.message||e)}});$("logoutBtn").addEventListener("click",()=>signOut(auth));onAuthStateChanged(auth,user=>{currentUser=user;if(stopListener){stopListener();stopListener=null}$("loginView").classList.toggle("hidden",!!user);$("appView").classList.toggle("hidden",!user);if(!user){transactions=[];return}const email=user.email||user.displayName||"Google istifadəçisi";$("sideEmail").textContent=email;$("settingsEmail").value=email;status("Firebase qoşuldu","ok");const ref=collection(db,"users",user.uid,"transactions");stopListener=onSnapshot(ref,snap=>{transactions=snap.docs.map(d=>({id:d.id,...d.data()}));transactions.sort((a,b)=>(b.date||"").localeCompare(a.date||"")||((b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)));render()},err=>{console.error(err);status("Məlumat oxunmadı","bad");$("transactionList").innerHTML='<div class="empty">Məlumatları yükləmək mümkün olmadı. Firestore qaydalarını yoxlayın.</div>'})});
-$("transactionForm").addEventListener("submit",async e=>{e.preventDefault();if(!currentUser)return;const amount=Number($("amount").value);if(!Number.isFinite(amount)||amount<=0){alert("Düzgün məbləğ daxil edin.");return}const data={type:currentType,amount,category:$("category").value,description:$("description").value.trim(),date:$("date").value,updatedAt:serverTimestamp()};const duplicate=transactions.find(t=>t.id!==editingId&&t.type===data.type&&Number(t.amount)===data.amount&&t.category===data.category&&(t.description||"").trim().toLocaleLowerCase("az")===data.description.toLocaleLowerCase("az")&&t.date===data.date);if(duplicate){const proceed=confirm("Eyni tarixdə, eyni məbləğ və açıqlama ilə əməliyyat artıq mövcuddur. Yenə də əlavə etmək istəyirsiniz?");if(!proceed)return;}$("saveBtn").disabled=true;$("saveBtn").textContent="Yadda saxlanılır...";try{const ref=collection(db,"users",currentUser.uid,"transactions");if(editingId)await updateDoc(doc(db,"users",currentUser.uid,"transactions",editingId),data);else await addDoc(ref,{...data,createdAt:serverTimestamp()});resetForm();go("transactions")}catch(err){console.error(err);alert("Yadda saxlamaq mümkün olmadı. Firestore Rules parametrlərini yoxlayın.")}finally{$("saveBtn").disabled=false;if(!editingId)$("saveBtn").textContent="Əməliyyatı yadda saxla"}});
-let confirmResolver=null;function askDelete(id){const t=transactions.find(x=>x.id===id);$("confirmText").textContent=`“${t?.description||t?.category||"Əməliyyat"}” — ${money(t?.amount)} məbləğində əməliyyatı silmək istəyirsiniz? Bu addımı geri qaytarmaq mümkün deyil.`;$("confirmOverlay").classList.remove("hidden");return new Promise(resolve=>{confirmResolver=resolve})}function closeConfirm(value){$("confirmOverlay").classList.add("hidden");if(confirmResolver){confirmResolver(value);confirmResolver=null}}$("confirmCancel").addEventListener("click",()=>closeConfirm(false));$("confirmDelete").addEventListener("click",()=>closeConfirm(true));$("confirmOverlay").addEventListener("click",e=>{if(e.target.id==="confirmOverlay")closeConfirm(false)});function toast(msg){const el=$("toast");el.textContent=msg;el.classList.add("show");clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>el.classList.remove("show"),2200)}async function removeTx(id){if(!await askDelete(id))return;try{await deleteDoc(doc(db,"users",currentUser.uid,"transactions",id));toast("Əməliyyat silindi")}catch(e){console.error(e);alert("Silinmədi. Firestore qaydalarını yoxlayın.")}}function editTx(id){const t=transactions.find(x=>x.id===id);if(!t)return;editingId=id;setType(t.type);$("amount").value=t.amount;$("category").value=t.category;$("description").value=t.description||"";$("date").value=t.date||dateNow();$("formHeading").textContent="Əməliyyatı redaktə et";$("saveBtn").textContent="Dəyişiklikləri yadda saxla";$("cancelEdit").classList.remove("hidden");go("add")}function filtered(){const q=$("search").value.trim().toLocaleLowerCase("az"),m=$("monthFilter").value,t=$("typeFilter").value;return transactions.filter(x=>(m==="all"||monthKey(x.date)===m)&&(t==="all"||x.type===t)&&(!q||[x.description,x.category,x.date].join(" ").toLocaleLowerCase("az").includes(q)))}function txHtml(t){const inc=t.type==="income";return`<div class="tx" data-tx="${esc(t.id)}"><div class="tx-icon">${inc?"↗":"↘"}</div><div class="tx-main"><div class="tx-title">${esc(t.description||t.category||"Əməliyyat")}</div><div class="tx-meta">${esc(t.category||"Digər")} · ${esc(t.date||"")}</div></div><div class="tx-right"><div class="tx-amount ${inc?"income":"expense"}">${inc?"+":"−"}${money(t.amount)}</div></div></div>`}function wire(root){root.querySelectorAll("[data-tx]").forEach(card=>{let sx=0,sy=0,px=0;card.addEventListener("touchstart",e=>{sx=e.changedTouches[0].clientX;sy=e.changedTouches[0].clientY},{passive:true});card.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)<65||Math.abs(dx)<Math.abs(dy)*1.25)return;const id=card.dataset.tx;if(dx<0){card.classList.add("swipe-delete","swipe-out-left");if(navigator.vibrate)navigator.vibrate(12);setTimeout(()=>removeTx(id),230)}else{card.classList.add("swipe-edit","swipe-out-right");if(navigator.vibrate)navigator.vibrate(8);setTimeout(()=>{toast("Redaktə rejimi açılır");editTx(id)},190)}},{passive:true});card.addEventListener("pointerdown",e=>{if(e.pointerType==="mouse")px=e.clientX});card.addEventListener("pointerup",e=>{if(e.pointerType!=="mouse")return;const dx=e.clientX-px;if(Math.abs(dx)<90)return;const id=card.dataset.tx;if(dx<0){card.classList.add("swipe-out-left");setTimeout(()=>removeTx(id),230)}else{card.classList.add("swipe-out-right");setTimeout(()=>editTx(id),190)}})})}function render(){const inc=transactions.filter(t=>t.type==="income").reduce((s,t)=>s+Number(t.amount||0),0),exp=transactions.filter(t=>t.type==="expense").reduce((s,t)=>s+Number(t.amount||0),0);$("totalIncome").textContent=money(inc);$("totalExpense").textContent=money(exp);$("totalBalance").textContent=money(inc-exp);const months=[...new Set(transactions.map(t=>monthKey(t.date)).filter(Boolean))].sort().reverse(),selected=$("monthFilter").value;$("monthFilter").innerHTML='<option value="all">Bütün aylar</option>'+months.map(m=>`<option value="${m}">${monthName(m)}</option>`).join("");$("monthFilter").value=months.includes(selected)||selected==="all"?selected:"all";const list=filtered();$("countLabel").textContent=list.length+" əməliyyat";$("transactionList").innerHTML=list.length?list.map(txHtml).join(""):'<div class="empty">Bu seçimlərə uyğun əməliyyat tapılmadı.</div>';wire($("transactionList"));const recent=transactions.slice(0,5);$("recentList").innerHTML=recent.length?recent.map(txHtml).join(""):'<div class="empty">Hələ əməliyyat yoxdur. İlk gəlir və ya xərcini əlavə et.</div>';wire($("recentList"));renderReports();renderSpendingChart();refreshSuggestions()}function renderReports(){const key=dateNow().slice(0,7),list=transactions.filter(t=>monthKey(t.date)===key),inc=list.filter(t=>t.type==="income").reduce((s,t)=>s+Number(t.amount||0),0),exp=list.filter(t=>t.type==="expense").reduce((s,t)=>s+Number(t.amount||0),0),max=Math.max(inc,exp,1);$("monthSummary").textContent=monthName(key);$("monthIncomeValue").textContent=money(inc);$("monthExpenseValue").textContent=money(exp);$("monthIncomeBar").style.width=(inc/max*100)+"%";$("monthExpenseBar").style.width=(exp/max*100)+"%";$("reportSummary").innerHTML=`<div class="bar-row"><span class="bar-label">Gəlir</span><strong class="bar-value income">${money(inc)}</strong></div><div class="bar-row"><span class="bar-label">Xərc</span><strong class="bar-value expense">${money(exp)}</strong></div><div class="bar-row"><span class="bar-label">Fərq</span><strong class="bar-value">${money(inc-exp)}</strong></div><p class="muted">Bu ay üzrə ${list.length} əməliyyat qeydə alınıb.</p>`;const sums={};list.filter(t=>t.type==="expense").forEach(t=>sums[t.category||"Digər"]=(sums[t.category||"Digər"]||0)+Number(t.amount||0));const entries=Object.entries(sums).sort((a,b)=>b[1]-a[1]),peak=Math.max(1,...entries.map(x=>x[1]));$("categoryBreakdown").innerHTML=entries.length?entries.map(([name,value])=>`<button type="button" class="category-row" data-category="${esc(name)}"><span class="bar-label">${esc(name)}</span><span class="track"><span class="fill" style="display:block;width:${value/peak*100}%"></span></span><strong class="bar-value">${money(value)}</strong><span class="chev">›</span></button>`).join(""):'<div class="empty">Bu ay xərc qeydə alınmayıb.</div>';document.querySelectorAll("[data-category]").forEach(b=>b.addEventListener("click",()=>openCategoryDetail(b.dataset.category)))}let spendingPeriod="month";function periodTransactions(period){const now=new Date(),today=dateNow();let from=today,label="Bu gün";if(period==="week"){const d=new Date(now);const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);from=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;label="Bu həftə"}else if(period==="month"){from=today.slice(0,7)+"-01";label=monthName(today.slice(0,7))}return{list:transactions.filter(t=>t.type==="expense"&&(t.date||"")>=from&&(t.date||"")<=today),label}}function renderSpendingChart(){const {list,label}=periodTransactions(spendingPeriod);$("spendingPeriodLabel").textContent=label;const sums={};list.forEach(t=>{const raw=(t.description||"").trim();const key=raw?raw.replace(/\s+/g," "):"Açıqlama qeyd edilməyib";const normalized=key.toLocaleLowerCase("az");const existing=Object.keys(sums).find(k=>k.toLocaleLowerCase("az")===normalized);const name=existing||key;sums[name]=(sums[name]||0)+Number(t.amount||0)});const entries=Object.entries(sums).sort((a,b)=>b[1]-a[1]),max=Math.max(1,...entries.map(x=>x[1])),total=entries.reduce((a,x)=>a+x[1],0);$("spendingChart").innerHTML=entries.length?`<div class="spending-total"><span>Bu dövr məhsul/açıqlama xərci</span><strong>${money(total)}</strong></div>`+entries.slice(0,10).map(([name,value],i)=>`<div class="spend-row"><span class="spend-name" title="${esc(name)}"><span class="spend-rank">${i+1}</span>${esc(name)}</span><div class="spend-track"><div class="spend-fill" style="width:${value/max*100}%"></div></div><span class="spend-value">${money(value)}<small>${total?Math.round(value/total*100):0}%</small></span></div>`).join(""):'<div class="empty">Bu dövr üçün xərc yoxdur. Açıqlamaya “Çörək”, “Süd”, “Yanacaq” kimi məhsul adları yazdıqca burada ən çox xərc etdiklərin görünəcək.</div>'}document.querySelectorAll("[data-period]").forEach(b=>b.addEventListener("click",()=>{spendingPeriod=b.dataset.period;document.querySelectorAll("[data-period]").forEach(x=>x.classList.toggle("active",x===b));renderSpendingChart()}));function refreshSuggestions(){const values=[...new Set(transactions.map(t=>(t.description||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"az"));$("descriptionSuggestions").innerHTML=values.map(v=>`<option value="${esc(v)}"></option>`).join("")}function applyTheme(name,mode){const valid=["midnight","emerald","ocean","ember","graphite"].includes(name)?name:"midnight",appearance=mode==="light"?"light":"dark";document.documentElement.dataset.theme=valid;document.body.classList.remove("theme-mint","theme-ocean","theme-peach","theme-slate","theme-midnight","theme-emerald","theme-ember","theme-graphite","light-mode");document.body.classList.add("theme-"+valid);if(appearance==="light")document.body.classList.add("light-mode");document.querySelectorAll(".theme-choice").forEach(b=>b.classList.toggle("selected",b.dataset.theme===valid));document.querySelectorAll(".mode-choice").forEach(b=>b.classList.toggle("active",b.dataset.mode===appearance));localStorage.setItem("menimBudcemTheme",valid);localStorage.setItem("menimBudcemMode",appearance)}document.querySelectorAll(".theme-choice").forEach(b=>b.addEventListener("click",()=>applyTheme(b.dataset.theme,localStorage.getItem("menimBudcemMode")||"dark")));document.querySelectorAll(".mode-choice").forEach(b=>b.addEventListener("click",()=>applyTheme(localStorage.getItem("menimBudcemTheme")||"midnight",b.dataset.mode)));applyTheme(localStorage.getItem("menimBudcemTheme")||"midnight",localStorage.getItem("menimBudcemMode")||"dark");
-let activeDetailCategory="";
-const isoDate=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-function openCategoryDetail(category){activeDetailCategory=category;$("categoryDetailTitle").textContent=category;setCategoryRange("today");$("categoryOverlay").classList.remove("hidden")}
-function setCategoryRange(range){const now=new Date(),today=dateNow();let from=today,to=today;if(range==="yesterday"){const d=new Date(now);d.setDate(d.getDate()-1);from=to=isoDate(d)}else if(range==="week"){const d=new Date(now);d.setDate(d.getDate()-((d.getDay()+6)%7));from=isoDate(d)}else if(range==="month"){from=today.slice(0,7)+"-01"}$("catDateFrom").value=from;$("catDateTo").value=to;document.querySelectorAll("[data-cat-range]").forEach(b=>b.classList.toggle("active",b.dataset.catRange===range));renderCategoryDetail()}
-function renderCategoryDetail(){const from=$("catDateFrom").value,to=$("catDateTo").value;const list=transactions.filter(t=>t.type==="expense"&&t.category===activeDetailCategory&&t.date>=from&&t.date<=to).sort((a,b)=>(b.date||"").localeCompare(a.date||""));const total=list.reduce((s,t)=>s+Number(t.amount||0),0);$("catDetailTotal").textContent=money(total);const daily={};list.forEach(t=>daily[t.date]=(daily[t.date]||0)+Number(t.amount||0));const days=Object.entries(daily).sort((a,b)=>a[0].localeCompare(b[0])),max=Math.max(1,...days.map(x=>x[1]));$("categoryDailyChart").innerHTML=days.length?days.map(([day,val])=>`<div class="daily-col"><div class="daily-bar-wrap"><div class="daily-bar" title="${money(val)}" style="height:${Math.max(4,val/max*100)}%"></div></div><small>${day.slice(5).replace("-",".")}</small></div>`).join(""):'<div class="empty" style="width:100%">Seçilən tarixlərdə xərc yoxdur.</div>';
-$("categoryTxList").innerHTML=list.length?list.map(t=>`<div class="tx"><div class="tx-icon">↘</div><div class="tx-main"><div class="tx-title">${esc(t.description||t.category)}</div><div class="tx-meta">${esc(t.date||"")}</div></div><div class="tx-amount expense">−${money(t.amount)}</div></div>`).join(""):'<div class="empty">Əməliyyat tapılmadı.</div>'}
-document.querySelectorAll("[data-cat-range]").forEach(b=>b.addEventListener("click",()=>setCategoryRange(b.dataset.catRange)));
-$("applyCatDates").addEventListener("click",()=>{if($("catDateFrom").value>$("catDateTo").value){toast("Başlanğıc tarixi son tarixdən böyük ola bilməz");return}document.querySelectorAll("[data-cat-range]").forEach(b=>b.classList.remove("active"));renderCategoryDetail()});
-$("closeCategoryDetail").addEventListener("click",()=>$("categoryOverlay").classList.add("hidden"));
-$("categoryOverlay").addEventListener("click",e=>{if(e.target.id==="categoryOverlay")$("categoryOverlay").classList.add("hidden")});
 
-function exportCSV(){const rows=[["Tarix","Növ","Kateqoriya","Açıqlama","Məbləğ (AZN)"],...filtered().map(t=>[t.date,t.type==="income"?"Gəlir":"Xərc",t.category,t.description||"",t.amount])],csv="\uFEFF"+rows.map(r=>r.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(";")).join("\r\n"),url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"})),a=document.createElement("a");a.href=url;a.download="menim-budcem.csv";a.click();URL.revokeObjectURL(url)}$("exportBtn").addEventListener("click",exportCSV);$("settingsExport").addEventListener("click",exportCSV);["search","monthFilter","typeFilter"].forEach(id=>$(id).addEventListener(id==="search"?"input":"change",render));if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.error));
-</script></body></html>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import{getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import{getFirestore,collection,addDoc,updateDoc,deleteDoc,doc,onSnapshot,serverTimestamp}from"https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+const firebaseConfig={apiKey:"AIzaSyAoqCXkBRxPQVrPbwPhkYxLqt9TV3KTPI0",authDomain:"gelirxercapp.firebaseapp.com",projectId:"gelirxercapp",storageBucket:"gelirxercapp.firebasestorage.app",messagingSenderId:"890522144800",appId:"1:890522144800:web:8d0ef1644d182979126c45",measurementId:"G-V2WNKG8HK4"};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();
+
+/* ---------- helpers ---------- */
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,"0");
+const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const todayStr=()=>iso(new Date());
+const dayNum=()=>{const d=new Date();return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate()};
+const parse=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
+const addDays=(s,n)=>{const d=parse(s);d.setDate(d.getDate()+n);return iso(d)};
+const money=n=>new Intl.NumberFormat("az-AZ",{style:"currency",currency:"AZN"}).format(Number(n)||0);
+const fmtDate=s=>s?new Intl.DateTimeFormat("az-AZ",{day:"numeric",month:"long",year:"numeric"}).format(parse(s)):"";
+const shortDate=s=>s?s.slice(8)+"."+s.slice(5,7):"";
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const lc=s=>String(s||"").toLocaleLowerCase("az");
+function range(k){const t=todayStr();
+  if(k==="today")return[t,t];if(k==="yesterday"){const y=addDays(t,-1);return[y,y]}
+  if(k==="7d")return[addDays(t,-6),t];
+  if(k==="week"){const off=(new Date().getDay()+6)%7;return[addDays(t,-off),t]}
+  if(k==="month")return[t.slice(0,8)+"01",t];if(k==="year")return[t.slice(0,4)+"-01-01",t];
+  return["0000-01-01","9999-12-31"]}
+const inRange=(t,f,to)=>t.date>=f&&t.date<=to;
+const sum=(l,type)=>l.filter(t=>!type||t.type===type).reduce((s,t)=>s+Number(t.amount||0),0);
+const pname=t=>(t.product||t.description||"").trim();
+const timeOf=t=>t.time||"";
+
+/* ---------- categories & icons ---------- */
+const CATS={
+  expense:[["Qida","🍽️","#f59e0b"],["Nəqliyyat","🚌","#38bdf8"],["Ev","🏠","#a78bfa"],["Alış-veriş","🛍️","#ec4899"],["Sağlamlıq","💊","#34d399"],["Təhsil","🎓","#6366f1"],["Əyləncə","🎬","#f97316"],["Kommunal","💡","#eab308"],["Digər xərc","📦","#94a3b8"]],
+  income:[["Əmək haqqı","💼","#34d399"],["Əlavə gəlir","💰","#22d3ee"],["Hədiyyə","🎁","#f472b6"]]
+};
+const ALIAS={"Ərzaq":"Qida","Restoran":"Qida","Kirayə":"Ev","Uşaq":"Digər xərc","Geyim":"Alış-veriş","Kredit / Borc":"Digər xərc","Bonus":"Əlavə gəlir","Digər gəlir":"Əlavə gəlir","Digər":"Digər xərc"};
+const ALL=[...CATS.expense,...CATS.income];
+function catInfo(name){const n=ALIAS[name]||name;const c=ALL.find(x=>x[0]===n);return c?{icon:c[1],color:c[2]}:{icon:"•",color:"#94a3b8"}}
+const ci=(name,sm)=>{const i=catInfo(name);return`<span class="ci${sm?" sm":""}" style="--c:${i.color}">${i.icon}</span>`};
+
+/* ---------- state ---------- */
+let user=null,tx=[],unsub=null,prodPeriod="month";
+const F={range:"month",from:"",to:""},R={range:"month",from:"",to:""};
+const canChange=t=>t.createdDayNum===dayNum();
+
+/* ---------- toast & modal ---------- */
+function toast(msg,kind=""){const el=$("toast");el.textContent=msg;el.className="toast show "+kind;clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("show"),2800)}
+function openModal(html,cls=""){
+  const ov=document.createElement("div");ov.className="overlay";
+  ov.innerHTML=`<div class="modal ${cls}" role="dialog" aria-modal="true">${html}</div>`;
+  document.body.appendChild(ov);
+  ov.addEventListener("pointerdown",e=>{ov._down=e.target===ov});
+  ov.addEventListener("click",e=>{if(e.target===ov&&ov._down)closeModal(ov)});
+  ov.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>closeModal(ov)));
+  return ov}
+function closeModal(ov){if(!ov||ov.classList.contains("closing"))return;ov.classList.add("closing");setTimeout(()=>ov.remove(),200)}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){const o=[...document.querySelectorAll(".overlay:not(.closing)")].pop();if(o)closeModal(o)}});
+function notice(title,text,kind="warn"){
+  const ov=openModal(`<div class="msym ${kind}">${kind==="ok"?"✓":"!"}</div><h2>${esc(title)}</h2><p class="muted" style="margin:8px 0 0">${esc(text)}</p><div class="mact"><button class="btn primary" data-close>Aydındır</button></div>`,"small");return ov}
+function confirmBox({title,text,okText,symbol="⌫",kind="",danger=true}){
+  return new Promise(res=>{
+    const ov=openModal(`<div class="msym ${kind}">${symbol}</div><h2>${esc(title)}</h2><p class="muted" style="margin:8px 0 0">${esc(text)}</p><div class="mact"><button class="btn" data-no>Ləğv et</button><button class="btn ${danger?"danger":"primary"}" data-yes>${esc(okText)}</button></div>`,"small");
+    ov.querySelector("[data-no]").onclick=()=>{closeModal(ov);res(false)};
+    ov.querySelector("[data-yes]").onclick=()=>{closeModal(ov);res(true)};
+    ov.addEventListener("click",e=>{if(e.target===ov)res(false)})})}
+
+/* ---------- auth ---------- */
+$("loginBtn").onclick=async()=>{$("loginError").textContent="";try{await signInWithPopup(auth,provider)}catch(e){$("loginError").textContent="Giriş alınmadı"}};
+$("logoutBtn").onclick=()=>signOut(auth);
+onAuthStateChanged(auth,u=>{
+  user=u;if(unsub){unsub();unsub=null}
+  $("loginView").classList.toggle("hidden",!!u);$("appView").classList.toggle("hidden",!u);
+  if(!u){tx=[];return}
+  const em=u.email||u.displayName||"İstifadəçi";$("sideEmail").textContent=em;$("setEmail").value=em;$("avatar").textContent=(em[0]||"₼").toUpperCase();
+  status("Qoşuldu","ok");
+  unsub=onSnapshot(collection(db,"users",u.uid,"transactions"),snap=>{
+    tx=snap.docs.map(d=>({id:d.id,...d.data()}));
+    tx.sort((a,b)=>(b.date||"").localeCompare(a.date||"")||timeOf(b).localeCompare(timeOf(a))||((b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)));
+    renderAll()},err=>{console.error(err);status("Məlumat oxunmadı","bad")})});
+function status(m,k=""){$("connection").textContent=m;$("connection").className="status"+(k?" "+k:"")}
+
+/* ---------- navigation ---------- */
+const TITLES={dashboard:"İcmal",transactions:"Əməliyyatlar",reports:"Hesabatlar",categories:"Kateqoriyalar",settings:"Tənzimləmələr"};
+function go(p){
+  document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id==="page-"+p));
+  document.querySelectorAll("#nav [data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===p));
+  $("pageTitle").textContent=TITLES[p]||"";window.scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll("#nav [data-page]").forEach(b=>b.onclick=()=>go(b.dataset.page));
+document.querySelector('#nav [data-act="add"]').onclick=()=>openForm();
+document.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>go(b.dataset.goto));
+$("pageSub").textContent=new Intl.DateTimeFormat("az-AZ",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(new Date());
+
+/* ---------- tx rendering + swipe ---------- */
+function txHtml(t){
+  const inc=t.type==="income",name=pname(t)||t.category||"Əməliyyat";
+  return`<div class="swipe" data-id="${esc(t.id)}"><div class="sbg edit">✎</div><div class="sbg del">⌫</div>
+  <div class="tx">${ci(t.category)}<div class="tx-main"><div class="tx-title">${esc(name)}</div><div class="tx-meta">${esc(t.category||"")} · ${esc(shortDate(t.date))}${timeOf(t)?" · "+esc(timeOf(t)):""}${t.account?" · "+esc(t.account):""}${canChange(t)?"":" · 🔒"}</div></div>
+  <div class="tx-amt ${inc?"inc":"exp"}">${inc?"+":"−"}${money(t.amount)}</div></div></div>`}
+function wireSwipe(root){
+  root.querySelectorAll(".swipe").forEach(w=>{
+    const card=w.querySelector(".tx"),id=w.dataset.id;let sx=0,sy=0,dx=0,drag=false,lock=null,moved=false;
+    w.addEventListener("pointerdown",e=>{if(e.pointerType==="mouse"&&e.button!==0)return;sx=e.clientX;sy=e.clientY;dx=0;drag=true;lock=null;moved=false;card.style.transition="none"});
+    w.addEventListener("pointermove",e=>{if(!drag)return;const mx=e.clientX-sx,my=e.clientY-sy;
+      if(lock===null&&(Math.abs(mx)>8||Math.abs(my)>8)){lock=Math.abs(mx)>Math.abs(my)*1.2?"x":"y";if(lock==="x"){try{w.setPointerCapture(e.pointerId)}catch{}}}
+      if(lock!=="x")return;moved=true;dx=Math.max(-150,Math.min(150,mx));card.style.transform=`translateX(${dx}px)`;
+      w.classList.toggle("show-edit",dx>0);w.classList.toggle("show-del",dx<0)});
+    const end=()=>{if(!drag)return;drag=false;card.style.transition="";card.style.transform="";
+      const d=dx;setTimeout(()=>{w.classList.remove("show-edit","show-del")},250);
+      if(lock==="x"&&Math.abs(d)>85){const t=tx.find(x=>x.id===id);if(!t)return;
+        if(navigator.vibrate)navigator.vibrate(10);
+        if(d<0){if(!canChange(t))return toast("Keçmiş tarixli əməliyyatlar silinə bilməz.","warn");askDelete(t,w)}
+        else{if(!canChange(t))return toast("Keçmiş tarixli əməliyyatlara düzəliş etmək mümkün deyil.","warn");openForm(id)}}
+      setTimeout(()=>moved=false,30)};
+    w.addEventListener("pointerup",end);w.addEventListener("pointercancel",end);
+    w.addEventListener("click",()=>{if(!moved)openTxDetail(id)})})}
+async function askDelete(t,w){
+  w?.classList.add("out-l");
+  const ok=await confirmBox({title:"Əməliyyat silinsin?",text:`“${pname(t)||t.category}” — ${money(t.amount)}. Bu addım geri qaytarıla bilməz.`,okText:"Bəli, sil"});
+  if(!ok){w?.classList.remove("out-l","show-del");return}
+  try{await deleteDoc(doc(db,"users",user.uid,"transactions",t.id));toast("Əməliyyat silindi","ok")}catch(e){console.error(e);w?.classList.remove("out-l");notice("Silinmədi","Keçmiş tarixli əməliyyatlar silinə bilməz və ya icazə yoxdur.")}}
+
+function openTxDetail(id){
+  const t=tx.find(x=>x.id===id);if(!t)return;const inc=t.type==="income",ch=canChange(t);
+  const ov=openModal(`<div class="mhead"><div style="display:flex;gap:12px;align-items:center">${ci(t.category)}<div><div class="muted" style="font-size:11px">${inc?"GƏLİR":"XƏRC"}</div><h2 style="margin:0">${esc(pname(t)||t.category)}</h2></div></div><button class="btn xbtn" data-close>✕</button></div>
+  <div class="sumbox"><span>Məbləğ</span><strong class="${inc?"inc":"exp"}">${inc?"+":"−"}${money(t.amount)}</strong></div>
+  <div class="kv"><span>Kateqoriya</span><span>${esc(t.category)}</span></div>
+  <div class="kv"><span>Məhsul / açıqlama</span><span>${esc(pname(t)||"—")}</span></div>
+  <div class="kv"><span>Tarix</span><span>${esc(fmtDate(t.date))}${timeOf(t)?" · "+esc(timeOf(t)):""}</span></div>
+  <div class="kv"><span>Hesab</span><span>${esc(t.account||"—")}</span></div>
+  ${t.note?`<div class="kv"><span>Qeyd</span><span>${esc(t.note)}</span></div>`:""}
+  <div class="mact">${pname(t)?`<button class="btn" data-prod>Məhsul statistikası</button>`:""}<button class="btn" data-edit>Redaktə</button><button class="btn danger" data-del>Sil</button></div>`);
+  ov.querySelector("[data-prod]")?.addEventListener("click",()=>openProduct(pname(t)));
+  ov.querySelector("[data-edit]").onclick=()=>{if(!ch)return toast("Keçmiş tarixli əməliyyatlara düzəliş etmək mümkün deyil.","warn");closeModal(ov);openForm(id)};
+  ov.querySelector("[data-del]").onclick=()=>{if(!ch)return toast("Keçmiş tarixli əməliyyatlar silinə bilməz.","warn");closeModal(ov);askDelete(t)}}
+
+/* ---------- add / edit form ---------- */
+function recentCats(type){
+  const last={};tx.filter(t=>t.type===type).forEach(t=>{const c=ALIAS[t.category]||t.category;if(!(c in last))last[c]=1;else last[c]++});
+  return CATS[type].map(c=>c[0]).sort((a,b)=>(last[b]||0)-(last[a]||0))}
+function openForm(editId){
+  const ed=editId?tx.find(x=>x.id===editId):null;
+  if(ed&&!canChange(ed))return toast("Keçmiş tarixli əməliyyatlara düzəliş etmək mümkün deyil.","warn");
+  let type=ed?.type||"expense",cat=ed?(ALIAS[ed.category]||ed.category):"";
+  const prods=[...new Set(tx.map(pname).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"az"));
+  const ov=openModal(`<div class="mhead"><div><div class="muted" style="font-size:11px">${ed?"REDAKTƏ":"YENİ"}</div><h2>${ed?"Əməliyyatı redaktə et":"Yeni əməliyyat"}</h2></div><button class="btn xbtn" data-close>✕</button></div>
+  <form id="fm"><div class="field"><div class="seg"><button type="button" data-t="income">＋ Gəlir</button><button type="button" data-t="expense">－ Xərc</button></div></div>
+  <div class="field"><label>Məbləğ (AZN)</label><input id="fa" type="number" inputmode="decimal" min="0.01" step="0.01" required placeholder="0.00" value="${ed?esc(ed.amount):""}"></div>
+  <div class="field"><label>Kateqoriya</label><div class="cat-pick" id="fc"></div></div>
+  <div class="field"><label>Məhsul / açıqlama</label><input id="fp" list="fpl" maxlength="100" autocomplete="off" placeholder="Məsələn: Çörək" value="${ed?esc(pname(ed)):""}"><datalist id="fpl">${prods.map(p=>`<option value="${esc(p)}">`).join("")}</datalist></div>
+  <div class="row2"><div class="field"><label>Tarix</label><input id="fd" type="date" required value="${esc(ed?.date||todayStr())}"></div><div class="field"><label>Hesab</label><select id="fac"><option>Nağd</option><option>Kart</option></select></div></div>
+  <div class="field"><label>Qeyd (istəyə bağlı)</label><input id="fn" maxlength="200" value="${ed?esc(ed.note||""):""}"></div>
+  <div class="mact"><button type="button" class="btn" data-close>Ləğv et</button><button class="btn primary" id="fs" type="submit">${ed?"Yadda saxla":"Əlavə et"}</button></div></form>`);
+  if(ed?.account)ov.querySelector("#fac").value=ed.account;
+  const drawCats=()=>{
+    ov.querySelectorAll(".seg button").forEach(b=>{b.className=(b.dataset.t===type?"active ":"")+(b.dataset.t==="income"?"i":"e")});
+    const list=recentCats(type);if(!list.includes(cat))cat=list[0];
+    ov.querySelector("#fc").innerHTML=list.map(n=>{const i=catInfo(n);return`<button type="button" class="cat-opt${n===cat?" active":""}" data-c="${esc(n)}" style="--c:${i.color}"><span class="ci" style="--c:${i.color}">${i.icon}</span>${esc(n)}</button>`}).join("");
+    ov.querySelectorAll(".cat-opt").forEach(b=>b.onclick=()=>{cat=b.dataset.c;drawCats()})};
+  ov.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{type=b.dataset.t;drawCats()});
+  drawCats();setTimeout(()=>ov.querySelector("#fa").focus(),250);
+  ov.querySelector("#fm").onsubmit=async e=>{
+    e.preventDefault();const amount=Number(ov.querySelector("#fa").value);
+    if(!Number.isFinite(amount)||amount<=0)return toast("Düzgün məbləğ daxil edin.","warn");
+    const product=ov.querySelector("#fp").value.trim().replace(/\s+/g," "),date=ov.querySelector("#fd").value;
+    const data={type,amount,category:cat,product,description:product,date,account:ov.querySelector("#fac").value,note:ov.querySelector("#fn").value.trim(),updatedAt:serverTimestamp()};
+    const dup=tx.find(t=>t.id!==editId&&t.type===type&&Number(t.amount)===amount&&(ALIAS[t.category]||t.category)===cat&&lc(pname(t))===lc(product)&&t.date===date);
+    if(dup){const go2=await confirmBox({title:"Təkrar əməliyyat?",text:"Eyni tarix, məbləğ və məhsulla əməliyyat artıq mövcuddur. Yenə də əlavə edilsin?",okText:"Bəli, əlavə et",symbol:"!",kind:"warn",danger:false});if(!go2)return}
+    const btn=ov.querySelector("#fs");btn.disabled=true;btn.textContent="Saxlanılır...";
+    try{
+      if(ed)await updateDoc(doc(db,"users",user.uid,"transactions",ed.id),data);
+      else{const n=new Date();await addDoc(collection(db,"users",user.uid,"transactions"),{...data,time:`${pad(n.getHours())}:${pad(n.getMinutes())}`,createdAt:serverTimestamp(),createdDay:todayStr(),createdDayNum:dayNum()})}
+      closeModal(ov);toast(ed?"Dəyişikliklər saxlanıldı":"Əməliyyat əlavə edildi","ok")}
+    catch(err){console.error(err);btn.disabled=false;btn.textContent=ed?"Yadda saxla":"Əlavə et";notice("Saxlanılmadı","Əməliyyat yadda saxlanıla bilmədi. Firestore qaydalarını yoxlayın.")}}}
+
+/* ---------- bars helper ---------- */
+function barsHtml(entries,{cat=false,key="data-key",prefix=""}={}){
+  const max=Math.max(1,...entries.map(e=>e[1])),tot=entries.reduce((s,e)=>s+e[1],0);
+  return entries.map(([n,v],i)=>{const c=cat?catInfo(n).color:"var(--accent)";
+    return`<button type="button" class="brow" ${key}="${esc(n)}"><span class="bname">${cat?ci(n,true):`<span class="ci sm" style="--c:var(--accent)">${i+1}</span>`}<span class="t">${esc(n)}</span></span><span class="track"><span class="fill" style="display:block;width:${v/max*100}%;--c:${c}"></span></span><span class="bval">${money(v)}<small>${tot?Math.round(v/tot*100):0}%</small></span></button>`}).join("")}
+function groupSum(list,fn){const m={};list.forEach(t=>{const k=fn(t);if(k)m[k]=(m[k]||0)+Number(t.amount||0)});return Object.entries(m).sort((a,b)=>b[1]-a[1])}
+const catKey=t=>ALIAS[t.category]||t.category||"Digər xərc";
+const prodKey=t=>pname(t)||"Açıqlama yoxdur";
+function dailyChart(list,from,to,both){
+  const days=[];let d=from,guard=0;while(d<=to&&guard++<400){days.push(d);d=addDays(d,1)}
+  const vis=days.length>31?null:days;
+  let rows=vis?vis:[...new Set(list.map(t=>t.date))].sort();
+  if(!rows.length)return'<div class="empty" style="width:100%">Bu dövrdə məlumat yoxdur.</div>';
+  const data=rows.map(day=>{const l=list.filter(t=>t.date===day);return{day,i:sum(l,"income"),e:sum(l,"expense")}});
+  const max=Math.max(1,...data.map(x=>both?Math.max(x.i,x.e):x.e));
+  return data.map(x=>`<div class="dcol" title="${esc(fmtDate(x.day))}">${both?`<div class="dbars"><div class="dbar i" style="height:${Math.max(2,x.i/max*100)}%"></div><div class="dbar e" style="height:${Math.max(2,x.e/max*100)}%"></div></div>`:`<div class="dbars"><div class="dbar a" style="height:${Math.max(2,x.e/max*100)}%"></div></div>`}<small>${shortDate(x.day)}</small></div>`).join("")}
+function bindKeys(root,attr,fn){root.querySelectorAll("["+attr+"]").forEach(b=>b.onclick=()=>fn(b.getAttribute(attr)))}
+
+/* ---------- dashboard ---------- */
+function renderDashboard(){
+  const inc=sum(tx,"income"),exp=sum(tx,"expense"),[mf,mt]=range("month"),ml=tx.filter(t=>inRange(t,mf,mt));
+  $("dBalance").textContent=money(inc-exp);$("dInc").textContent="+"+money(sum(ml,"income"));$("dExp").textContent="−"+money(sum(ml,"expense"));
+  const [f7,t7]=range("7d");$("dChart").innerHTML=dailyChart(tx.filter(t=>inRange(t,f7,t7)),f7,t7,true);
+  const cats=groupSum(ml.filter(t=>t.type==="expense"),catKey).slice(0,5);
+  $("dCats").innerHTML=cats.length?barsHtml(cats,{cat:true,key:"data-cat"}):'<div class="empty">Bu ay xərc yoxdur.</div>';bindKeys($("dCats"),"data-cat",n=>openCategory(n,"expense"));
+  const p=prodPeriod,[pf,pt]=range(p),prods=groupSum(tx.filter(t=>t.type==="expense"&&pname(t)&&inRange(t,pf,pt)),pname).slice(0,8);
+  $("dProducts").innerHTML=prods.length?barsHtml(prods,{key:"data-prod"}):'<div class="empty">Bu dövr üçün məhsul xərci yoxdur. Əməliyyat əlavə edərkən məhsul adını yazın.</div>';bindKeys($("dProducts"),"data-prod",openProduct);
+  const rec=tx.slice(0,6);$("dRecent").innerHTML=rec.length?rec.map(txHtml).join(""):'<div class="empty">Hələ əməliyyat yoxdur. “Əlavə et” düyməsi ilə başla.</div>';wireSwipe($("dRecent"))}
+$("dPeriod").onclick=e=>{const b=e.target.closest("[data-p]");if(!b)return;prodPeriod=b.dataset.p;$("dPeriod").querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===b));renderDashboard()};
+$("dayBtn").onclick=()=>openDay(todayStr());
+
+/* ---------- day detail ---------- */
+function openDay(date){
+  const ov=openModal(`<div class="mhead"><div><div class="muted" style="font-size:11px">GÜNÜN ƏMƏLİYYATLARI</div><h2 id="dyT"></h2></div><button class="btn xbtn" data-close>✕</button></div>
+  <div style="display:flex;gap:8px;margin-bottom:6px"><button class="btn" id="dyP">‹</button><input type="date" id="dyD" value="${date}"><button class="btn" id="dyN">›</button></div><div id="dyB"></div>`,"wide");
+  const draw=()=>{
+    const d=ov.querySelector("#dyD").value||todayStr();ov.querySelector("#dyT").textContent=fmtDate(d);
+    const l=tx.filter(t=>t.date===d).sort((a,b)=>timeOf(a).localeCompare(timeOf(b))),i=sum(l,"income"),e=sum(l,"expense");
+    const cats=groupSum(l.filter(t=>t.type==="expense"),catKey),prods=groupSum(l.filter(t=>t.type==="expense"&&pname(t)),pname);
+    ov.querySelector("#dyB").innerHTML=`<div class="stat4" style="grid-template-columns:repeat(3,1fr)"><div><small>Gəlir</small><b class="inc">+${money(i)}</b></div><div><small>Xərc</small><b class="exp">−${money(e)}</b></div><div><small>Günün nəticəsi</small><b>${money(i-e)}</b></div></div>
+    ${prods[0]?`<div class="sumbox"><span>Ən çox xərc edilən məhsul</span><strong style="font-size:16px">${esc(prods[0][0])} · ${money(prods[0][1])}</strong></div>`:""}
+    ${cats.length?`<div class="sec">Kateqoriyalar üzrə</div><div class="bars">${barsHtml(cats,{cat:true,key:"data-c"})}</div>`:""}
+    <div class="sec">Saat üzrə əməliyyatlar (${l.length})</div><div class="list" id="dyL">${l.length?l.map(txHtml).join(""):'<div class="empty">Bu gün əməliyyat yoxdur.</div>'}</div>`;
+    wireSwipe(ov.querySelector("#dyL"));bindKeys(ov.querySelector("#dyB"),"data-c",n=>openCategory(n,"expense"))};
+  const shift=n=>{ov.querySelector("#dyD").value=addDays(ov.querySelector("#dyD").value||todayStr(),n);draw()};
+  ov.querySelector("#dyP").onclick=()=>shift(-1);ov.querySelector("#dyN").onclick=()=>shift(1);ov.querySelector("#dyD").onchange=draw;draw()}
+
+/* ---------- product stats ---------- */
+function statsHtml(list,{history=false}={}){
+  const t=todayStr(),per=k=>{const[f,to]=range(k);return sum(list.filter(x=>inRange(x,f,to)),"expense")};
+  const exp=list.filter(x=>x.type==="expense"),total=sum(exp),cnt=exp.length;
+  return`<div class="stat4"><div><small>Bu gün</small><b>${money(per("today"))}</b></div><div><small>Dünən</small><b>${money(per("yesterday"))}</b></div><div><small>Bu həftə</small><b>${money(per("week"))}</b></div><div><small>Bu ay</small><b>${money(per("month"))}</b></div></div>
+  <div class="stat4" style="grid-template-columns:repeat(3,1fr)"><div><small>Ümumi xərc</small><b>${money(total)}</b></div><div><small>Alış sayı</small><b>${cnt}</b></div><div><small>Orta məbləğ</small><b>${money(cnt?total/cnt:0)}</b></div></div>
+  ${history?`<div class="sec">Alış tarixçəsi</div><div class="list" id="phL">${exp.length?exp.map(txHtml).join(""):'<div class="empty">Alış yoxdur.</div>'}</div>`:""}`}
+function openProduct(name){
+  const l=tx.filter(t=>lc(pname(t))===lc(name));
+  const ov=openModal(`<div class="mhead"><div><div class="muted" style="font-size:11px">MƏHSUL STATİSTİKASI</div><h2>${esc(name)}</h2></div><button class="btn xbtn" data-close>✕</button></div>${statsHtml(l,{history:true})}`,"wide");
+  wireSwipe(ov.querySelector("#phL")||ov)}
+
+/* ---------- transactions page ---------- */
+function filtered(){
+  const[f,t]=F.range==="custom"?[F.from||"0000-01-01",F.to||"9999-12-31"]:range(F.range);
+  const q=lc($("fSearch").value.trim()),ty=$("fType").value,c=$("fCat").value,a=$("fAcc").value,mn=parseFloat($("fMin").value),mx=parseFloat($("fMax").value);
+  let l=tx.filter(x=>inRange(x,f,t)&&(ty==="all"||x.type===ty)&&(c==="all"||catKey(x)===c||x.category===c)&&(a==="all"||x.account===a)&&(!q||lc([pname(x),x.category,x.date,x.note].join(" ")).includes(q))&&(isNaN(mn)||x.amount>=mn)&&(isNaN(mx)||x.amount<=mx));
+  const s=$("fSort").value;
+  if(s==="old")l=l.slice().reverse();if(s==="high")l=l.slice().sort((a,b)=>b.amount-a.amount);if(s==="low")l=l.slice().sort((a,b)=>a.amount-b.amount);
+  return l}
+function renderTx(){
+  const l=filtered();$("fCount").textContent=l.length+" əməliyyat";
+  $("txList").innerHTML=l.length?l.map(txHtml).join(""):'<div class="empty">Seçimlərə uyğun əməliyyat tapılmadı.</div>';wireSwipe($("txList"));
+  const q=$("fSearch").value.trim();
+  if(q){const m=tx.filter(t=>lc(pname(t)).includes(lc(q)));
+    $("fProduct").innerHTML=m.length?`<div class="card" style="margin-bottom:16px"><div class="card-head"><h2>“${esc(q)}” üzrə xərc statistikası</h2><button class="link" id="fpMore">Ətraflı →</button></div>${statsHtml(m)}</div>`:"";
+    $("fpMore")?.addEventListener("click",()=>openProduct(m[0]?pname(m[0]):q))}
+  else $("fProduct").innerHTML=""}
+function initFilters(){
+  $("fCat").innerHTML='<option value="all">Bütün kateqoriyalar</option>'+ALL.map(c=>`<option>${c[0]}</option>`).join("");
+  $("fRange").onclick=e=>{const b=e.target.closest("[data-r]");if(!b)return;F.range=b.dataset.r;$("fRange").querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===b));$("fCustom").classList.toggle("hidden",F.range!=="custom");renderTx()};
+  $("fFrom").onchange=()=>{F.from=$("fFrom").value;renderTx()};$("fTo").onchange=()=>{F.to=$("fTo").value;renderTx()};
+  ["fSearch","fMin","fMax"].forEach(i=>$(i).addEventListener("input",renderTx));["fType","fCat","fAcc","fSort"].forEach(i=>$(i).addEventListener("change",renderTx))}
+
+/* ---------- reports ---------- */
+function rRng(){return R.range==="custom"?[R.from||todayStr(),R.to||todayStr()]:range(R.range)}
+function renderReports(){
+  const[f,t]=rRng(),l=tx.filter(x=>inRange(x,f,t)),inc=sum(l,"income"),exp=sum(l,"expense");
+  const days=Math.round((parse(t)-parse(f))/864e5)+1,pt=addDays(f,-1),pf=addDays(f,-days),pl=tx.filter(x=>inRange(x,pf,pt)),pe=sum(pl,"expense");
+  const diff=pe?((exp-pe)/pe*100):null;
+  const cmp=pe?`<div class="sumbox"><span>Əvvəlki eyni müddətlə (${fmtDate(pf)} – ${fmtDate(pt)}) müqayisə</span><strong class="${diff>0?"exp":"inc"}">${diff>0?"▲":"▼"} ${Math.abs(diff).toFixed(1).replace(".",",")}%</strong></div>`:`<div class="sumbox"><span>Əvvəlki dövr üçün məlumat yoxdur</span><strong>—</strong></div>`;
+  const cats=groupSum(l.filter(x=>x.type==="expense"),catKey),prods=groupSum(l.filter(x=>x.type==="expense"&&pname(x)),pname).slice(0,10);
+  $("rBody").innerHTML=`<div class="grid3"><div class="card"><div class="muted">Gəlir</div><h1 class="inc" style="font-size:26px">+${money(inc)}</h1></div><div class="card"><div class="muted">Xərc</div><h1 class="exp" style="font-size:26px">−${money(exp)}</h1></div><div class="card"><div class="muted">Fərq</div><h1 style="font-size:26px">${money(inc-exp)}</h1></div></div>
+  <div class="card" style="margin-bottom:16px"><div class="card-head"><h2>Günlük xərc</h2><span class="muted">${esc(fmtDate(f))} – ${esc(fmtDate(t))}</span></div><div class="dchart">${dailyChart(l,f,t,false)}</div>${cmp}</div>
+  <div class="grid2" style="grid-template-columns:1fr 1fr"><div class="card"><div class="card-head"><h2>Kateqoriyalar üzrə</h2></div><div class="bars" id="rCats">${cats.length?barsHtml(cats,{cat:true,key:"data-cat"}):'<div class="empty">Xərc yoxdur.</div>'}</div></div>
+  <div class="card"><div class="card-head"><h2>Məhsullar üzrə</h2></div><div class="bars" id="rProds">${prods.length?barsHtml(prods,{key:"data-prod"}):'<div class="empty">Məhsul xərci yoxdur.</div>'}</div></div></div>`;
+  bindKeys($("rBody"),"data-cat",n=>openCategory(n,"expense"));bindKeys($("rBody"),"data-prod",openProduct)}
+function initReports(){
+  $("rRange").onclick=e=>{const b=e.target.closest("[data-r]");if(!b)return;R.range=b.dataset.r;$("rRange").querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===b));$("rCustom").classList.toggle("hidden",R.range!=="custom");renderReports()};
+  $("rFrom").onchange=()=>{R.from=$("rFrom").value;renderReports()};$("rTo").onchange=()=>{R.to=$("rTo").value;renderReports()}}
+
+/* ---------- categories ---------- */
+function renderCategories(){
+  const[f,t]=range("month"),ml=tx.filter(x=>inRange(x,f,t));
+  const card=(c,type)=>{const v=sum(ml.filter(x=>x.type===type&&catKey(x)===c[0]));const n=ml.filter(x=>x.type===type&&catKey(x)===c[0]).length;
+    return`<button class="ccard" data-c="${esc(c[0])}" data-t="${type}" style="--c:${c[2]}">${ci(c[0])}<div><div class="muted" style="font-size:12px">${esc(c[0])}</div><b class="${type==="income"?"inc":""}">${money(v)}</b></div><small class="muted">Bu ay · ${n} əməliyyat</small></button>`};
+  $("catBody").innerHTML=`<div class="card" style="margin-bottom:16px"><div class="card-head"><h2>Xərc kateqoriyaları</h2></div><div class="cgrid">${CATS.expense.map(c=>card(c,"expense")).join("")}</div></div><div class="card"><div class="card-head"><h2>Gəlir kateqoriyaları</h2></div><div class="cgrid">${CATS.income.map(c=>card(c,"income")).join("")}</div></div>`;
+  $("catBody").querySelectorAll(".ccard").forEach(b=>b.onclick=()=>openCategory(b.dataset.c,b.dataset.t))}
+function openCategory(name,type="expense"){
+  let rk="month",from="",to="";
+  const ov=openModal(`<div class="mhead"><div style="display:flex;gap:12px;align-items:center">${ci(name)}<div><div class="muted" style="font-size:11px">KATEQORİYA</div><h2 style="margin:0">${esc(name)}</h2></div></div><button class="btn xbtn" data-close>✕</button></div>
+  <div class="chips" id="cr"><button class="chip" data-r="today">Bu gün</button><button class="chip" data-r="yesterday">Dünən</button><button class="chip" data-r="week">Həftə</button><button class="chip active" data-r="month">Ay</button><button class="chip" data-r="custom">Özəl</button></div>
+  <div class="row2 hidden" id="cc" style="margin-top:12px"><div><label>Başlanğıc</label><input type="date" id="cf"></div><div><label>Son</label><input type="date" id="ct"></div></div><div id="cb"></div>`,"wide");
+  const draw=()=>{
+    const[f,t]=rk==="custom"?[from||todayStr(),to||todayStr()]:range(rk);
+    const all=tx.filter(x=>x.type===type&&catKey(x)===name),l=all.filter(x=>inRange(x,f,t)),total=sum(l),share=sum(tx.filter(x=>x.type===type&&inRange(x,f,t)));
+    const prods=groupSum(l.filter(x=>pname(x)),pname);
+    ov.querySelector("#cb").innerHTML=`<div class="sumbox"><span>${type==="income"?"Gəlir":"Xərc"} · ${share?Math.round(total/share*100):0}% ümumi ${type==="income"?"gəlirdən":"xərcdən"}</span><strong>${money(total)}</strong></div>
+    <div class="dchart">${dailyChart(l.map(x=>({...x,type:"expense"})),f,t,false)}</div>
+    ${prods.length?`<div class="sec">Məhsullar</div><div class="bars">${barsHtml(prods,{key:"data-p"})}</div>`:""}
+    <div class="sec">Əməliyyatlar (${l.length})</div><div class="list" id="cl">${l.length?l.map(txHtml).join(""):'<div class="empty">Bu dövrdə əməliyyat yoxdur.</div>'}</div>`;
+    wireSwipe(ov.querySelector("#cl"));bindKeys(ov.querySelector("#cb"),"data-p",openProduct)};
+  ov.querySelector("#cr").onclick=e=>{const b=e.target.closest("[data-r]");if(!b)return;rk=b.dataset.r;ov.querySelectorAll("#cr .chip").forEach(x=>x.classList.toggle("active",x===b));ov.querySelector("#cc").classList.toggle("hidden",rk!=="custom");draw()};
+  ov.querySelector("#cf").onchange=e=>{from=e.target.value;draw()};ov.querySelector("#ct").onchange=e=>{to=e.target.value;draw()};draw()}
+
+/* ---------- settings ---------- */
+const THEMES=[["midnight","Midnight","#8f96ff","#2a2e63"],["emerald","Emerald","#46c9a0","#173b37"],["ocean","Ocean","#5db8e8","#17364b"],["ember","Ember","#f0987a","#482b2a"],["graphite","Graphite","#a8b7cf","#303b4c"]];
+function applyTheme(theme,mode){
+  if(!THEMES.some(t=>t[0]===theme))theme="midnight";if(mode!=="light")mode="dark";
+  document.documentElement.dataset.theme=theme;document.documentElement.dataset.mode=mode;
+  document.querySelector('meta[name=theme-color]').content=mode==="dark"?"#0a0e1a":"#f4f6fb";
+  document.querySelectorAll(".theme-choice").forEach(b=>b.classList.toggle("selected",b.dataset.theme===theme));
+  document.querySelectorAll("#modeSw .chip").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));
+  try{localStorage.setItem("mb_theme",theme);localStorage.setItem("mb_mode",mode)}catch{}}
+function initSettings(){
+  $("themeGrid").innerHTML=THEMES.map(t=>`<button class="theme-choice" data-theme="${t[0]}"><span class="dots"><i style="background:${t[2]}"></i><i style="background:${t[3]}"></i></span><b>${t[1]}</b></button>`).join("");
+  const get=k=>{try{return localStorage.getItem(k)}catch{return null}};
+  $("themeGrid").onclick=e=>{const b=e.target.closest("[data-theme]");if(b)applyTheme(b.dataset.theme,document.documentElement.dataset.mode)};
+  $("modeSw").onclick=e=>{const b=e.target.closest("[data-mode]");if(b)applyTheme(document.documentElement.dataset.theme,b.dataset.mode)};
+  applyTheme(get("mb_theme")||"midnight",get("mb_mode")||"dark")}
+
+/* ---------- export ---------- */
+function exportCSV(){
+  const rows=[["Tarix","Saat","Növ","Kateqoriya","Məhsul","Hesab","Qeyd","Məbləğ (AZN)"],...filtered().map(t=>[t.date,t.time||"",t.type==="income"?"Gəlir":"Xərc",t.category,pname(t),t.account||"",t.note||"",t.amount])];
+  const csv="\uFEFF"+rows.map(r=>r.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(";")).join("\r\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="menim-budcem.csv";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+$("exportBtn").onclick=exportCSV;$("setExport").onclick=exportCSV;
+
+/* ---------- init ---------- */
+function renderAll(){renderDashboard();renderTx();renderReports();renderCategories()}
+initSettings();initFilters();initReports();
+</script>
+</body>
+</html>
