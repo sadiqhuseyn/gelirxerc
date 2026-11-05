@@ -126,7 +126,7 @@ input{width:100%;min-width:0;background:var(--soft);border:1px solid transparent
 <div class="stats"><div class="stat"><small>Gün gəliri</small><b class="inc" id="dayInc">0,00 ₼</b></div><div class="stat"><small>Həftə xərci</small><b id="weekExp">0,00 ₼</b></div><div class="stat"><small>Ay xərci</small><b id="monthExp">0,00 ₼</b></div></div>
 </section>
 
-<div class="sec"><h2>Kateqoriyalar</h2><span id="catNote">seçilən gün · toxun, ətraflı bax</span></div>
+<div class="sec"><h2>Kateqoriyalar</h2></div>
 <div class="cgrid" id="cgrid"></div>
 
 <div class="sec"><h2>Əməliyyatlar</h2><span id="dayCount"></span></div>
@@ -155,7 +155,7 @@ input{width:100%;min-width:0;background:var(--soft);border:1px solid transparent
 <div class="grab"></div><div class="sheet-head"><h2>Hesabat</h2><button class="icon-btn" data-close type="button">✕</button></div>
 <div class="mnav"><button class="icon-btn" id="rPrev" type="button">‹</button><b id="rMonth">—</b><button class="icon-btn" id="rNext" type="button">›</button></div>
 <div class="sumrow"><div class="stat"><small>Gəlir</small><b class="inc" id="rInc">0</b></div><div class="stat"><small>Xərc</small><b class="exp" id="rExp">0</b></div><div class="stat"><small>Qalıq</small><b id="rNet">0</b></div></div>
-<div class="sec"><h2>Kateqoriyalar üzrə</h2><span>toxun, ətraflı bax</span></div><div id="rCats" class="bars"></div>
+<div class="sec"><h2>Kateqoriyalar üzrə</h2></div><div id="rCats" class="bars"></div>
 <div class="block"><div class="sec"><h2>Ən çox alınanlar</h2><span>açıqlamaya görə</span></div><div id="rItems" class="bars"></div></div>
 <div class="block"><div class="sec"><h2>Son 6 ay</h2></div><div id="months" class="months"></div><div class="legend"><span><i style="background:var(--income)"></i>Gəlir</span><span><i style="background:var(--expense)"></i>Xərc</span></div></div>
 </div></div>
@@ -277,7 +277,7 @@ $("cgrid").innerHTML=[...CATS.expense,...extra].map(c=>{const v=byCat[c]||0;retu
 $$("[data-cat]",$("cgrid")).forEach(b=>b.addEventListener("click",()=>openCat(b.dataset.cat)));
 $("dayCount").textContent=dayTx.length?dayTx.length+" qeyd":"";
 $("dayList").innerHTML=dayTx.length?dayTx.map(rowHtml).join(""):`<div class="empty"><b>${selDate===today?"✨":"🗓️"}</b>${selDate===today?"Bu gün hələ qeyd yoxdur. ＋ düyməsinə bas":"Bu gündə qeyd yoxdur"}</div>`;wire($("dayList"));
-$("dayHint").textContent=!dayTx.length?"":selDate===today?"Toxun — ətraflı bax. Sola çək — sil, sağa çək — redaktə.":"Toxun — ətraflı bax. Keçmiş günləri dəyişmək olmur.";
+$("dayHint").textContent=!dayTx.length?"":selDate===today?"":"";
 $("dl").innerHTML=[...new Set(tx.map(t=>(t.description||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"az")).map(v=>`<option value="${esc(v)}">`).join("");
 if(!$("sheetReports").classList.contains("hidden"))renderReports();
 if(!$("sheetCat").classList.contains("hidden"))renderDet("cat");
