@@ -1,196 +1,180 @@
 <!doctype html>
 <html lang="az"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#0b0f1a" id="metaTheme">
-<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#f5f3ee" id="metaTheme">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="description" content="Şəxsi gəlir və xərc idarəetmə tətbiqi"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><title>Mənim Büdcəm</title>
 <style>
-:root{--r:16px;--income:#2fbf8f;--expense:#f0627a;--accent:#7c86ff;--accent-ink:#0b0f1a;color-scheme:dark;
---bg:#0b0f1a;--surface:#131a2a;--surface2:#1a2338;--line:#243049;--text:#eef2fb;--muted:#8a97b1;--shadow:0 10px 30px #0006}
-:root[data-mode="light"]{color-scheme:light;--bg:#f3f5fa;--surface:#fff;--surface2:#f1f3f9;--line:#e5e9f2;--text:#1b2336;--muted:#7b869c;--shadow:0 10px 30px #2a3a6a14;--income:#1f9d74;--expense:#e0475f;--accent-ink:#fff}
-:root[data-accent="midnight"]{--accent:#7c86ff}:root[data-accent="emerald"]{--accent:#36c3a0}:root[data-accent="ocean"]{--accent:#4aaee6}:root[data-accent="ember"]{--accent:#ef8f6b}:root[data-accent="graphite"]{--accent:#a3b1c8}
-:root[data-mode="light"][data-accent="midnight"]{--accent:#5f6bea}:root[data-mode="light"][data-accent="emerald"]{--accent:#22a183}:root[data-mode="light"][data-accent="ocean"]{--accent:#2f90c8}:root[data-mode="light"][data-accent="ember"]{--accent:#e0724c}:root[data-mode="light"][data-accent="graphite"]{--accent:#5d6b84}
+:root{color-scheme:light;--bg:#f5f3ee;--surface:#fffdf9;--soft:#efece4;--line:#e4dfd3;--text:#1c1b19;--muted:#8b867a;--income:#1f8a5f;--expense:#e2553f;--accent:#1c1b19;--on:#fff;--shadow:0 12px 30px #3a2f1a1f}
+:root[data-mode="dark"]{color-scheme:dark;--bg:#121211;--surface:#1b1a18;--soft:#262421;--line:#322f2a;--text:#f3f0e8;--muted:#8f8a7e;--income:#4cc796;--expense:#ff7a62;--accent:#f3f0e8;--on:#121211;--shadow:0 12px 30px #0009}
+:root[data-accent="indigo"]{--accent:#5b5bd6;--on:#fff}:root[data-accent="teal"]{--accent:#0f9d8a;--on:#fff}:root[data-accent="plum"]{--accent:#a24bb0;--on:#fff}:root[data-accent="amber"]{--accent:#d9822b;--on:#fff}
+:root[data-mode="dark"][data-accent="indigo"]{--accent:#8b8bff;--on:#101028}:root[data-mode="dark"][data-accent="teal"]{--accent:#3fd1bb;--on:#06201c}:root[data-mode="dark"][data-accent="plum"]{--accent:#d58be0;--on:#26072b}:root[data-mode="dark"][data-accent="amber"]{--accent:#f2a65a;--on:#2b1704}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none;-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
-body{background:var(--bg);color:var(--text);font:13.5px/1.4 Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;transition:background .25s,color .25s;-webkit-user-select:none;user-select:none}
+body{background:var(--bg);color:var(--text);font:13.5px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-variant-numeric:tabular-nums;-webkit-user-select:none;user-select:none;transition:background .25s,color .25s}
 input{-webkit-user-select:text;user-select:text}
-button,input,select{font:inherit;color:inherit}button{cursor:pointer;border:0;background:none;padding:0}.hidden{display:none!important}.muted{color:var(--muted)}.inc{color:var(--income)}.exp{color:var(--expense)}
-h1,h2,h3{margin:0;letter-spacing:-.3px}
-/* shell: fixed viewport, only .main scrolls */
-.shell{height:100vh;height:100dvh;display:grid;grid-template-columns:minmax(0,1fr);overflow:hidden}
-.rail{display:none}
-.main{height:100vh;height:100dvh;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;min-width:0}
-.wrap{width:100%;max-width:760px;margin:0 auto;padding:max(14px,env(safe-area-inset-top)) 14px calc(96px + env(safe-area-inset-bottom))}
-.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
-.top h1{font-size:20px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.month-nav{flex:none;display:flex;align-items:center;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:2px}
-.month-nav button{width:30px;height:30px;border-radius:10px;font-size:17px;color:var(--muted)}.month-nav button:hover:not(:disabled){background:var(--surface2);color:var(--text)}.month-nav button:disabled{opacity:.3;cursor:default}
-.month-nav .m{width:auto;min-width:92px;padding:0 6px;text-align:center;font-weight:650;font-size:12px;color:var(--text);text-transform:capitalize}
-.tab{display:none}.tab.active{display:block;animation:in .28s ease both}@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-/* cards */
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px}
-.card-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.card-head h2{font-size:14px;min-width:0}
-.link{flex:none;color:var(--accent);font-size:12px;font-weight:650}
-.hero{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 88%,#000),color-mix(in srgb,var(--accent) 55%,#1a1f3a));color:#fff;border:0;box-shadow:var(--shadow);padding:16px}
-.hero .lbl{font-size:12px;opacity:.82;text-transform:capitalize}.hero .big{font-size:clamp(26px,8.4vw,34px);font-weight:800;letter-spacing:-1px;margin:2px 0 12px;white-space:nowrap}
-.hero-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.hero-box{background:#ffffff22;border-radius:12px;padding:9px 11px;min-width:0}.hero-box small{display:block;font-size:11px;opacity:.85}.hero-box b{display:block;font-size:14.5px;white-space:nowrap}
-.hero-bar{height:6px;border-radius:9px;background:#ffffff30;margin-top:12px;overflow:hidden}.hero-bar i{display:block;height:100%;background:#fff;border-radius:9px;transition:width .5s}
-.hero-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 10px;font-size:11px;opacity:.88;margin-top:7px}
-.quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
-.q{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:left;min-width:0}.q small{display:block;color:var(--muted);font-size:10.5px;white-space:nowrap}.q b{display:block;font-size:13px;margin-top:1px;white-space:nowrap}
+button,input{font:inherit;color:inherit}button{cursor:pointer;border:0;background:none;padding:0}.hidden{display:none!important}.muted{color:var(--muted)}.inc{color:var(--income)}.exp{color:var(--expense)}
+h1,h2,h3{margin:0}
+/* ===== app frame: one fixed screen ===== */
+.app{height:100vh;height:100dvh;max-width:520px;margin:0 auto;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.bar{flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:max(12px,env(safe-area-inset-top)) 16px 8px}
+.bar h1{font-size:19px;font-weight:750;letter-spacing:-.4px;text-transform:capitalize;line-height:1.1}.bar small{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.bar-act{display:flex;gap:6px;align-items:center}
+.icon-btn{flex:none;width:34px;height:34px;border-radius:11px;background:var(--soft);display:grid;place-items:center;color:var(--text);font-size:15px}
+.pill{padding:7px 11px;border-radius:11px;background:var(--soft);font-size:12px;font-weight:650}
+.scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:4px 16px calc(92px + env(safe-area-inset-bottom))}
+/* week strip */
+.week{display:grid;grid-template-columns:22px repeat(7,minmax(0,1fr)) 22px;align-items:center;gap:3px;margin-bottom:12px}
+.wnav{height:44px;color:var(--muted);font-size:20px;border-radius:10px}.wnav:disabled{opacity:.25}
+.dcell{display:grid;justify-items:center;gap:1px;padding:6px 0 5px;border-radius:14px;min-width:0;transition:background .2s,color .2s}
+.dcell small{font-size:10px;color:var(--muted);font-weight:600}.dcell b{font-size:16px;font-weight:750;line-height:1.15}
+.dcell i{width:4px;height:4px;border-radius:4px;background:transparent;margin-top:1px}.dcell i.dot{background:var(--expense)}
+.dcell.tdy b{color:var(--accent)}
+.dcell.sel{background:var(--accent);color:var(--on)}.dcell.sel small{color:var(--on);opacity:.7}.dcell.sel b{color:var(--on)}.dcell.sel i.dot{background:var(--on);opacity:.8}
+.dcell:disabled{opacity:.3;cursor:default}
+/* day summary */
+.sum{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:16px;box-shadow:0 1px 0 #0000000a}
+.sum .lbl{font-size:12px;color:var(--muted);font-weight:600;text-transform:capitalize}
+.sum .big{font-size:clamp(30px,9.4vw,38px);font-weight:800;letter-spacing:-1.4px;line-height:1.1;margin:3px 0 12px;white-space:nowrap}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.stat{background:var(--soft);border-radius:13px;padding:8px 9px;min-width:0}.stat small{display:block;font-size:10.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stat b{display:block;font-size:11.5px;white-space:nowrap;margin-top:1px}
+/* sections */
+.sec{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0 2px 9px}.sec h2{font-size:13px;font-weight:750;letter-spacing:-.1px}.sec span{font-size:11px;color:var(--muted)}
+/* category grid */
+.cgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-bottom:18px}
+.ct{display:grid;justify-items:center;gap:1px;padding:10px 2px 8px;border-radius:15px;background:var(--surface);border:1px solid var(--line);min-width:0;transition:transform .15s,border-color .2s}.ct:active{transform:scale(.96)}
+.ct .e{font-size:20px;line-height:1.2}.ct .n{font-size:10px;color:var(--muted);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 3px}.ct .v{font-size:11.5px;font-weight:750;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;padding:0 2px}.ct .v.z{color:var(--muted);font-weight:500}
+.ct.on{border-color:var(--accent)}
 /* rows */
 .list{display:grid;grid-template-columns:minmax(0,1fr);gap:7px}
-.hint{font-size:11px;color:var(--muted);margin:0 2px 10px;line-height:1.35}
-.swipe-wrap{position:relative;border-radius:13px;overflow:hidden}
+.hint{font-size:11px;color:var(--muted);margin:10px 2px 0;line-height:1.35}
+.swipe-wrap{position:relative;border-radius:15px;overflow:hidden}
 .swipe-bg{position:absolute;inset:0;display:flex;justify-content:space-between;align-items:center;padding:0 18px;color:#fff;font-weight:750;font-size:12px;opacity:0;pointer-events:none}.swipe-bg span{opacity:0}
-.row{position:relative;z-index:1;display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--surface2);border:1px solid var(--line);border-radius:13px;touch-action:pan-y;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .2s,background .15s;cursor:pointer}
-.row:active{filter:brightness(1.08)}
-.row.dragging{transition:none}.row.plain{touch-action:auto;cursor:default}.row.plain:active{filter:none}
-.card .row{background:var(--bg)}
-:root[data-mode="light"] .card .row{background:var(--surface2)}
-.ico{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:18px;background:color-mix(in srgb,var(--accent) 14%,var(--surface))}
+.row{position:relative;z-index:1;display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--surface);border:1px solid var(--line);border-radius:15px;touch-action:pan-y;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .2s;cursor:pointer}
+.row:active{background:var(--soft)}.row.dragging{transition:none}.row.plain{touch-action:auto;cursor:default}.row.plain:active{background:var(--surface)}
+.sheet .row{background:var(--soft);border-color:transparent}
+.ico{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:18px;background:var(--soft)}
+.sheet .ico{background:var(--surface)}
 .row .main-t{flex:1;min-width:0}.row .t{font-weight:650;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row .s{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row .a{flex:none;font-weight:750;font-size:13.5px;white-space:nowrap}
-.day{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:14px 3px 7px;font-size:11px;color:var(--muted);font-weight:650;text-transform:capitalize}.day:first-of-type{margin-top:2px}
-.empty{padding:24px 12px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px;font-size:13px}.empty b{display:block;font-size:26px;margin-bottom:4px}
-/* bars */
-.bars{display:grid;grid-template-columns:minmax(0,1fr);gap:2px}
-.bar-item{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;padding:7px 4px;border-radius:12px;transition:background .2s}button.bar-item:hover{background:var(--surface2)}
-.bar-item .ico{width:34px;height:34px;font-size:16px;border-radius:11px}
-.bar-top{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:650;margin-bottom:5px;min-width:0}.bar-top span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar-top span:last-child{flex:none;color:var(--muted);font-weight:500;font-size:11px}
-.track{height:7px;background:var(--surface2);border-radius:9px;overflow:hidden}.fill{height:100%;border-radius:9px;background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 50%,transparent));animation:grow .5s ease both;transform-origin:left}@keyframes grow{from{transform:scaleX(.03)}}
-.bar-amt{font-weight:750;font-size:12.5px;white-space:nowrap}
-.rank{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:7px;background:var(--surface2);font-size:10.5px;font-weight:750;color:var(--accent)}
-/* 6 month chart */
-.months{display:flex;align-items:flex-end;gap:6px;height:140px}
-.mcol{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end;border-radius:11px;padding:4px 0}.mcol.sel{background:color-mix(in srgb,var(--accent) 10%,transparent)}
-.mpair{display:flex;align-items:flex-end;gap:3px;height:100px}.mpair i{display:block;width:11px;min-height:3px;border-radius:5px 5px 2px 2px;animation:up .5s ease both;transform-origin:bottom}.mpair .i{background:var(--income)}.mpair .e{background:var(--expense)}@keyframes up{from{transform:scaleY(.05)}}
-.mcol small{font-size:10.5px;color:var(--muted)}
-.legend{display:flex;gap:14px;font-size:11px;color:var(--muted);margin-top:8px}.legend i{display:inline-block;width:8px;height:8px;border-radius:3px;margin-right:5px}
+.empty{padding:26px 12px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px;font-size:13px}.empty b{display:block;font-size:26px;margin-bottom:4px}
+/* add button */
+.fab{position:absolute;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:8px;padding:14px 26px;border-radius:30px;background:var(--accent);color:var(--on);font-weight:750;font-size:14.5px;box-shadow:var(--shadow);transition:transform .15s}.fab:active{transform:translateX(-50%) scale(.96)}.fab span{font-size:20px;line-height:1;margin-top:-1px}
 /* controls */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-weight:650;font-size:13px;transition:filter .2s,transform .15s}.btn:hover{filter:brightness(1.1)}.btn:active{transform:scale(.98)}
-.btn.primary{background:var(--accent);border-color:transparent;color:var(--accent-ink)}.btn.danger{background:var(--expense);border-color:transparent;color:#fff}.btn.ghost{color:var(--expense)}.btn.big{width:100%;padding:13px;font-size:15px;border-radius:14px}.btn:disabled{opacity:.55}
-.icon-btn{flex:none;width:34px;height:34px;border-radius:11px;background:var(--surface2);display:grid;place-items:center;color:var(--muted);font-size:14px}
-input,select{width:100%;min-width:0;background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s}input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}input::placeholder{color:var(--muted)}input:disabled{opacity:.6}
-.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;padding:3px;background:var(--surface2);border-radius:13px;border:1px solid var(--line)}
-.seg button{padding:8px 6px;border-radius:10px;font-weight:650;font-size:12px;color:var(--muted);transition:.2s}.seg button.active{background:var(--surface);color:var(--text);box-shadow:0 2px 8px #0002}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:13px;background:var(--soft);font-weight:650;font-size:13px;transition:filter .2s,transform .15s}.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--accent);color:var(--on)}.btn.danger{background:var(--expense);color:#fff}.btn.ghost{color:var(--expense)}.btn.big{width:100%;padding:14px;font-size:15px;border-radius:15px}.btn:disabled{opacity:.55}
+input{width:100%;min-width:0;background:var(--soft);border:1px solid transparent;border-radius:13px;padding:11px 12px;font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s}input:focus{border-color:var(--accent)}input::placeholder{color:var(--muted)}input:disabled{opacity:.6}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:3px;padding:3px;background:var(--soft);border-radius:14px}
+.seg button{padding:8px 6px;border-radius:11px;font-weight:650;font-size:12px;color:var(--muted);transition:.2s}.seg button.active{background:var(--surface);color:var(--text);box-shadow:0 1px 4px #0002}
 .seg.type button[data-type="expense"].active{background:var(--expense);color:#fff}.seg.type button[data-type="income"].active{background:var(--income);color:#fff}
-.filters{display:grid;gap:8px;margin-bottom:6px}
-.lbl{display:block;font-size:11px;color:var(--muted);font-weight:650;margin:14px 0 6px}
-.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;align-items:center;gap:5px;padding:7px 10px;border-radius:11px;background:var(--surface2);border:1px solid var(--line);font-size:12px;font-weight:600;transition:.2s;white-space:nowrap}.chip.on{background:color-mix(in srgb,var(--accent) 20%,var(--surface));border-color:var(--accent)}
-.amount-box{display:flex;align-items:center;gap:6px;margin-top:14px;padding:4px 14px;background:var(--surface2);border:1px solid var(--line);border-radius:16px}.amount-box input{border:0;background:none;box-shadow:none!important;font-size:30px;font-weight:800;letter-spacing:-1px;padding:8px 0}.amount-box span{font-size:24px;font-weight:700;color:var(--muted)}
+.lbl{display:block;font-size:11px;color:var(--muted);font-weight:650;margin:16px 0 7px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-block;padding:7px 10px;border-radius:11px;background:var(--soft);font-size:12px;font-weight:600;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;vertical-align:middle;transition:.15s}.chip.on{background:var(--accent);color:var(--on)}
+.hscroll{display:flex;gap:7px;overflow-x:auto;margin:0 -16px;padding:0 16px 2px;scrollbar-width:none}.hscroll::-webkit-scrollbar{display:none}.hscroll .chip{flex:none;max-width:70vw}
+.amount-box{display:flex;align-items:baseline;justify-content:center;gap:6px;margin-top:14px;padding:10px 0 6px}.amount-box input{width:60%;border:0;background:none;font-size:46px;font-weight:800;letter-spacing:-1.5px;padding:0;text-align:right}.amount-box input:focus{box-shadow:none}.amount-box span{font-size:26px;font-weight:700;color:var(--muted)}
+.tgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.tg{display:grid;justify-items:center;gap:1px;padding:9px 2px 7px;border-radius:13px;background:var(--soft);border:1.5px solid transparent;min-width:0}.tg .e{font-size:19px;line-height:1.2}.tg .n{font-size:10px;max-width:100%;padding:0 3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)}.tg.on{border-color:var(--accent);background:var(--surface)}.tg.on .n{color:var(--text);font-weight:650}
 .two{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
-/* nav */
-.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:1fr 1fr 62px 1fr 1fr;align-items:center;padding:6px 6px calc(6px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line)}
-.nav button.t{display:grid;justify-items:center;gap:0;padding:5px 0;color:var(--muted);font-size:10px;font-weight:650;transition:color .2s;min-width:0}.nav button.t .g{font-size:18px;line-height:1.15}.nav button.t.active{color:var(--accent)}
-.fab{width:50px;height:50px;margin:-26px auto 0;border-radius:17px;background:var(--accent);color:var(--accent-ink);font-size:26px;font-weight:500;box-shadow:0 8px 20px color-mix(in srgb,var(--accent) 45%,transparent);transition:transform .2s}.fab:active{transform:scale(.93)}
 /* sheets */
-.overlay{position:fixed;inset:0;z-index:50;background:#030712a8;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:flex;align-items:flex-end;justify-content:center;animation:fade .2s ease}.overlay.center{align-items:center;padding:20px}
+.overlay{position:fixed;inset:0;z-index:50;background:#0a0908a6;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:flex-end;justify-content:center;animation:fade .2s ease}.overlay.center{align-items:center;padding:20px}
 @keyframes fade{from{opacity:0}}
-.sheet{width:100%;max-width:560px;max-height:92vh;max-height:92dvh;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;background:var(--surface);border:1px solid var(--line);border-radius:22px 22px 0 0;padding:8px 16px calc(20px + env(safe-area-inset-bottom));animation:slide .3s cubic-bezier(.2,.8,.2,1)}
+.sheet{width:100%;max-width:520px;max-height:92vh;max-height:92dvh;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;background:var(--surface);border-radius:24px 24px 0 0;padding:8px 16px calc(20px + env(safe-area-inset-bottom));animation:slide .3s cubic-bezier(.2,.8,.2,1)}
 @keyframes slide{from{transform:translateY(60px);opacity:0}}
 .grab{width:36px;height:4px;border-radius:4px;background:var(--line);margin:3px auto 10px}
-.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:4px}.sheet-head>div{min-width:0}.sheet-head h2{font-size:17px;word-break:break-word}.sheet-head .sub{font-size:11px;color:var(--muted)}
-.dialog{width:min(360px,100%);background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;animation:pop .22s ease}@keyframes pop{from{opacity:0;transform:scale(.95)}}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:4px}.sheet-head>div{min-width:0}.sheet-head h2{font-size:17px;font-weight:750;word-break:break-word}.sheet-head .sub{font-size:11px;color:var(--muted)}
+.dialog{width:min(340px,100%);background:var(--surface);border-radius:22px;padding:20px;animation:pop .22s ease}@keyframes pop{from{opacity:0;transform:scale(.95)}}
 .dialog h2{font-size:16px;margin:0 0 6px}.dialog p{margin:0;color:var(--muted);font-size:13px;word-break:break-word}.dialog .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
-.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:12px 0}.tile{padding:9px 10px;border-radius:13px;background:var(--surface2);border:1px solid var(--line);text-align:left;transition:.2s;min-width:0}.tile small{display:block;font-size:10.5px;color:var(--muted);font-weight:600}.tile b{display:block;font-size:14px;margin-top:1px;white-space:nowrap}.tile em{display:block;font-style:normal;font-size:10.5px;color:var(--muted)}.tile.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 16%,var(--surface))}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:12px 0}.tile{padding:9px 10px;border-radius:14px;background:var(--soft);border:1.5px solid transparent;text-align:left;min-width:0}.tile small{display:block;font-size:10.5px;color:var(--muted);font-weight:600}.tile b{display:block;font-size:14px;margin-top:1px;white-space:nowrap}.tile em{display:block;font-style:normal;font-size:10.5px;color:var(--muted)}.tile.on{border-color:var(--accent);background:var(--surface)}
 .dates{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:end}.dates .btn{grid-column:1/-1}
-.dtotal{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:12px 0 8px;padding:11px 13px;border-radius:13px;background:var(--surface2);color:var(--muted);font-size:12px}.dtotal>div{min-width:0}.dtotal small{display:block;font-size:11px;margin-top:1px}.dtotal b{flex:none;font-size:18px;color:var(--text);white-space:nowrap}
-.daily{display:flex;align-items:flex-end;gap:5px;height:104px;overflow-x:auto;padding:8px 2px 0;border-bottom:1px solid var(--line);margin-bottom:10px}.dcol{flex:1;min-width:24px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px}.dcol i{display:block;width:min(20px,80%);min-height:3px;border-radius:6px 6px 2px 2px;background:var(--accent);animation:up .45s ease both;transform-origin:bottom}.dcol small{font-size:9.5px;color:var(--muted)}
+.dtotal{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:12px 0 8px;padding:11px 13px;border-radius:14px;background:var(--soft);color:var(--muted);font-size:12px}.dtotal>div{min-width:0}.dtotal small{display:block;font-size:11px;margin-top:1px}.dtotal b{flex:none;font-size:18px;color:var(--text);white-space:nowrap}
+.daily{display:flex;align-items:flex-end;gap:5px;height:100px;overflow-x:auto;padding:8px 2px 0;border-bottom:1px solid var(--line);margin-bottom:10px}.dcol{flex:1;min-width:24px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px}.dcol i{display:block;width:min(20px,80%);min-height:3px;border-radius:6px 6px 2px 2px;background:var(--accent);animation:up .45s ease both;transform-origin:bottom}.dcol small{font-size:9.5px;color:var(--muted)}
+@keyframes up{from{transform:scaleY(.05)}}
+/* bars (reports) */
+.bars{display:grid;grid-template-columns:minmax(0,1fr);gap:2px}
+.bar-item{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;padding:7px 2px;border-radius:12px}
+.bar-item .ico{width:34px;height:34px;font-size:16px;border-radius:11px}
+.bar-top{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:650;margin-bottom:5px;min-width:0}.bar-top span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar-top span:last-child{flex:none;color:var(--muted);font-weight:500;font-size:11px}
+.track{height:6px;background:var(--soft);border-radius:9px;overflow:hidden}.fill{height:100%;border-radius:9px;background:var(--accent);animation:grow .5s ease both;transform-origin:left}@keyframes grow{from{transform:scaleX(.03)}}
+.bar-amt{font-weight:750;font-size:12.5px;white-space:nowrap}
+.rank{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:7px;font-size:10.5px;font-weight:750}
+.months{display:flex;align-items:flex-end;gap:6px;height:130px}
+.mcol{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end;border-radius:11px;padding:4px 0}.mcol.sel{background:var(--soft)}
+.mpair{display:flex;align-items:flex-end;gap:3px;height:92px}.mpair i{display:block;width:11px;min-height:3px;border-radius:5px 5px 2px 2px;animation:up .5s ease both;transform-origin:bottom}.mpair .i{background:var(--income)}.mpair .e{background:var(--expense)}
+.mcol small{font-size:10.5px;color:var(--muted)}
+.legend{display:flex;gap:14px;font-size:11px;color:var(--muted);margin-top:8px}.legend i{display:inline-block;width:8px;height:8px;border-radius:3px;margin-right:5px}
+.mnav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:10px 0 12px}.mnav b{font-size:14px;text-transform:capitalize}.mnav button:disabled{opacity:.3}
+.sumrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:16px}
+.block{margin-top:18px}
 /* settings */
+.themes{display:flex;gap:10px;margin-top:12px}.th{width:34px;height:34px;border-radius:50%;border:2px solid transparent;box-shadow:inset 0 0 0 2px var(--surface);color:#fff;font-size:14px;display:grid;place-items:center}.th.on{border-color:var(--text)}
 .set-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:4px 0}
-.themes{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}.th{aspect-ratio:1;border-radius:14px;border:2px solid transparent;display:grid;place-items:center;color:#fff;font-size:16px;transition:.2s}.th.on{border-color:var(--text);transform:scale(1.05)}
-.login{height:100vh;height:100dvh;overflow:auto;display:grid;place-items:center;padding:24px}.login .box{width:min(380px,100%);text-align:center}.logo{width:56px;height:56px;border-radius:19px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:28px;font-weight:800;margin:0 auto 16px}.login h1{font-size:22px}.login p{color:var(--muted);margin:8px 0 22px}
-.toast{position:fixed;left:50%;bottom:90px;z-index:80;max-width:calc(100vw - 28px);text-align:center;transform:translate(-50%,16px);opacity:0;pointer-events:none;background:var(--text);color:var(--bg);padding:9px 14px;border-radius:12px;font-size:12px;font-weight:650;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
-/* desktop */
-@media(min-width:900px){
-.shell{grid-template-columns:230px minmax(0,1fr)}
-.rail{display:flex;flex-direction:column;gap:6px;height:100vh;padding:24px 14px;border-right:1px solid var(--line);background:var(--surface)}
-.rail .brand{display:flex;align-items:center;gap:10px;margin:0 8px 20px;font-weight:800;font-size:15px}.rail .brand .logo{width:38px;height:38px;border-radius:12px;font-size:19px;margin:0}
-.rail .t{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:12px;color:var(--muted);font-weight:650;font-size:13.5px;text-align:left;transition:.2s}.rail .t:hover{background:var(--surface2);color:var(--text)}.rail .t.active{background:color-mix(in srgb,var(--accent) 16%,var(--surface));color:var(--accent)}.rail .g{width:22px;text-align:center;font-size:17px}
-.rail .add{margin-bottom:12px}.rail .who{margin-top:auto;padding:12px 8px 0;border-top:1px solid var(--line);font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis}
-.nav{display:none}.wrap{padding:30px 34px 50px;max-width:820px}.toast{bottom:28px}
-.overlay{align-items:center;padding:20px}.sheet{border-radius:22px;padding-top:18px}.grab{display:none}
-}
-@media(min-width:520px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}.dates{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto}.dates .btn{grid-column:auto}}
+.login{height:100vh;height:100dvh;overflow:auto;display:grid;place-items:center;padding:24px}.login .box{width:min(380px,100%);text-align:center}.logo{width:56px;height:56px;border-radius:19px;background:var(--accent);color:var(--on);display:grid;place-items:center;font-size:28px;font-weight:800;margin:0 auto 16px}.login h1{font-size:22px}.login p{color:var(--muted);margin:8px 0 22px}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));z-index:80;max-width:calc(100vw - 28px);text-align:center;transform:translate(-50%,16px);opacity:0;pointer-events:none;background:var(--text);color:var(--bg);padding:9px 14px;border-radius:12px;font-size:12px;font-weight:650;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:520px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}.dates{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto}.dates .btn{grid-column:auto}.overlay{align-items:center;padding:20px}.sheet{border-radius:24px}.grab{display:none}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style></head><body>
 
 <div id="loginView" class="login hidden"><div class="box"><div class="logo">₼</div><h1>Mənim Büdcəm</h1><p>Gəlir və xərclərini sadə və təhlükəsiz şəkildə izlə.</p><button id="loginBtn" class="btn primary big">Google ilə daxil ol</button><div id="loginError" class="muted" style="margin-top:14px;font-size:12px"></div></div></div>
 
-<div id="appView" class="shell hidden">
-<aside class="rail">
-<div class="brand"><div class="logo">₼</div>Mənim Büdcəm</div>
-<button class="btn primary add" data-open-add>＋ Yeni əməliyyat</button>
-<button class="t active" data-tab="home"><span class="g">⌂</span>Ana səhifə</button>
-<button class="t" data-tab="tx"><span class="g">⇄</span>Əməliyyatlar</button>
-<button class="t" data-tab="reports"><span class="g">▥</span>Hesabat</button>
-<button class="t" data-tab="settings"><span class="g">⚙</span>Tənzimləmə</button>
-<div class="who" id="railEmail"></div>
-</aside>
+<div id="appView" class="app hidden">
+<header class="bar">
+<div><h1 id="monthTxt">Noyabr 2026</h1><small id="weekTxt"></small></div>
+<div class="bar-act"><button class="pill hidden" id="todayBtn">Bu gün</button><button class="icon-btn" id="repBtn" aria-label="Hesabat">▥</button><button class="icon-btn" id="setBtn" aria-label="Tənzimləmə">⚙</button></div>
+</header>
 
-<main class="main" id="main"><div class="wrap">
-<div class="top"><h1 id="title">Ana səhifə</h1>
-<div class="month-nav" id="monthNav"><button id="prevM" aria-label="Əvvəlki ay">‹</button><button class="m" id="monthLbl">Noyabr 2026</button><button id="nextM" aria-label="Növbəti ay">›</button></div></div>
+<main class="scroll" id="main">
+<div class="week"><button class="wnav" id="prevW" aria-label="Əvvəlki həftə">‹</button><div style="display:contents" id="weekCells"></div><button class="wnav" id="nextW" aria-label="Növbəti həftə">›</button></div>
 
-<section class="tab active" id="tab-home">
-<div class="card hero">
-<div class="lbl" id="heroLbl">Bu ayın balansı</div><div class="big" id="heroBal">0,00 ₼</div>
-<div class="hero-row"><div class="hero-box"><small>↗ Gəlir</small><b id="heroInc">0,00 ₼</b></div><div class="hero-box"><small>↘ Xərc</small><b id="heroExp">0,00 ₼</b></div></div>
-<div class="hero-bar"><i id="heroBar" style="width:0"></i></div>
-<div class="hero-foot"><span id="heroPct">Gəlir yoxdur</span><span id="heroAll"></span></div>
-</div>
-<div class="quick" id="quick"></div>
-<div class="card"><div class="card-head"><h2>Ən çox xərc edilən kateqoriyalar</h2><button class="link" data-tab-go="reports">Hamısı</button></div><div id="homeCats" class="bars"></div></div>
-<div class="card"><div class="card-head"><h2>Son əməliyyatlar</h2><button class="link" data-tab-go="tx">Hamısı</button></div><div id="recent" class="list"></div></div>
+<section class="sum">
+<div class="lbl" id="dayLbl">Bu gün</div><div class="big exp" id="dayExp">0,00 ₼</div>
+<div class="stats"><div class="stat"><small>Gün gəliri</small><b class="inc" id="dayInc">0,00 ₼</b></div><div class="stat"><small>Həftə xərci</small><b id="weekExp">0,00 ₼</b></div><div class="stat"><small>Ay xərci</small><b id="monthExp">0,00 ₼</b></div></div>
 </section>
 
-<section class="tab" id="tab-tx">
-<div class="filters"><input id="q" type="search" placeholder="Axtar: açıqlama, kateqoriya…"><div class="seg" id="typeFilter"><button class="active" data-f="all">Hamısı</button><button data-f="income">Gəlir</button><button data-f="expense">Xərc</button></div></div>
-<p class="hint">Ətraflı baxmaq üçün əməliyyata toxun. Yalnız bu günün əməliyyatlarını sola çəkib silə, sağa çəkib redaktə edə bilərsən.</p>
-<div id="txList"></div>
-</section>
+<div class="sec"><h2>Kateqoriyalar</h2><span id="catNote">seçilən gün · toxun, ətraflı bax</span></div>
+<div class="cgrid" id="cgrid"></div>
 
-<section class="tab" id="tab-reports">
-<div class="card"><div class="card-head"><h2>Xərc kateqoriyalar üzrə</h2><span class="muted" style="font-size:11px" id="catTotal"></span></div><div id="catList" class="bars"></div></div>
-<div class="card"><div class="card-head"><h2>Ən çox alınanlar</h2><span class="muted" style="font-size:11px">açıqlamaya görə</span></div><div id="topItems" class="bars"></div></div>
-<div class="card"><div class="card-head"><h2>Son 6 ay</h2></div><div id="months" class="months"></div><div class="legend"><span><i style="background:var(--income)"></i>Gəlir</span><span><i style="background:var(--expense)"></i>Xərc</span></div></div>
-</section>
+<div class="sec"><h2>Əməliyyatlar</h2><span id="dayCount"></span></div>
+<div id="dayList" class="list"></div>
+<p class="hint" id="dayHint"></p>
+</main>
 
-<section class="tab" id="tab-settings">
-<div class="card"><div class="card-head"><h2>Görünüş</h2></div>
-<div class="seg" id="modeSeg"><button data-mode="dark">☾ Tünd</button><button data-mode="light">☀ Açıq</button></div>
-<div class="themes" id="themes"></div></div>
-<div class="card"><div class="card-head"><h2>Hesab</h2></div><div class="set-row"><span class="muted">Google hesabı</span><b id="setEmail" style="font-size:12px;word-break:break-all;text-align:right"></b></div>
-<div style="display:grid;gap:8px;margin-top:12px"><button class="btn" id="exportBtn">Bütün məlumatları CSV kimi yüklə ↓</button><button class="btn ghost" id="logoutBtn">Hesabdan çıx</button></div></div>
-</section>
-</div></main>
-
-<nav class="nav">
-<button class="t active" data-tab="home"><span class="g">⌂</span>Ana</button>
-<button class="t" data-tab="tx"><span class="g">⇄</span>Əməliyyat</button>
-<button class="fab" data-open-add aria-label="Yeni əməliyyat">＋</button>
-<button class="t" data-tab="reports"><span class="g">▥</span>Hesabat</button>
-<button class="t" data-tab="settings"><span class="g">⚙</span>Tənzim</button>
-</nav>
+<button class="fab" data-open-add><span>＋</span>Əlavə et</button>
 </div>
 
-<!-- Add / edit sheet -->
+<!-- Add / edit -->
 <div id="sheetAdd" class="overlay hidden"><div class="sheet">
 <div class="grab"></div><div class="sheet-head"><h2 id="addTitle">Yeni əməliyyat</h2><button class="icon-btn" data-close type="button">✕</button></div>
 <form id="form" autocomplete="off">
 <div class="seg type" id="typeSeg" style="margin-top:8px"><button type="button" data-type="expense" class="active">Xərc</button><button type="button" data-type="income">Gəlir</button></div>
 <div class="amount-box"><input id="amount" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="0" required><span>₼</span></div>
-<label class="lbl">Kateqoriya</label><div id="chips" class="chips"></div>
+<div id="recentBox"><label class="lbl" style="margin-top:6px">Tez seç (son alınanlar)</label><div class="hscroll" id="recent"></div></div>
+<label class="lbl">Kateqoriya</label><div id="tgrid" class="tgrid"></div>
+<label class="lbl">Açıqlama</label><input id="desc" maxlength="100" list="dl" placeholder="məsələn: çörək, süd, yanacaq"><datalist id="dl"></datalist>
 <label class="lbl">Tarix</label><div class="two"><input id="date" type="date" required><div class="chips" id="qdRow"><button type="button" class="chip" data-qd="0">Bu gün</button><button type="button" class="chip" data-qd="-1">Dünən</button></div></div>
-<label class="lbl">Açıqlama (məsələn: çörək, süd, yanacaq)</label><input id="desc" maxlength="100" list="dl" placeholder="Nə aldın / haradan gəldi?"><datalist id="dl"></datalist>
-<button class="btn primary big" id="saveBtn" type="submit" style="margin-top:18px">Yadda saxla</button>
+<button class="btn primary big" id="saveBtn" type="submit" style="margin-top:20px">Yadda saxla</button>
 </form></div></div>
 
-<!-- Category detail sheet -->
+<!-- Reports -->
+<div id="sheetReports" class="overlay hidden"><div class="sheet">
+<div class="grab"></div><div class="sheet-head"><h2>Hesabat</h2><button class="icon-btn" data-close type="button">✕</button></div>
+<div class="mnav"><button class="icon-btn" id="rPrev" type="button">‹</button><b id="rMonth">—</b><button class="icon-btn" id="rNext" type="button">›</button></div>
+<div class="sumrow"><div class="stat"><small>Gəlir</small><b class="inc" id="rInc">0</b></div><div class="stat"><small>Xərc</small><b class="exp" id="rExp">0</b></div><div class="stat"><small>Qalıq</small><b id="rNet">0</b></div></div>
+<div class="sec"><h2>Kateqoriyalar üzrə</h2><span>toxun, ətraflı bax</span></div><div id="rCats" class="bars"></div>
+<div class="block"><div class="sec"><h2>Ən çox alınanlar</h2><span>açıqlamaya görə</span></div><div id="rItems" class="bars"></div></div>
+<div class="block"><div class="sec"><h2>Son 6 ay</h2></div><div id="months" class="months"></div><div class="legend"><span><i style="background:var(--income)"></i>Gəlir</span><span><i style="background:var(--expense)"></i>Xərc</span></div></div>
+</div></div>
+
+<!-- Settings -->
+<div id="sheetSettings" class="overlay hidden"><div class="sheet">
+<div class="grab"></div><div class="sheet-head"><h2>Tənzimləmə</h2><button class="icon-btn" data-close type="button">✕</button></div>
+<label class="lbl">Görünüş</label><div class="seg" id="modeSeg"><button data-mode="light">☀ Açıq</button><button data-mode="dark">☾ Tünd</button></div>
+<label class="lbl">Rəng</label><div class="themes" id="themes"></div>
+<label class="lbl">Hesab</label><div class="set-row"><span class="muted">Google</span><b id="setEmail" style="font-size:12px;word-break:break-all;text-align:right"></b></div>
+<div style="display:grid;gap:8px;margin-top:12px"><button class="btn" id="exportBtn">Bütün məlumatları CSV kimi yüklə ↓</button><button class="btn ghost" id="logoutBtn">Hesabdan çıx</button></div>
+</div></div>
+
+<!-- Category detail -->
 <div id="sheetCat" class="overlay hidden"><div class="sheet">
 <div class="grab"></div><div class="sheet-head"><div><div class="sub">Kateqoriya</div><h2 id="catTitle">—</h2></div><button class="icon-btn" data-close type="button">✕</button></div>
 <div id="catBody"></div></div></div>
 
-<!-- Product detail sheet -->
+<!-- Product detail -->
 <div id="sheetItem" class="overlay hidden"><div class="sheet">
 <div class="grab"></div><div class="sheet-head"><div><div class="sub" id="itemSub">Məhsul</div><h2 id="itemTitle">—</h2></div><button class="icon-btn" data-close type="button">✕</button></div>
 <div id="itemBody"></div></div></div>
@@ -206,7 +190,7 @@ import{getFirestore,collection,addDoc,updateDoc,deleteDoc,doc,onSnapshot,serverT
 const app=initializeApp({apiKey:"AIzaSyAoqCXkBRxPQVrPbwPhkYxLqt9TV3KTPI0",authDomain:"gelirxercapp.firebaseapp.com",projectId:"gelirxercapp",storageBucket:"gelirxercapp.firebasestorage.app",messagingSenderId:"890522144800",appId:"1:890522144800:web:8d0ef1644d182979126c45",measurementId:"G-V2WNKG8HK4"});
 const auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();
 
-/* ---------- fixed app-like screen: no pinch / double-tap zoom ---------- */
+/* fixed app-like screen: no pinch / double-tap zoom */
 ["gesturestart","gesturechange","gestureend"].forEach(n=>document.addEventListener(n,e=>e.preventDefault()));
 document.addEventListener("touchmove",e=>{if(e.touches.length>1)e.preventDefault()},{passive:false});
 
@@ -214,61 +198,55 @@ document.addEventListener("touchmove",e=>{if(e.touches.length>1)e.preventDefault
 const $=id=>document.getElementById(id),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const money=n=>new Intl.NumberFormat("az-AZ",{style:"currency",currency:"AZN"}).format(Number(n)||0);
 const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-const todayStr=()=>iso(new Date()),addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const parse=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
+const todayStr=()=>iso(new Date()),addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x},shift=(s,n)=>iso(addDays(parse(s),n));
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const monthName=k=>{const[y,m]=k.split("-").map(Number);return new Intl.DateTimeFormat("az-AZ",{month:"long",year:"numeric"}).format(new Date(y,m-1,1))};
 const monthShort=k=>{const[y,m]=k.split("-").map(Number);return new Intl.DateTimeFormat("az-AZ",{month:"short"}).format(new Date(y,m-1,1))};
-const weekStart=()=>{const d=new Date();d.setDate(d.getDate()-((d.getDay()+6)%7));return iso(d)};
+const mondayOf=s=>{const d=parse(s);d.setDate(d.getDate()-((d.getDay()+6)%7));return iso(d)};
 const sum=l=>l.reduce((s,x)=>s+Number(x.amount||0),0);
 const norm=s=>String(s||"").trim().replace(/\s+/g," ").toLocaleLowerCase("az");
-function dayLabel(d){const t=todayStr();if(d===t)return"Bu gün";if(d===iso(addDays(new Date(),-1)))return"Dünən";const[y,m,x]=d.split("-").map(Number);return new Intl.DateTimeFormat("az-AZ",{day:"numeric",month:"long",weekday:"long"}).format(new Date(y,m-1,x))}
-function bounds(r){const t=todayStr();if(r==="today")return[t,t];if(r==="yesterday"){const y=iso(addDays(new Date(),-1));return[y,y]}if(r==="week")return[weekStart(),t];return[t.slice(0,7)+"-01",t]}
+const short=d=>{const x=parse(d);return new Intl.DateTimeFormat("az-AZ",{day:"numeric",month:"short"}).format(x)};
+function dayLabel(d){const t=todayStr();if(d===t)return"Bu gün";if(d===shift(t,-1))return"Dünən";return new Intl.DateTimeFormat("az-AZ",{day:"numeric",month:"long",weekday:"long"}).format(parse(d))}
+function bounds(r){const t=todayStr();if(r==="today")return[t,t];if(r==="yesterday"){const y=shift(t,-1);return[y,y]}if(r==="week")return[mondayOf(t),t];return[t.slice(0,7)+"-01",t]}
 const CATS={income:["Əməkhaqqı","Əlavə gəlir","Bonus","Hədiyyə","Digər gəlir"],expense:["Ərzaq","Kirayə","Kommunal","Nəqliyyat","Kredit / Borc","Uşaq","Sağlamlıq","Geyim","Restoran","Əyləncə","Təhsil","Digər xərc"]};
 const ICON={"Əməkhaqqı":"💼","Əlavə gəlir":"💵","Bonus":"🎉","Hədiyyə":"🎁","Digər gəlir":"➕","Ərzaq":"🛒","Kirayə":"🏠","Kommunal":"💡","Nəqliyyat":"🚌","Kredit / Borc":"💳","Uşaq":"🧒","Sağlamlıq":"💊","Geyim":"👕","Restoran":"🍽️","Əyləncə":"🎬","Təhsil":"📚","Digər xərc":"📦"};
 const ic=c=>ICON[c]||"•";
 const isToday=t=>t&&t.date===todayStr();
+const WD=["B.e","Ç.a","Ç","C.a","C","Ş","B"];
 
 /* ---------- state ---------- */
-let tx=[],user=null,unsub=null,tab="home",viewMonth=todayStr().slice(0,7),typeF="all",formType="expense",formCat="",editingId=null,catName="",itemKey="",itemType="expense";
-const TITLES={home:"Ana səhifə",tx:"Əməliyyatlar",reports:"Hesabat",settings:"Tənzimləmə"};
+let tx=[],user=null,unsub=null,selDate=todayStr(),repMonth=todayStr().slice(0,7),formType="expense",formCat="",editingId=null,catName="",itemKey="",itemType="expense";
 
 /* ---------- toast / dialogs / sheets ---------- */
 function toast(m){const e=$("toast");e.textContent=m;e.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("show"),2300)}
+const SHEETS=["sheetAdd","sheetReports","sheetSettings","sheetCat","sheetItem"];
 const openSheet=id=>$(id).classList.remove("hidden"),closeSheet=id=>{$(id).classList.add("hidden");if(id==="sheetAdd")editingId=null};
 $$("[data-close]").forEach(b=>b.addEventListener("click",()=>closeSheet(b.closest(".overlay").id)));
-["sheetAdd","sheetCat","sheetItem"].forEach(id=>$(id).addEventListener("click",e=>{if(e.target.id===id)closeSheet(id)}));
-document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;if(!$("dlg").classList.contains("hidden"))return dlgDone(false);["sheetItem","sheetCat","sheetAdd"].some(id=>{if(!$(id).classList.contains("hidden")){closeSheet(id);return true}})});
+SHEETS.forEach(id=>$(id).addEventListener("click",e=>{if(e.target.id===id)closeSheet(id)}));
+document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;if(!$("dlg").classList.contains("hidden"))return dlgDone(false);[...SHEETS].reverse().some(id=>{if(!$(id).classList.contains("hidden")){closeSheet(id);return true}})});
 let dlgRes=null;
 function ask(title,text,ok="Təsdiq"){$("dlgT").textContent=title;$("dlgP").textContent=text;$("dlgYes").textContent=ok;openSheet("dlg");return new Promise(r=>dlgRes=r)}
 function dlgDone(v){closeSheet("dlg");if(dlgRes){dlgRes(v);dlgRes=null}}
 $("dlgNo").addEventListener("click",()=>dlgDone(false));$("dlgYes").addEventListener("click",()=>dlgDone(true));$("dlg").addEventListener("click",e=>{if(e.target.id==="dlg")dlgDone(false)});
 
-/* ---------- navigation ---------- */
-function setTab(t){tab=t;$$(".tab").forEach(s=>s.classList.toggle("active",s.id==="tab-"+t));$$("[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab===t));$("title").textContent=TITLES[t];$("monthNav").classList.toggle("hidden",t==="settings"||t==="home");$("main").scrollTo({top:0})}
-$$("[data-tab]").forEach(b=>b.addEventListener("click",()=>setTab(b.dataset.tab)));$$("[data-tab-go]").forEach(b=>b.addEventListener("click",()=>setTab(b.dataset.tabGo)));
-const curMonth=()=>todayStr().slice(0,7);
-function shiftMonth(n){const[y,m]=viewMonth.split("-").map(Number);const k=iso(new Date(y,m-1+n,1)).slice(0,7);if(k>curMonth())return;viewMonth=k;render()}
-$("prevM").addEventListener("click",()=>shiftMonth(-1));$("nextM").addEventListener("click",()=>shiftMonth(1));$("monthLbl").addEventListener("click",()=>{viewMonth=curMonth();render()});
-
 /* ---------- auth + data ---------- */
 $("loginBtn").addEventListener("click",async()=>{$("loginError").textContent="";try{await signInWithPopup(auth,provider)}catch(e){$("loginError").textContent="Giriş alınmadı: "+(e.message||e)}});
-$("logoutBtn").addEventListener("click",()=>signOut(auth));
+$("logoutBtn").addEventListener("click",()=>{closeSheet("sheetSettings");signOut(auth)});
 onAuthStateChanged(auth,u=>{user=u;if(unsub){unsub();unsub=null}$("loginView").classList.toggle("hidden",!!u);$("appView").classList.toggle("hidden",!u);if(!u){tx=[];return}
-const em=u.email||u.displayName||"Google istifadəçisi";$("railEmail").textContent=em;$("setEmail").textContent=em;
+$("setEmail").textContent=u.email||u.displayName||"Google istifadəçisi";
 unsub=onSnapshot(collection(db,"users",u.uid,"transactions"),s=>{tx=s.docs.map(d=>({id:d.id,...d.data()}));tx.sort((a,b)=>(b.date||"").localeCompare(a.date||"")||((b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)));render()},err=>{console.error(err);toast("Məlumat oxunmadı. Firestore qaydalarını yoxlayın.")})});
 
-/* ---------- row + gestures ----------
-   Tap on any row  -> product detail.
-   Swipe (today's rows only): left = red delete, right = green edit. */
-function rowHtml(t,showDate){const inc=t.type==="income";return`<div class="row" data-tx="${esc(t.id)}"><div class="ico">${ic(t.category)}</div><div class="main-t"><div class="t">${esc(t.description||t.category||"Əməliyyat")}</div><div class="s">${esc(t.category||"")}${showDate?" · "+esc(dayLabel(t.date)):""}</div></div><div class="a ${inc?"inc":"exp"}">${inc?"+":"−"}${money(t.amount)}</div></div>`}
+/* ---------- rows + gestures ----------
+   Tap a row -> product detail. Swipe (today's rows only): left = red delete, right = green edit. */
+function rowHtml(t){const inc=t.type==="income";return`<div class="row" data-tx="${esc(t.id)}"><div class="ico">${ic(t.category)}</div><div class="main-t"><div class="t">${esc(t.description||t.category||"Əməliyyat")}</div><div class="s">${esc(t.category||"")}</div></div><div class="a ${inc?"inc":"exp"}">${inc?"+":"−"}${money(t.amount)}</div></div>`}
 function wire(root){$$("[data-tx]",root).forEach(card=>{
 const id=card.dataset.tx,t=tx.find(x=>x.id===id);if(!t)return;
 if(!isToday(t)){card.style.touchAction="auto";card.addEventListener("click",()=>openItem(id));return}
 const wrap=document.createElement("div");wrap.className="swipe-wrap";wrap.innerHTML='<div class="swipe-bg"><span>✎ Redaktə</span><span>Sil ⌫</span></div>';card.parentNode.insertBefore(wrap,card);wrap.appendChild(card);
-const bg=wrap.firstChild,se=bg.children[0],sd=bg.children[1],TH=80;let sx=0,dx=0,on=false,lk=false,cr=false;
+const bg=wrap.firstChild,se=bg.children[0],sd=bg.children[1],TH=80;let sx=0,sy=0,dx=0,on=false,lk=false,cr=false;
 const fx=x=>{dx=x;card.style.transform=`translateX(${x}px)`;const p=Math.min(1,Math.abs(x)/TH);bg.style.opacity=Math.min(1,Math.abs(x)/20);bg.style.background=x<0?"linear-gradient(90deg,#e0657a,#f0394f)":"linear-gradient(90deg,#1fa97a,#4fd1a1)";se.style.opacity=x>0?p:0;sd.style.opacity=x<0?p:0;const c=Math.abs(x)>=TH;if(c&&!cr&&navigator.vibrate)navigator.vibrate(10);cr=c};
 const back=()=>{card.style.transition="transform .3s cubic-bezier(.2,.8,.2,1),opacity .2s";card.style.opacity="";fx(0);setTimeout(()=>{card.style.transition="";bg.style.opacity=0},320)};
-let sy=0;
 card.addEventListener("pointerdown",e=>{if(e.pointerType==="mouse"&&e.button!==0)return;on=true;lk=false;cr=false;sx=e.clientX;sy=e.clientY});
 card.addEventListener("pointermove",e=>{if(!on)return;const mx=e.clientX-sx,my=e.clientY-sy;if(!lk){if(Math.abs(mx)>8&&Math.abs(mx)>Math.abs(my)*1.2){lk=true;try{card.setPointerCapture(e.pointerId)}catch(_){}card.classList.add("dragging")}else if(Math.abs(my)>10){on=false;return}else return}fx(Math.max(-160,Math.min(160,mx)))});
 const end=e=>{if(!on)return;on=false;card.classList.remove("dragging");
@@ -279,53 +257,78 @@ card.addEventListener("pointerup",end);card.addEventListener("pointercancel",end
 async function removeTx(id){const t=tx.find(x=>x.id===id);if(!t)return;if(!isToday(t)){toast("Yalnız bu günün əməliyyatı silinə bilər");return}
 if(!await ask("Əməliyyat silinsin?",`“${t.description||t.category}” — ${money(t.amount)}. Bu addım geri qaytarılmır.`,"Bəli, sil"))return;try{await deleteDoc(doc(db,"users",user.uid,"transactions",id));toast("Silindi")}catch(e){console.error(e);toast("Silinmədi. Firestore qaydalarını yoxlayın.")}}
 
-/* ---------- render ---------- */
-function bars(entries,total,{click=false,rank=false}={}){const peak=Math.max(1,...entries.map(e=>e.v));return entries.map((e,i)=>`<${click?'button type="button" data-cat="'+esc(e.n)+'"':"div"} class="bar-item"><div class="ico">${rank?`<span class="rank">${i+1}</span>`:ic(e.n)}</div><div style="min-width:0"><div class="bar-top"><span>${esc(e.n)}</span><span>${total?Math.round(e.v/total*100):0}%${e.c?" · "+e.c+"×":""}</span></div><div class="track"><div class="fill" style="width:${e.v/peak*100}%"></div></div></div><div class="bar-amt">${money(e.v)}</div></${click?"button":"div"}>`).join("")}
+/* ---------- main screen ---------- */
 const groupBy=(list,key)=>{const m={};list.forEach(t=>{const k=key(t);(m[k]??={n:k,v:0,c:0});m[k].v+=Number(t.amount||0);m[k].c++});return Object.values(m).sort((a,b)=>b.v-a.v)};
 function render(){
-$("monthLbl").textContent=monthName(viewMonth);$("nextM").disabled=viewMonth>=curMonth();
-const inM=tx.filter(t=>(t.date||"").slice(0,7)===viewMonth),exp=sum(inM.filter(t=>t.type==="expense")),all=sum(tx.filter(t=>t.type==="income"))-sum(tx.filter(t=>t.type==="expense"));
-const cm=curMonth(),hm=tx.filter(t=>(t.date||"").slice(0,7)===cm),hi=sum(hm.filter(t=>t.type==="income")),he=sum(hm.filter(t=>t.type==="expense"));
-$("heroLbl").textContent=monthName(cm)+" · balans";$("heroBal").textContent=money(hi-he);$("heroInc").textContent=money(hi);$("heroExp").textContent=money(he);
-$("heroBar").style.width=hi>0?Math.min(100,he/hi*100)+"%":(he>0?"100%":"0");
-$("heroPct").textContent=hi>0?`Gəlirin ${Math.round(he/hi*100)}%-i xərclənib`:(he>0?"Bu ay gəlir qeyd olunmayıb":"Hələ əməliyyat yoxdur");$("heroAll").textContent="Ümumi: "+money(all);
-$("quick").innerHTML=[["today","Bu gün"],["yesterday","Dünən"],["week","Bu həftə"]].map(([r,l])=>{const[f,t]=bounds(r);return`<div class="q"><small>${l} xərc</small><b class="exp">${money(sum(tx.filter(x=>x.type==="expense"&&x.date>=f&&x.date<=t)))}</b></div>`}).join("");
-const hc=groupBy(hm.filter(t=>t.type==="expense"),t=>t.category||"Digər xərc");
-$("homeCats").innerHTML=hc.length?bars(hc.slice(0,4),he,{click:true}):'<div class="empty"><b>🧾</b>Bu ay hələ xərc yoxdur</div>';
-$("recent").innerHTML=tx.length?tx.slice(0,5).map(t=>rowHtml(t,true)).join(""):'<div class="empty"><b>✨</b>İlk əməliyyatını əlavə et — ＋ düyməsinə bas</div>';wire($("recent"));
-const q=norm($("q").value),fl=inM.filter(t=>(typeF==="all"||t.type===typeF)&&(!q||norm([t.description,t.category,t.date].join(" ")).includes(q)));
-if(!fl.length)$("txList").innerHTML=`<div class="empty"><b>🔍</b>${monthName(viewMonth)} üçün əməliyyat tapılmadı</div>`;
-else{const g={};fl.forEach(t=>(g[t.date]??=[]).push(t));$("txList").innerHTML=Object.keys(g).sort().reverse().map(d=>{const net=sum(g[d].filter(t=>t.type==="income"))-sum(g[d].filter(t=>t.type==="expense"));return`<div class="day"><span>${esc(dayLabel(d))}</span><span>${net>=0?"+":"−"}${money(Math.abs(net))}</span></div><div class="list">${g[d].map(t=>rowHtml(t,false)).join("")}</div>`}).join("");wire($("txList"))}
-const em=inM.filter(t=>t.type==="expense"),ec=groupBy(em,t=>t.category||"Digər xərc");
-$("catTotal").textContent=money(exp);$("catList").innerHTML=ec.length?bars(ec,exp,{click:true}):'<div class="empty"><b>🧾</b>Bu ay xərc yoxdur</div>';
-const items=groupBy(em.filter(t=>(t.description||"").trim()),t=>norm(t.description));items.forEach(i=>{const o=em.find(t=>norm(t.description)===i.n);i.n=(o.description||"").trim()});
-$("topItems").innerHTML=items.length?bars(items.slice(0,8),exp,{rank:true}):'<div class="empty">Açıqlama yazdıqca ən çox aldıqların burada görünəcək</div>';
-const ms=[];for(let i=5;i>=0;i--){const[y,m]=curMonth().split("-").map(Number);ms.push(iso(new Date(y,m-1-i,1)).slice(0,7))}
-const md=ms.map(k=>{const l=tx.filter(t=>(t.date||"").slice(0,7)===k);return{k,i:sum(l.filter(t=>t.type==="income")),e:sum(l.filter(t=>t.type==="expense"))}}),mx=Math.max(1,...md.flatMap(d=>[d.i,d.e]));
-$("months").innerHTML=md.map(d=>`<button class="mcol${d.k===viewMonth?" sel":""}" data-m="${d.k}" title="${money(d.i)} / ${money(d.e)}"><div class="mpair"><i class="i" style="height:${d.i/mx*100}%"></i><i class="e" style="height:${d.e/mx*100}%"></i></div><small>${monthShort(d.k)}</small></button>`).join("");
-$$("[data-m]").forEach(b=>b.addEventListener("click",()=>{viewMonth=b.dataset.m;render()}));
-$$("[data-cat]").forEach(b=>b.addEventListener("click",()=>openCat(b.dataset.cat)));
+const today=todayStr();if(selDate>today)selDate=today;
+const ws=mondayOf(selDate),we=shift(ws,6),days=Array.from({length:7},(_,i)=>shift(ws,i));
+$("monthTxt").textContent=monthName(selDate.slice(0,7));$("weekTxt").textContent=`${short(ws)} – ${short(we)}`;
+$("todayBtn").classList.toggle("hidden",selDate===today);
+$("nextW").disabled=we>=today;
+const spentOn=new Set(tx.filter(t=>t.type==="expense").map(t=>t.date));
+$("weekCells").innerHTML=days.map((d,i)=>`<button class="dcell${d===selDate?" sel":""}${d===today?" tdy":""}" data-d="${d}"${d>today?" disabled":""}><small>${WD[i]}</small><b>${Number(d.slice(8))}</b><i class="${spentOn.has(d)?"dot":""}"></i></button>`).join("");
+$$("[data-d]").forEach(b=>b.addEventListener("click",()=>{selDate=b.dataset.d;render()}));
+const dayTx=tx.filter(t=>t.date===selDate),dExp=sum(dayTx.filter(t=>t.type==="expense")),dInc=sum(dayTx.filter(t=>t.type==="income"));
+const wExp=sum(tx.filter(t=>t.type==="expense"&&t.date>=ws&&t.date<=we)),mk=selDate.slice(0,7),mExp=sum(tx.filter(t=>t.type==="expense"&&(t.date||"").slice(0,7)===mk));
+$("dayLbl").textContent=dayLabel(selDate)+" · xərc";$("dayExp").textContent=money(dExp);$("dayInc").textContent=money(dInc);$("weekExp").textContent=money(wExp);$("monthExp").textContent=money(mExp);
+const extra=[...new Set(tx.filter(t=>t.type==="expense"&&t.category&&!CATS.expense.includes(t.category)).map(t=>t.category))],byCat={};
+dayTx.filter(t=>t.type==="expense").forEach(t=>byCat[t.category]=(byCat[t.category]||0)+Number(t.amount||0));
+$("cgrid").innerHTML=[...CATS.expense,...extra].map(c=>{const v=byCat[c]||0;return`<button class="ct" data-cat="${esc(c)}"><span class="e">${ic(c)}</span><span class="n">${esc(c)}</span><span class="v${v?"":" z"}">${v?money(v):"—"}</span></button>`}).join("");
+$$("[data-cat]",$("cgrid")).forEach(b=>b.addEventListener("click",()=>openCat(b.dataset.cat)));
+$("dayCount").textContent=dayTx.length?dayTx.length+" qeyd":"";
+$("dayList").innerHTML=dayTx.length?dayTx.map(rowHtml).join(""):`<div class="empty"><b>${selDate===today?"✨":"🗓️"}</b>${selDate===today?"Bu gün hələ qeyd yoxdur. ＋ düyməsinə bas":"Bu gündə qeyd yoxdur"}</div>`;wire($("dayList"));
+$("dayHint").textContent=!dayTx.length?"":selDate===today?"Toxun — ətraflı bax. Sola çək — sil, sağa çək — redaktə.":"Toxun — ətraflı bax. Keçmiş günləri dəyişmək olmur.";
 $("dl").innerHTML=[...new Set(tx.map(t=>(t.description||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"az")).map(v=>`<option value="${esc(v)}">`).join("");
+if(!$("sheetReports").classList.contains("hidden"))renderReports();
 if(!$("sheetCat").classList.contains("hidden"))renderDet("cat");
 if(!$("sheetItem").classList.contains("hidden"))renderDet("item");
 }
-$("q").addEventListener("input",render);
-$$("#typeFilter button").forEach(b=>b.addEventListener("click",()=>{typeF=b.dataset.f;$$("#typeFilter button").forEach(x=>x.classList.toggle("active",x===b));render()}));
+$("prevW").addEventListener("click",()=>{selDate=shift(selDate,-7);render()});
+$("nextW").addEventListener("click",()=>{const n=shift(selDate,7),t=todayStr();selDate=n>t?t:n;render()});
+$("todayBtn").addEventListener("click",()=>{selDate=todayStr();render()});
+let sx0=null;const wk=document.querySelector(".week");
+wk.addEventListener("touchstart",e=>{sx0=e.touches[0].clientX},{passive:true});
+wk.addEventListener("touchend",e=>{if(sx0==null)return;const dx=e.changedTouches[0].clientX-sx0;sx0=null;if(Math.abs(dx)>50)(dx>0?$("prevW"):$("nextW")).click()});
 
 /* ---------- add / edit ---------- */
-function setType(t){formType=t;$$("#typeSeg button").forEach(b=>b.classList.toggle("active",b.dataset.type===t));if(!CATS[t].includes(formCat))formCat=CATS[t][0];drawChips()}
-function drawChips(){$("chips").innerHTML=CATS[formType].map(c=>`<button type="button" class="chip${c===formCat?" on":""}" data-c="${esc(c)}">${ic(c)} ${esc(c)}</button>`).join("");$$("[data-c]",$("chips")).forEach(b=>b.addEventListener("click",()=>{formCat=b.dataset.c;drawChips()}))}
-$$("#typeSeg button").forEach(b=>b.addEventListener("click",()=>setType(b.dataset.type)));
-$$("[data-qd]").forEach(b=>b.addEventListener("click",()=>$("date").value=iso(addDays(new Date(),Number(b.dataset.qd)))));
-function openAdd(){editingId=null;$("form").reset();$("date").disabled=false;$("qdRow").classList.remove("hidden");$("date").value=todayStr();formCat="";setType("expense");$("addTitle").textContent="Yeni əməliyyat";$("saveBtn").textContent="Yadda saxla";openSheet("sheetAdd");setTimeout(()=>$("amount").focus(),250)}
+function setType(t){formType=t;$$("#typeSeg button").forEach(b=>b.classList.toggle("active",b.dataset.type===t));if(!CATS[t].includes(formCat))formCat=CATS[t][0];drawCats()}
+function drawCats(){$("tgrid").innerHTML=CATS[formType].map(c=>`<button type="button" class="tg${c===formCat?" on":""}" data-c="${esc(c)}"><span class="e">${ic(c)}</span><span class="n">${esc(c)}</span></button>`).join("");$$("[data-c]",$("tgrid")).forEach(b=>b.addEventListener("click",()=>{formCat=b.dataset.c;drawCats()}))}
+function drawRecent(){const seen=new Set(),out=[];for(const t of tx){if(t.type!==formType||!(t.description||"").trim())continue;const k=norm(t.description);if(seen.has(k))continue;seen.add(k);out.push(t);if(out.length>=10)break}
+$("recentBox").classList.toggle("hidden",!out.length);$("recent").innerHTML=out.map(t=>`<button type="button" class="chip" data-r="${esc(t.id)}">${ic(t.category)} ${esc(t.description)} · ${money(t.amount)}</button>`).join("");
+$$("[data-r]",$("recent")).forEach(b=>b.addEventListener("click",()=>{const t=tx.find(x=>x.id===b.dataset.r);if(!t)return;formCat=t.category;drawCats();$("amount").value=t.amount;$("desc").value=t.description||"";$("amount").focus()}))}
+$$("#typeSeg button").forEach(b=>b.addEventListener("click",()=>{setType(b.dataset.type);if(!editingId)drawRecent()}));
+$$("[data-qd]").forEach(b=>b.addEventListener("click",()=>$("date").value=shift(todayStr(),Number(b.dataset.qd))));
+function openAdd(){editingId=null;$("form").reset();$("date").disabled=false;$("qdRow").classList.remove("hidden");$("date").value=selDate;formCat="";setType("expense");drawRecent();$("addTitle").textContent="Yeni əməliyyat";$("saveBtn").textContent="Yadda saxla";openSheet("sheetAdd");setTimeout(()=>$("amount").focus(),250)}
 function openEdit(id){const t=tx.find(x=>x.id===id);if(!t)return;if(!isToday(t)){toast("Yalnız bu günün əməliyyatı redaktə edilə bilər");return}
-editingId=id;formCat=t.category;setType(t.type);formCat=t.category;drawChips();$("amount").value=t.amount;$("date").value=t.date;$("date").disabled=true;$("qdRow").classList.add("hidden");$("desc").value=t.description||"";$("addTitle").textContent="Əməliyyatı redaktə et";$("saveBtn").textContent="Dəyişiklikləri saxla";openSheet("sheetAdd")}
+editingId=id;formCat=t.category;setType(t.type);formCat=t.category;drawCats();$("recentBox").classList.add("hidden");$("amount").value=t.amount;$("date").value=t.date;$("date").disabled=true;$("qdRow").classList.add("hidden");$("desc").value=t.description||"";$("addTitle").textContent="Əməliyyatı redaktə et";$("saveBtn").textContent="Dəyişiklikləri saxla";openSheet("sheetAdd")}
 $$("[data-open-add]").forEach(b=>b.addEventListener("click",openAdd));
 $("form").addEventListener("submit",async e=>{e.preventDefault();if(!user)return;const amount=Number($("amount").value);if(!Number.isFinite(amount)||amount<=0){toast("Düzgün məbləğ daxil edin");return}
-const data={type:formType,amount,category:formCat,description:$("desc").value.trim(),date:$("date").value,updatedAt:serverTimestamp()};
+const date=$("date").value;if(!date){toast("Tarixi seçin");return}if(date>todayStr()){toast("Gələcək tarixə qeyd əlavə etmək olmaz");return}
+const data={type:formType,amount,category:formCat,description:$("desc").value.trim(),date,updatedAt:serverTimestamp()};
 const dup=tx.find(t=>t.id!==editingId&&t.type===data.type&&Number(t.amount)===amount&&t.category===data.category&&norm(t.description)===norm(data.description)&&t.date===data.date);
 if(dup&&!await ask("Eyni əməliyyat var","Eyni gün, məbləğ və açıqlama ilə qeyd artıq mövcuddur. Yenə də əlavə edilsin?","Əlavə et"))return;
-$("saveBtn").disabled=true;try{const base=collection(db,"users",user.uid,"transactions");if(editingId)await updateDoc(doc(base,editingId),data);else await addDoc(base,{...data,createdAt:serverTimestamp()});closeSheet("sheetAdd");toast("Yadda saxlanıldı")}catch(err){console.error(err);toast("Yadda saxlanmadı. Firestore qaydalarını yoxlayın.")}finally{$("saveBtn").disabled=false}});
+$("saveBtn").disabled=true;try{const base=collection(db,"users",user.uid,"transactions");if(editingId)await updateDoc(doc(base,editingId),data);else await addDoc(base,{...data,createdAt:serverTimestamp()});if(!editingId)selDate=date;closeSheet("sheetAdd");render();toast("Yadda saxlanıldı")}catch(err){console.error(err);toast("Yadda saxlanmadı. Firestore qaydalarını yoxlayın.")}finally{$("saveBtn").disabled=false}});
+
+/* ---------- reports sheet ---------- */
+function bars(entries,total,{rank=false,attr="data-cat"}={}){const peak=Math.max(1,...entries.map(e=>e.v));return entries.map((e,i)=>`<button type="button" ${attr}="${esc(e.k??e.n)}" class="bar-item"><div class="ico">${rank?`<span class="rank">${i+1}</span>`:ic(e.n)}</div><div style="min-width:0"><div class="bar-top"><span>${esc(e.n)}</span><span>${total?Math.round(e.v/total*100):0}%${e.c?" · "+e.c+"×":""}</span></div><div class="track"><div class="fill" style="width:${e.v/peak*100}%"></div></div></div><div class="bar-amt">${money(e.v)}</div></button>`).join("")}
+function renderReports(){
+const cur=todayStr().slice(0,7);$("rMonth").textContent=monthName(repMonth);$("rNext").disabled=repMonth>=cur;
+const inM=tx.filter(t=>(t.date||"").slice(0,7)===repMonth),inc=sum(inM.filter(t=>t.type==="income")),exp=sum(inM.filter(t=>t.type==="expense"));
+$("rInc").textContent=money(inc);$("rExp").textContent=money(exp);$("rNet").textContent=money(inc-exp);
+const em=inM.filter(t=>t.type==="expense"),ec=groupBy(em,t=>t.category||"Digər xərc");
+$("rCats").innerHTML=ec.length?bars(ec,exp):'<div class="empty"><b>🧾</b>Bu ay xərc yoxdur</div>';
+const items=groupBy(em.filter(t=>(t.description||"").trim()),t=>norm(t.description));items.forEach(i=>{const o=em.find(t=>norm(t.description)===i.n);i.k=i.n;i.n=(o.description||"").trim()});
+$("rItems").innerHTML=items.length?bars(items.slice(0,8),exp,{rank:true,attr:"data-key"}):'<div class="empty">Açıqlama yazdıqca ən çox aldıqların burada görünəcək</div>';
+const ms=[];for(let i=5;i>=0;i--){const[y,m]=cur.split("-").map(Number);ms.push(iso(new Date(y,m-1-i,1)).slice(0,7))}
+const md=ms.map(k=>{const l=tx.filter(t=>(t.date||"").slice(0,7)===k);return{k,i:sum(l.filter(t=>t.type==="income")),e:sum(l.filter(t=>t.type==="expense"))}}),mx=Math.max(1,...md.flatMap(d=>[d.i,d.e]));
+$("months").innerHTML=md.map(d=>`<button class="mcol${d.k===repMonth?" sel":""}" data-m="${d.k}"><div class="mpair"><i class="i" style="height:${d.i/mx*100}%"></i><i class="e" style="height:${d.e/mx*100}%"></i></div><small>${monthShort(d.k)}</small></button>`).join("");
+$$("[data-m]",$("months")).forEach(b=>b.addEventListener("click",()=>{repMonth=b.dataset.m;renderReports()}));
+$$("[data-cat]",$("rCats")).forEach(b=>b.addEventListener("click",()=>openCat(b.dataset.cat)));
+$$("[data-key]",$("rItems")).forEach(b=>b.addEventListener("click",()=>{const k=b.dataset.key,o=em.find(t=>norm(t.description)===k);if(o)openItem(o.id)}));
+}
+$("repBtn").addEventListener("click",()=>{repMonth=selDate.slice(0,7);renderReports();openSheet("sheetReports")});
+$("rPrev").addEventListener("click",()=>{const[y,m]=repMonth.split("-").map(Number);repMonth=iso(new Date(y,m-2,1)).slice(0,7);renderReports()});
+$("rNext").addEventListener("click",()=>{const[y,m]=repMonth.split("-").map(Number);const k=iso(new Date(y,m,1)).slice(0,7);if(k>todayStr().slice(0,7))return;repMonth=k;renderReports()});
 
 /* ---------- detail sheets (category + product) ---------- */
 const detailHtml=k=>`<div class="tiles" id="${k}Tiles">${[["today","Bu gün"],["yesterday","Dünən"],["week","Bu həftə"],["month","Bu ay"]].map(([r,l])=>`<button type="button" class="tile" data-r="${r}"><small>${l}</small><b id="${k}-ts-${r}">0 ₼</b><em id="${k}-tc-${r}">0 dəfə</em></button>`).join("")}</div>
@@ -352,15 +355,17 @@ function openCat(name){catName=name;$("catTitle").textContent=ic(name)+" "+name;
 function openItem(id){const t=tx.find(x=>x.id===id);if(!t)return;itemType=t.type;itemKey=keyOf(t);$("itemTitle").textContent=t.description||t.category||"Əməliyyat";$("itemSub").textContent=`${ic(t.category)} ${t.category||""} · ${t.type==="income"?"gəlir":"xərc"}`;setRange("item","month");openSheet("sheetItem")}
 
 /* ---------- settings ---------- */
-const ACCENTS=[["midnight","#7c86ff"],["emerald","#36c3a0"],["ocean","#4aaee6"],["ember","#ef8f6b"],["graphite","#a3b1c8"]];
-function applyTheme(a,m){const acc=ACCENTS.some(x=>x[0]===a)?a:"midnight",mode=m==="light"?"light":"dark";document.documentElement.dataset.accent=acc;document.documentElement.dataset.mode=mode;$("metaTheme").content=mode==="light"?"#f3f5fa":"#0b0f1a";
-$$("#modeSeg button").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));$$(".th").forEach(b=>b.classList.toggle("on",b.dataset.a===acc));try{localStorage.setItem("menimBudcemTheme",acc);localStorage.setItem("menimBudcemMode",mode)}catch(_){}}
-$("themes").innerHTML=ACCENTS.map(([k,c])=>`<button class="th" data-a="${k}" style="background:${c}" aria-label="${k}">✓</button>`).join("");
+const ACCENTS=[["ink","#1c1b19"],["indigo","#5b5bd6"],["teal","#0f9d8a"],["plum","#a24bb0"],["amber","#d9822b"]];
 const sv=k=>{try{return localStorage.getItem(k)}catch(_){return null}};
-$$(".th").forEach(b=>b.addEventListener("click",()=>applyTheme(b.dataset.a,sv("menimBudcemMode")||"dark")));$$("#modeSeg button").forEach(b=>b.addEventListener("click",()=>applyTheme(sv("menimBudcemTheme")||"midnight",b.dataset.mode)));
-applyTheme(sv("menimBudcemTheme")||"midnight",sv("menimBudcemMode")||"dark");
+function applyTheme(a,m){const acc=ACCENTS.some(x=>x[0]===a)?a:"ink",mode=m==="dark"?"dark":"light";document.documentElement.dataset.accent=acc;document.documentElement.dataset.mode=mode;$("metaTheme").content=mode==="dark"?"#121211":"#f5f3ee";
+$$("#modeSeg button").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));$$(".th").forEach(b=>b.classList.toggle("on",b.dataset.a===acc));
+$$(".th[data-a=ink]").forEach(b=>b.style.background=mode==="dark"?"#f3f0e8":"#1c1b19");try{localStorage.setItem("mb3Accent",acc);localStorage.setItem("mb3Mode",mode)}catch(_){}}
+$("themes").innerHTML=ACCENTS.map(([k,c])=>`<button class="th" data-a="${k}" style="background:${c}" aria-label="${k}"></button>`).join("");
+$$(".th").forEach(b=>b.addEventListener("click",()=>applyTheme(b.dataset.a,document.documentElement.dataset.mode)));
+$$("#modeSeg button").forEach(b=>b.addEventListener("click",()=>applyTheme(document.documentElement.dataset.accent,b.dataset.mode)));
+applyTheme(sv("mb3Accent")||"ink",sv("mb3Mode")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));
+$("setBtn").addEventListener("click",()=>openSheet("sheetSettings"));
 $("exportBtn").addEventListener("click",()=>{const rows=[["Tarix","Növ","Kateqoriya","Açıqlama","Məbləğ (AZN)"],...tx.map(t=>[t.date,t.type==="income"?"Gəlir":"Xərc",t.category,t.description||"",t.amount])],csv="﻿"+rows.map(r=>r.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(";")).join("\r\n"),url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"})),a=document.createElement("a");a.href=url;a.download="menim-budcem.csv";a.click();URL.revokeObjectURL(url)});
 
-setTab("home");
 if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.error));
 </script></body></html>
