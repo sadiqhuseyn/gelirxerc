@@ -51,7 +51,7 @@ h1,h2,h3{margin:0}
 .swipe-bg{position:absolute;inset:0;display:flex;justify-content:space-between;align-items:center;padding:0 18px;color:#fff;font-weight:750;font-size:12px;opacity:0;pointer-events:none}.swipe-bg span{opacity:0}
 .row{position:relative;z-index:1;display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--surface);border:1px solid var(--line);border-radius:15px;touch-action:pan-y;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .2s;cursor:pointer}
 .row:active{background:var(--soft)}.row.dragging{transition:none}.row.plain{touch-action:auto;cursor:default}.row.plain:active{background:var(--surface)}
-.sheet .row{background:var(--soft);border-color:transparent}
+.sheet .row{background:var(--soft);border-color:transparent}.row.tap{touch-action:auto;cursor:pointer}.prices{margin-bottom:10px}
 .ico{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:18px;background:var(--soft)}
 .sheet .ico{background:var(--surface)}
 .row .main-t{flex:1;min-width:0}.row .t{font-weight:650;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row .s{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row .a{flex:none;font-weight:750;font-size:13.5px;white-space:nowrap}
@@ -126,7 +126,7 @@ input{width:100%;min-width:0;background:var(--soft);border:1px solid transparent
 <div class="stats"><div class="stat"><small>Gün gəliri</small><b class="inc" id="dayInc">0,00 ₼</b></div><div class="stat"><small>Həftə xərci</small><b id="weekExp">0,00 ₼</b></div><div class="stat"><small>Ay xərci</small><b id="monthExp">0,00 ₼</b></div></div>
 </section>
 
-<div class="sec"><h2>Kateqoriyalar</h2></div>
+<div class="sec"><h2>Kateqoriyalar</h2><span id="catNote">seçilən gün · toxun, ətraflı bax</span></div>
 <div class="cgrid" id="cgrid"></div>
 
 <div class="sec"><h2>Əməliyyatlar</h2><span id="dayCount"></span></div>
@@ -155,7 +155,7 @@ input{width:100%;min-width:0;background:var(--soft);border:1px solid transparent
 <div class="grab"></div><div class="sheet-head"><h2>Hesabat</h2><button class="icon-btn" data-close type="button">✕</button></div>
 <div class="mnav"><button class="icon-btn" id="rPrev" type="button">‹</button><b id="rMonth">—</b><button class="icon-btn" id="rNext" type="button">›</button></div>
 <div class="sumrow"><div class="stat"><small>Gəlir</small><b class="inc" id="rInc">0</b></div><div class="stat"><small>Xərc</small><b class="exp" id="rExp">0</b></div><div class="stat"><small>Qalıq</small><b id="rNet">0</b></div></div>
-<div class="sec"><h2>Kateqoriyalar üzrə</h2></div><div id="rCats" class="bars"></div>
+<div class="sec"><h2>Kateqoriyalar üzrə</h2><span>toxun, ətraflı bax</span></div><div id="rCats" class="bars"></div>
 <div class="block"><div class="sec"><h2>Ən çox alınanlar</h2><span>açıqlamaya görə</span></div><div id="rItems" class="bars"></div></div>
 <div class="block"><div class="sec"><h2>Son 6 ay</h2></div><div id="months" class="months"></div><div class="legend"><span><i style="background:var(--income)"></i>Gəlir</span><span><i style="background:var(--expense)"></i>Xərc</span></div></div>
 </div></div>
@@ -277,7 +277,7 @@ $("cgrid").innerHTML=[...CATS.expense,...extra].map(c=>{const v=byCat[c]||0;retu
 $$("[data-cat]",$("cgrid")).forEach(b=>b.addEventListener("click",()=>openCat(b.dataset.cat)));
 $("dayCount").textContent=dayTx.length?dayTx.length+" qeyd":"";
 $("dayList").innerHTML=dayTx.length?dayTx.map(rowHtml).join(""):`<div class="empty"><b>${selDate===today?"✨":"🗓️"}</b>${selDate===today?"Bu gün hələ qeyd yoxdur. ＋ düyməsinə bas":"Bu gündə qeyd yoxdur"}</div>`;wire($("dayList"));
-$("dayHint").textContent=!dayTx.length?"":selDate===today?"":"";
+$("dayHint").textContent=!dayTx.length?"":selDate===today?"Toxun — ətraflı bax. Sola çək — sil, sağa çək — redaktə.":"Toxun — ətraflı bax. Keçmiş günləri dəyişmək olmur.";
 $("dl").innerHTML=[...new Set(tx.map(t=>(t.description||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"az")).map(v=>`<option value="${esc(v)}">`).join("");
 if(!$("sheetReports").classList.contains("hidden"))renderReports();
 if(!$("sheetCat").classList.contains("hidden"))renderDet("cat");
@@ -334,9 +334,9 @@ $("rNext").addEventListener("click",()=>{const[y,m]=repMonth.split("-").map(Numb
 const detailHtml=k=>`<div class="tiles" id="${k}Tiles">${[["today","Bu gün"],["yesterday","Dünən"],["week","Bu həftə"],["month","Bu ay"]].map(([r,l])=>`<button type="button" class="tile" data-r="${r}"><small>${l}</small><b id="${k}-ts-${r}">0 ₼</b><em id="${k}-tc-${r}">0 dəfə</em></button>`).join("")}</div>
 <div class="dates"><div><label class="lbl" style="margin-top:0">Başlanğıc</label><input id="${k}From" type="date"></div><div><label class="lbl" style="margin-top:0">Son</label><input id="${k}To" type="date"></div><button type="button" class="btn" id="${k}Apply">Tarixə görə göstər</button></div>
 <div class="dtotal"><div><span id="${k}RangeLbl">Seçilən dövr</span><small id="${k}Meta"></small></div><b id="${k}Total">0,00 ₼</b></div>
-<div class="daily" id="${k}Daily"></div><div class="list" id="${k}List"></div>`;
+<div class="prices" id="${k}Prices"></div><div class="seg" id="${k}Grp" style="margin:2px 0 0"><button type="button" data-g="day" class="active">Günlər üzrə</button><button type="button" data-g="week">Həftələr üzrə</button></div><div class="daily" id="${k}Daily"></div><div class="list" id="${k}List"></div>`;
 const keyOf=t=>norm(t.description)||("c:"+norm(t.category));
-const DET={cat:{range:"today",match:t=>t.type==="expense"&&t.category===catName},item:{range:"month",match:t=>t.type===itemType&&keyOf(t)===itemKey}};
+const DET={cat:{range:"today",grp:"day",match:t=>t.type==="expense"&&t.category===catName},item:{range:"month",grp:"day",match:t=>t.type===itemType&&keyOf(t)===itemKey}};
 function setRange(k,r){DET[k].range=r;const[f,t]=bounds(r);$(k+"From").value=f;$(k+"To").value=t;renderDet(k)}
 function renderDet(k){
 const D=DET[k],all=tx.filter(D.match),inc=k==="item"&&itemType==="income",cls=inc?"inc":"exp",sign=inc?"+":"−";
@@ -345,12 +345,18 @@ $$(`#${k}Tiles .tile`).forEach(b=>b.classList.toggle("on",b.dataset.r===D.range)
 const f=$(k+"From").value,t=$(k+"To").value,list=all.filter(x=>x.date>=f&&x.date<=t),total=sum(list);
 $(k+"Total").textContent=money(total);$(k+"RangeLbl").textContent=f===t?dayLabel(f):`${f} → ${t}`;
 $(k+"Meta").textContent=list.length?`${list.length} dəfə · orta ${money(total/list.length)}`:"Bu dövrdə qeyd yoxdur";
-const d={};list.forEach(x=>d[x.date]=(d[x.date]||0)+Number(x.amount||0));const days=Object.entries(d).sort((a,b)=>a[0].localeCompare(b[0])),mx=Math.max(1,...days.map(x=>x[1]));
+$$("#"+k+"Grp button").forEach(b=>b.classList.toggle("active",b.dataset.g===D.grp));
+const gk=x=>D.grp==="week"?mondayOf(x.date):x.date,d={};list.forEach(x=>d[gk(x)]=(d[gk(x)]||0)+Number(x.amount||0));const days=Object.entries(d).sort((a,b)=>a[0].localeCompare(b[0])),mx=Math.max(1,...days.map(x=>x[1]));
 $(k+"Daily").innerHTML=days.length?days.map(([dd,v])=>`<div class="dcol" title="${money(v)}"><i style="height:${Math.max(4,v/mx*82)}%"></i><small>${dd.slice(8)}.${dd.slice(5,7)}</small></div>`).join(""):'<div class="muted" style="margin:auto;font-size:12px">Bu dövrdə qeyd yoxdur</div>';
-$(k+"List").innerHTML=list.map(x=>{const a=k==="item"?dayLabel(x.date):(x.description||x.category),b=k==="item"?(x.category||""):dayLabel(x.date);return`<div class="row plain"><div class="ico">${ic(x.category)}</div><div class="main-t"><div class="t">${esc(a)}</div><div class="s">${esc(b)}</div></div><div class="a ${cls}">${sign}${money(x.amount)}</div></div>`}).join("")}
+const pe=$(k+"Prices");
+if(k==="item"&&list.length){const am=list.map(x=>Number(x.amount||0)),pm={};am.forEach(a=>pm[a]=(pm[a]||0)+1);
+pe.innerHTML=`<div class="sumrow" style="margin:0 0 8px"><div class="stat"><small>Ən aşağı qiymət</small><b>${money(Math.min(...am))}</b></div><div class="stat"><small>Ən yüksək qiymət</small><b>${money(Math.max(...am))}</b></div><div class="stat"><small>Orta qiymət</small><b>${money(total/list.length)}</b></div></div><div class="lbl" style="margin:8px 0 6px">Qiymətlər (hansı qiymətlə neçə dəfə)</div><div class="chips">${Object.entries(pm).sort((a,b)=>b[1]-a[1]).map(([a,c])=>`<span class="chip">${money(a)} × ${c}</span>`).join("")}</div>`}else pe.innerHTML="";
+$(k+"List").innerHTML=list.map(x=>{const a=k==="item"?dayLabel(x.date):(x.description||x.category),b=k==="item"?(x.category||""):dayLabel(x.date);return`<div class="row ${k==="cat"?"tap":"plain"}"${k==="cat"?` data-item="${esc(x.id)}"`:""}><div class="ico">${ic(x.category)}</div><div class="main-t"><div class="t">${esc(a)}</div><div class="s">${esc(b)}</div></div><div class="a ${cls}">${sign}${money(x.amount)}</div></div>`}).join("")}
 ["cat","item"].forEach(k=>{$(k+"Body").innerHTML=detailHtml(k);
 $$(`#${k}Tiles .tile`).forEach(b=>b.addEventListener("click",()=>setRange(k,b.dataset.r)));
+$$(`#${k}Grp button`).forEach(b=>b.addEventListener("click",()=>{DET[k].grp=b.dataset.g;renderDet(k)}));
 $(k+"Apply").addEventListener("click",()=>{const f=$(k+"From").value,t=$(k+"To").value;if(!f||!t){toast("Hər iki tarixi seçin");return}if(f>t){toast("Başlanğıc tarixi sondan böyük ola bilməz");return}DET[k].range="";renderDet(k)})});
+$("catList").addEventListener("click",e=>{const r=e.target.closest("[data-item]");if(r)openItem(r.dataset.item)});
 function openCat(name){catName=name;$("catTitle").textContent=ic(name)+" "+name;setRange("cat","today");openSheet("sheetCat")}
 function openItem(id){const t=tx.find(x=>x.id===id);if(!t)return;itemType=t.type;itemKey=keyOf(t);$("itemTitle").textContent=t.description||t.category||"Əməliyyat";$("itemSub").textContent=`${ic(t.category)} ${t.category||""} · ${t.type==="income"?"gəlir":"xərc"}`;setRange("item","month");openSheet("sheetItem")}
 
