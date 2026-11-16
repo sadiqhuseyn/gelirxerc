@@ -8,11 +8,14 @@
 <title>Mənim Büdcəm</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <style>
- html, body {
-    overscroll-behavior-y: none;
+body {
+    /* Mətnin kopyalanmasını əngəlləyir */
     -webkit-user-select: none;
     user-select: none;
     -webkit-touch-callout: none;
+    
+    /* Aşağı çəkəndə səhifənin yenilənməsinin qarşısını alır, amma sürüşməyə icazə verir */
+    overscroll-behavior-y: contain;
   }
 /* ================= THEMES ================= */
 :root{--green:#2fbf8f;--red:#ef6f7d;--amber:#f0b43c;--r:20px;--ease:cubic-bezier(.2,.8,.2,1)}
@@ -552,9 +555,6 @@ initSettings();initFilters();initReports();
 
  document.addEventListener('gesturestart', e => e.preventDefault());
   document.addEventListener('contextmenu', e => e.preventDefault());
-  document.addEventListener('touchmove', e => {
-    if (e.scale !== 1) e.preventDefault();
-  }, { passive: false });
 </script>
 </body>
 </html>
