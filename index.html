@@ -8,6 +8,12 @@
 <title>Mənim Büdcəm</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <style>
+ html, body {
+    overscroll-behavior-y: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
 /* ================= THEMES ================= */
 :root{--green:#2fbf8f;--red:#ef6f7d;--amber:#f0b43c;--r:20px;--ease:cubic-bezier(.2,.8,.2,1)}
 :root[data-mode=dark]{color-scheme:dark;--text:#eef2ff;--mu:#97a3bd;--ln:#ffffff1c;--on:#0b1020;--green:#4ad3a4;--red:#ff7f8d}
@@ -543,6 +549,12 @@ $("exportBtn").onclick=exportCSV;$("setExport").onclick=exportCSV;
 /* ============ 20. INIT ============ */
 function renderAll(){renderDashboard();renderTx();renderProducts();renderReports();renderCategories()}
 initSettings();initFilters();initReports();
+
+ document.addEventListener('gesturestart', e => e.preventDefault());
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('touchmove', e => {
+    if (e.scale !== 1) e.preventDefault();
+  }, { passive: false });
 </script>
 </body>
 </html>
