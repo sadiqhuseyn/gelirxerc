@@ -2,21 +2,12 @@
 <html lang="az" data-mode="dark" data-theme="midnight">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#14172e">
 <meta name="description" content="Şəxsi maliyyə idarəetmə sistemi">
 <title>Mənim Büdcəm</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <style>
-body {
-    /* Mətnin kopyalanmasını əngəlləyir */
-    -webkit-user-select: none;
-    user-select: none;
-    -webkit-touch-callout: none;
-    
-    /* Aşağı çəkəndə səhifənin yenilənməsinin qarşısını alır, amma sürüşməyə icazə verir */
-    overscroll-behavior-y: contain;
-  }
 /* ================= THEMES ================= */
 :root{--green:#2fbf8f;--red:#ef6f7d;--amber:#f0b43c;--r:20px;--ease:cubic-bezier(.2,.8,.2,1)}
 :root[data-mode=dark]{color-scheme:dark;--text:#eef2ff;--mu:#97a3bd;--ln:#ffffff1c;--on:#0b1020;--green:#4ad3a4;--red:#ff7f8d}
@@ -131,6 +122,25 @@ button.brow:hover{background:color-mix(in srgb,var(--ac) 9%,transparent)}
 .toast.show{opacity:1;transform:translate(-50%,0)}.toast.warn{background:#a56a12}.toast.ok{background:#1b8a63}
 @media(min-width:900px){.toast{bottom:30px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+/* ===== v2: compact + no zoom ===== */
+html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%;overscroll-behavior-x:none}
+body{font-size:13px}
+.head h1{font-size:20px}.card{padding:14px}.card h2{font-size:14px}
+.btn{padding:8px 12px;font-size:12.5px;white-space:nowrap;border-radius:12px}
+.chip{font-size:11.5px;padding:6px 11px;white-space:nowrap}
+.link{font-size:12px;white-space:nowrap}
+input,select,textarea{font-size:14px;padding:9px 11px}
+.hero .big{font-size:clamp(28px,8vw,38px)}
+.ch{flex-wrap:nowrap}.ch>:first-child{min-width:0;flex:1}.ch>:not(:first-child){flex:none}
+.ch h2{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav button{font-size:10px;white-space:nowrap}.nav button i{font-size:21px}
+.tt{font-size:13px}.ta{font-size:13px}.tmeta{font-size:11px}
+.s4 b{font-size:14px}.s4 small{font-size:10.5px}
+.mh h2{font-size:17px}.sumbox strong{font-size:17px}
+.mact{flex-wrap:nowrap}.mact .btn{flex:1 1 auto;padding:9px 8px}
+.brow .vl{font-size:12px}.legend{white-space:nowrap}
+.hero .hs{font-size:12px}
+@media(min-width:900px){.nav button{font-size:13px}}
 </style>
 </head>
 <body>
@@ -150,8 +160,8 @@ button.brow:hover{background:color-mix(in srgb,var(--ac) 9%,transparent)}
       <div class="card" id="dBudget"></div>
       <div class="card"><div class="ch"><h2>Son 7 gün</h2><div class="legend"><span><i style="background:var(--green)"></i>Gəlir</span><span><i style="background:var(--red)"></i>Xərc</span></div></div><div class="dch" id="dChart"></div></div>
       <div class="card"><div class="ch"><h2>Kateqoriyalar</h2><button class="link" data-goto="categories">Hamısı</button></div><div class="bars" id="dCats"></div></div>
-      <div class="card"><div class="ch"><h2>Ən çox pul gedən məhsullar</h2><div class="chips" id="dPer"><button class="chip" data-p="today">Gün</button><button class="chip" data-p="week">Həftə</button><button class="chip on" data-p="month">Ay</button></div></div><div class="bars" id="dProds"></div><button class="link" style="margin-top:8px" data-goto="products">Bütün məhsullar →</button></div>
-      <div class="card"><div class="ch"><h2>Son əməliyyatlar</h2><div style="display:flex;gap:10px"><button class="link" id="dayBtn">Günün əməliyyatları</button><button class="link" data-goto="transactions">Hamısı</button></div></div><div class="list" id="dRecent"></div></div>
+      <div class="card"><div class="ch"><h2>Ən çox xərclənən</h2><div class="chips" id="dPer"><button class="chip" data-p="today">Gün</button><button class="chip" data-p="week">Həftə</button><button class="chip on" data-p="month">Ay</button></div></div><div class="bars" id="dProds"></div><button class="link" style="margin-top:8px" data-goto="products">Bütün məhsullar →</button></div>
+      <div class="card"><div class="ch"><h2>Son əməliyyatlar</h2><div style="display:flex;gap:10px"><button class="link" id="dayBtn">Gün detalı</button><button class="link" data-goto="transactions">Hamısı</button></div></div><div class="list" id="dRecent"></div></div>
     </section>
 
     <section class="page" id="page-transactions">
@@ -186,6 +196,7 @@ button.brow:hover{background:color-mix(in srgb,var(--ac) 9%,transparent)}
     <section class="page" id="page-settings">
       <div class="card"><h2 style="margin-bottom:12px">Görünüş</h2><div class="chips" id="modeSw" style="margin-bottom:14px"><button class="chip" data-mode="dark"><i class="ti ti-moon"></i> Dark</button><button class="chip" data-mode="light"><i class="ti ti-sun"></i> Light</button></div><div class="tg" id="themeGrid"></div></div>
       <div class="card"><h2 style="margin-bottom:12px">Aylıq büdcə</h2><div class="r2"><input id="setLimit" type="number" min="0" step="1" placeholder="Limit (₼)"><button class="btn primary" id="saveLimit">Yadda saxla</button></div></div>
+      <div class="card"><h2 style="margin-bottom:6px">Son dəyişikliklər</h2><div id="logList"></div></div>
       <div class="card"><h2 style="margin-bottom:12px">Hesab</h2><div class="fld"><label>Google hesabı</label><input id="setEmail" readonly></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="setExport"><i class="ti ti-download"></i> CSV ixrac</button><button class="btn" id="logoutBtn" style="color:var(--red)"><i class="ti ti-logout"></i> Çıxış</button></div></div>
     </section>
   </div>
@@ -204,7 +215,7 @@ button.brow:hover{background:color-mix(in srgb,var(--ac) 9%,transparent)}
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import{getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
-import{getFirestore,collection,addDoc,updateDoc,deleteDoc,setDoc,doc,onSnapshot,serverTimestamp}from"https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+import{getFirestore,collection,writeBatch,setDoc,doc,onSnapshot,serverTimestamp}from"https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 /* ============ 1. FIREBASE ============ */
 const firebaseConfig={apiKey:"AIzaSyAoqCXkBRxPQVrPbwPhkYxLqt9TV3KTPI0",authDomain:"gelirxercapp.firebaseapp.com",projectId:"gelirxercapp",storageBucket:"gelirxercapp.firebasestorage.app",messagingSenderId:"890522144800",appId:"1:890522144800:web:8d0ef1644d182979126c45",measurementId:"G-V2WNKG8HK4"};
@@ -249,7 +260,7 @@ const ci=(n,sm)=>{const i=catInfo(n);return`<span class="ci${sm?" sm":""}" style
 function prodIcon(name){const t=tx.find(x=>lc(pname(x))===lc(name));return t?ci(catKey(t)):ci("Digər xərc")}
 
 /* ============ 4. STATE ============ */
-let user=null,tx=[],unsub=null,limit=0,prodPer="month";
+let user=null,tx=[],logs=[],unsub=null,limit=0,prodPer="month";
 const F={range:"month",from:"",to:""},R={range:"month",from:"",to:""},PS={per:"month"};
 const canChange=t=>t.createdDayNum===dayNum();
 
@@ -277,7 +288,7 @@ $("logoutBtn").onclick=()=>signOut(auth);
 onAuthStateChanged(auth,u=>{
   user=u;if(unsub){unsub();unsub=null}
   $("loginView").classList.toggle("hidden",!!u);$("appView").classList.toggle("hidden",!u);
-  if(!u){tx=[];return}
+  if(!u){tx=[];logs=[];return}
   $("setEmail").value=u.email||u.displayName||"";
   try{limit=Number(localStorage.getItem("mb_limit_"+u.uid))||0}catch{limit=0}
   $("setLimit").value=limit||"";
@@ -285,7 +296,8 @@ onAuthStateChanged(auth,u=>{
     tx=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>sortKey(b).localeCompare(sortKey(a))||((b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)));
     renderAll()},err=>{console.error(err);toast("Məlumat oxunmadı. Firestore qaydalarını yoxlayın.","warn")});
   const un2=onSnapshot(doc(db,"users",u.uid,"settings","main"),s=>{if(s.exists()){limit=Number(s.data().monthlyLimit)||0;$("setLimit").value=limit||"";renderDashboard()}},()=>{});
-  unsub=()=>{un1();un2()}});
+  const un3=onSnapshot(collection(db,"users",u.uid,"logs"),s=>{logs=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.at||0)-(a.at||0));renderLogs()},()=>{});
+  unsub=()=>{un1();un2();un3()}});
 $("saveLimit").onclick=async()=>{
   const v=Math.max(0,Number($("setLimit").value)||0);limit=v;
   try{localStorage.setItem("mb_limit_"+user.uid,v)}catch{}
@@ -323,7 +335,7 @@ function wireSwipe(root){
       if(lock==="x"&&Math.abs(d)>85){const t=tx.find(x=>x.id===id);if(t){
         if(navigator.vibrate)navigator.vibrate(10);
         if(d<0){if(!canChange(t))toast("Keçmiş tarixli əməliyyatlar silinə bilməz.","warn");else askDelete(t,w)}
-        else{if(!canChange(t))toast("Keçmiş tarixli əməliyyatlara düzəliş etmək mümkün deyil.","warn");else openForm(id)}}}
+        else openForm(id)}}
       setTimeout(()=>moved=false,30)};
     w.addEventListener("pointerup",end);w.addEventListener("pointercancel",end);
     w.addEventListener("click",()=>{if(!moved)openTx(id)})})}
@@ -331,7 +343,7 @@ async function askDelete(t,w){
   w?.classList.add("ol");
   const ok=await confirmBox({title:"Əməliyyat silinsin?",text:`“${pname(t)||t.category}” · ${money(t.amount)}. Bu addım geri qaytarıla bilməz.`,ok:"Bəli, sil"});
   if(!ok){w?.classList.remove("ol","sd");return}
-  try{await deleteDoc(doc(db,"users",user.uid,"transactions",t.id));toast("Əməliyyat silindi","ok")}
+  try{await removeTx(t);toast("Əməliyyat silindi","ok")}
   catch(e){console.error(e);w?.classList.remove("ol");notice("Silinmədi","Keçmiş tarixli əməliyyatlar silinə bilməz və ya icazə yoxdur.")}}
 function openTx(id){
   const t=tx.find(x=>x.id===id);if(!t)return;const inc=t.type==="income";
@@ -339,20 +351,40 @@ function openTx(id){
   <div class="sumbox"><span>Məbləğ</span><strong class="${inc?"inc":"exp"}">${inc?"+":"−"}${money(t.amount)}</strong></div>
   <div class="kv"><span>Kateqoriya</span><span>${esc(catKey(t))}</span></div><div class="kv"><span>Məhsul</span><span>${esc(pname(t)||"—")}</span></div>
   <div class="kv"><span>Tarix</span><span>${esc(fmtDate(t.date))}${t.time?" · "+esc(t.time):""}</span></div><div class="kv"><span>Hesab</span><span>${esc(t.account||"—")}</span></div>${t.note?`<div class="kv"><span>Qeyd</span><span>${esc(t.note)}</span></div>`:""}
-  <div class="mact">${pname(t)?'<button class="btn" data-pr>Məhsul statistikası</button>':""}<button class="btn" data-ed>Redaktə</button><button class="btn danger" data-dl>Sil</button></div>`);
+  <div class="mact">${pname(t)?'<button class="btn" data-pr>Statistika</button>':""}<button class="btn" data-ed>Redaktə</button>${canChange(t)?'<button class="btn danger" data-dl>Sil</button>':""}</div>`);
   ov.querySelector("[data-pr]")?.addEventListener("click",()=>openProduct(pname(t)));
-  ov.querySelector("[data-ed]").onclick=()=>{if(!canChange(t))return toast("Keçmiş tarixli əməliyyatlara düzəliş etmək mümkün deyil.","warn");closeModal(ov);openForm(id)};
-  ov.querySelector("[data-dl]").onclick=()=>{if(!canChange(t))return toast("Keçmiş tarixli əməliyyatlar silinə bilməz.","warn");closeModal(ov);askDelete(t)}}
+  ov.querySelector("[data-ed]").onclick=()=>{closeModal(ov);openForm(id)};
+  ov.querySelector("[data-dl]")?.addEventListener("click",()=>{closeModal(ov);askDelete(t)})}
+
+/* ============ 8b. LOGS + WRITES ============ */
+const LBL={product:"Ad",category:"Kateqoriya",amount:"Məbləğ",date:"Tarix",account:"Hesab",note:"Qeyd"};
+function diffTx(old,nw){const out=[];
+  for(const k of Object.keys(nw)){
+    let a=k==="product"?pname(old):k==="category"?catKey(old):old[k],b=nw[k];
+    if(k==="amount"){a=Number(a);b=Number(b);if(a!==b)out.push({f:LBL[k],from:money(a),to:money(b)});continue}
+    a=String(a??"").trim();b=String(b??"").trim();if(a!==b)out.push({f:LBL[k],from:a,to:b})}
+  return out}
+function mkLog(action,t,changes){const n=new Date();
+  return{action,txId:t.id||"",product:pname(t),prevProduct:(changes||[]).find(c=>c.f==="Ad")?.from||"",category:catKey(t),amount:Number(t.amount)||0,date:t.date||"",changes:changes||[],day:iso(n),hm:`${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`,at:Date.now(),ts:serverTimestamp()}}
+const txCol=()=>collection(db,"users",user.uid,"transactions"),logCol=()=>collection(db,"users",user.uid,"logs");
+async function createTx(obj){const ref=doc(txCol()),b=writeBatch(db);b.set(ref,obj);b.set(doc(logCol()),mkLog("create",{...obj,id:ref.id},[]));await b.commit()}
+async function saveEdit(ed,data,ch){const b=writeBatch(db);b.update(doc(db,"users",user.uid,"transactions",ed.id),data);b.set(doc(logCol()),mkLog("edit",{...ed,...data},ch));await b.commit()}
+async function removeTx(t){const b=writeBatch(db);b.delete(doc(db,"users",user.uid,"transactions",t.id));b.set(doc(logCol()),mkLog("delete",t,[]));await b.commit()}
+function logRow(l,showName){
+  const ic={create:["ti-plus","var(--green)"],edit:["ti-pencil","var(--amber)"],delete:["ti-trash","var(--red)"]}[l.action]||["ti-dots","var(--mu)"];
+  const txt=l.action==="edit"?(l.changes||[]).map(c=>`${esc(c.f)}: ${esc(c.from||"—")} → ${esc(c.to||"—")}`).join("<br>"):`${l.action==="create"?"Əlavə edildi":"Silindi"} · ${money(l.amount)} · ${esc(l.category)}`;
+  return`<div style="display:flex;gap:10px;padding:9px 0;border-top:1px solid var(--ln)"><span class="ci sm" style="--c:${ic[1]}"><i class="ti ${ic[0]}"></i></span><div style="flex:1;min-width:0"><div style="font-size:12.5px;line-height:1.45">${showName?`<b>${esc(l.product||"—")}</b> · `:""}${txt}</div><div class="sub">${esc(fmtDate(l.day))} · ${esc(l.hm)}</div></div></div>`}
+function renderLogs(){const el=$("logList");if(!el)return;el.innerHTML=logs.length?logs.slice(0,30).map(l=>logRow(l,true)).join(""):'<div class="empty">Hələ dəyişiklik yoxdur.</div>'}
 
 /* ============ 9. ADD / EDIT FORM ============ */
 function recentCats(type){const n={};tx.filter(t=>t.type===type).forEach(t=>{const c=catKey(t);n[c]=(n[c]||0)+1});return CATS[type].map(c=>c[0]).sort((a,b)=>(n[b]||0)-(n[a]||0))}
 function openForm(editId){
   const ed=editId?tx.find(x=>x.id===editId):null;
-  if(ed&&!canChange(ed))return toast("Keçmiş tarixli əməliyyatlara düzəliş etmək mümkün deyil.","warn");
+  const lim=!!ed&&!canChange(ed);
   let type=ed?.type||"expense",cat=ed?catKey(ed):"";
   const prods=[...new Set(tx.map(pname).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"az"));
   const ov=openModal(`<div class="mh"><div><div class="sub">${ed?"Redaktə":"Yeni"}</div><h2>${ed?"Əməliyyatı redaktə et":"Yeni əməliyyat"}</h2></div><button class="btn xb" data-close><i class="ti ti-x"></i></button></div>
-  <form id="fm"><div class="fld"><div class="seg"><button type="button" data-t="income">＋ Gəlir</button><button type="button" data-t="expense">－ Xərc</button></div></div>
+  <form id="fm">${lim?'<div class="sumbox" style="margin-top:0"><span>Keçmiş tarixli əməliyyatda yalnız ad və kateqoriya dəyişdirilə bilər.</span></div>':""}<div class="fld"><div class="seg"><button type="button" data-t="income">＋ Gəlir</button><button type="button" data-t="expense">－ Xərc</button></div></div>
   <div class="fld"><label>Məbləğ (₼)</label><input id="fa" type="number" inputmode="decimal" min="0.01" step="0.01" required placeholder="0.00" value="${ed?esc(ed.amount):""}" style="font-size:22px;font-weight:700"></div>
   <div class="fld"><label>Kateqoriya</label><div class="cp" id="fc"></div></div>
   <div class="fld"><label>Məhsul / açıqlama</label><input id="fp" list="fpl" maxlength="100" autocomplete="off" placeholder="Məsələn: Çörək" value="${ed?esc(pname(ed)):""}"><datalist id="fpl">${prods.map(p=>`<option value="${esc(p)}">`).join("")}</datalist></div>
@@ -360,6 +392,7 @@ function openForm(editId){
   <div class="fld"><label>Qeyd (istəyə bağlı)</label><input id="fn" maxlength="200" value="${ed?esc(ed.note||""):""}"></div>
   <div class="mact"><button type="button" class="btn" data-close>Ləğv et</button><button class="btn primary" id="fs" type="submit">${ed?"Yadda saxla":"Əlavə et"}</button></div></form>`);
   if(ed?.account)ov.querySelector("#fac").value=ed.account;
+  if(lim){["#fa","#fd","#fac","#fn"].forEach(s=>ov.querySelector(s).disabled=true);ov.querySelectorAll(".seg button").forEach(b=>b.disabled=true)}
   const draw=()=>{
     ov.querySelectorAll(".seg button").forEach(b=>b.className=(b.dataset.t===type?"on ":"")+(b.dataset.t==="income"?"i":"e"));
     const list=recentCats(type);if(!list.includes(cat))cat=list[0];
@@ -368,7 +401,16 @@ function openForm(editId){
   ov.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{type=b.dataset.t;draw()});draw();
   setTimeout(()=>ov.querySelector("#fa").focus(),260);
   ov.querySelector("#fm").onsubmit=async e=>{
-    e.preventDefault();const amount=Number(ov.querySelector("#fa").value);
+    e.preventDefault();
+    if(lim){
+      const product=ov.querySelector("#fp").value.trim().replace(/\s+/g," "),data={product,description:product,category:cat,updatedAt:serverTimestamp()};
+      const ch=diffTx(ed,{product,category:cat});
+      if(!ch.length){closeModal(ov);return toast("Dəyişiklik edilməyib")}
+      const btn=ov.querySelector("#fs");btn.disabled=true;btn.textContent="Saxlanılır...";
+      try{await saveEdit(ed,data,ch);closeModal(ov);toast("Dəyişiklik saxlanıldı və jurnala yazıldı","ok")}
+      catch(err){console.error(err);btn.disabled=false;btn.textContent="Yadda saxla";notice("Saxlanılmadı","Dəyişiklik yadda saxlanıla bilmədi. Firestore qaydalarını yeniləməyi unutma.")}
+      return}
+    const amount=Number(ov.querySelector("#fa").value);
     if(!Number.isFinite(amount)||amount<=0)return toast("Düzgün məbləğ daxil edin.","warn");
     const product=ov.querySelector("#fp").value.trim().replace(/\s+/g," "),date=ov.querySelector("#fd").value;
     const data={type,amount,category:cat,product,description:product,date,account:ov.querySelector("#fac").value,note:ov.querySelector("#fn").value.trim(),updatedAt:serverTimestamp()};
@@ -377,8 +419,8 @@ function openForm(editId){
     const btn=ov.querySelector("#fs");btn.disabled=true;btn.textContent="Saxlanılır...";
     const before=monthSpent();
     try{
-      if(ed)await updateDoc(doc(db,"users",user.uid,"transactions",ed.id),data);
-      else{const n=new Date();await addDoc(collection(db,"users",user.uid,"transactions"),{...data,time:`${pad(n.getHours())}:${pad(n.getMinutes())}`,createdAt:serverTimestamp(),createdDay:todayStr(),createdDayNum:dayNum()})}
+      if(ed){const ch=diffTx(ed,{amount,category:cat,product,date,account:data.account,note:data.note});if(ch.length)await saveEdit(ed,data,ch)}
+      else{const n=new Date();await createTx({...data,time:`${pad(n.getHours())}:${pad(n.getMinutes())}`,createdAt:serverTimestamp(),createdDay:todayStr(),createdDayNum:dayNum()})}
       closeModal(ov);toast(ed?"Dəyişikliklər saxlanıldı":"Əməliyyat əlavə edildi","ok");
       if(!ed&&type==="expense"&&limit&&date.slice(0,7)===todayStr().slice(0,7)){const after=before+amount;
         if(before<limit&&after>=limit)setTimeout(()=>toast("Aylıq büdcə limiti aşıldı","warn"),2900);
@@ -448,13 +490,15 @@ function openProduct(name){
   <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px"><button class="btn" id="pmP"><i class="ti ti-chevron-left"></i></button><div style="flex:1;text-align:center;font-weight:600" id="pmT"></div><button class="btn" id="pmN"><i class="ti ti-chevron-right"></i></button></div><div id="pmB"></div>`,"wide");
   const draw=()=>{
     ov.querySelector("#pmT").textContent=monthName(mk);
+    const pl=logs.filter(x=>lc(x.product)===lc(name)||lc(x.prevProduct)===lc(name));
     const ml=l.filter(t=>t.date.slice(0,7)===mk),total=sum(ml),n=ml.length,prev=sum(l.filter(t=>t.date.slice(0,7)===addMonth(mk,-1)));
     const diff=prev?((total-prev)/prev*100):null;
     const months=[-5,-4,-3,-2,-1,0].map(i=>addMonth(mk,i)),vals=months.map(m=>sum(l.filter(t=>t.date.slice(0,7)===m))),mx=Math.max(1,...vals);
     ov.querySelector("#pmB").innerHTML=`<div class="card hero" style="margin:8px 0 0"><div style="font-size:12px;opacity:.8">${esc(monthName(mk))} ərzində ümumi xərc</div><div class="big" style="margin:2px 0 6px">${money(total)}</div><div class="hs"><span>${n} dəfə alınıb</span><span>orta ${money(n?total/n:0)}</span>${diff!==null?`<span>${diff>=0?"▲":"▼"} ${Math.abs(diff).toFixed(1).replace(".",",")}% keçən aya görə</span>`:""}</div></div>
     ${statsHtml(l)}
     <div class="sec">Son 6 ay</div><div class="dch" style="height:110px">${months.map((m,i)=>`<div class="dc"><div class="dbs" style="height:80px"><div class="db a" style="height:${Math.max(3,vals[i]/mx*100)}%"></div></div><small>${m.slice(5)}</small></div>`).join("")}</div>
-    <div class="sec">Alış tarixçəsi (${n})</div><div class="list" id="phL">${n?ml.map(txHtml).join(""):'<div class="empty">Bu ay alış yoxdur.</div>'}</div>`;
+    <div class="sec">Alış tarixçəsi (${n})</div><div class="list" id="phL">${n?ml.map(txHtml).join(""):'<div class="empty">Bu ay alış yoxdur.</div>'}</div>
+    <div class="sec">Dəyişiklik jurnalı (${pl.length})</div><div>${pl.length?pl.map(x=>logRow(x,false)).join(""):'<div class="empty">Bu məhsul üzrə qeyd yoxdur.</div>'}</div>`;
     wireSwipe(ov.querySelector("#phL"))};
   ov.querySelector("#pmP").onclick=()=>{mk=addMonth(mk,-1);draw()};ov.querySelector("#pmN").onclick=()=>{mk=addMonth(mk,1);draw()};draw()}
 
@@ -551,10 +595,8 @@ $("exportBtn").onclick=exportCSV;$("setExport").onclick=exportCSV;
 
 /* ============ 20. INIT ============ */
 function renderAll(){renderDashboard();renderTx();renderProducts();renderReports();renderCategories()}
+["gesturestart","gesturechange","gestureend"].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault()));
 initSettings();initFilters();initReports();
-
- document.addEventListener('gesturestart', e => e.preventDefault());
-  document.addEventListener('contextmenu', e => e.preventDefault());
 </script>
 </body>
 </html>
