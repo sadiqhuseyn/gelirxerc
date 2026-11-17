@@ -196,7 +196,7 @@ input,select,textarea{font-size:14px;padding:9px 11px}
     <section class="page" id="page-settings">
       <div class="card"><h2 style="margin-bottom:12px">Görünüş</h2><div class="chips" id="modeSw" style="margin-bottom:14px"><button class="chip" data-mode="dark"><i class="ti ti-moon"></i> Dark</button><button class="chip" data-mode="light"><i class="ti ti-sun"></i> Light</button></div><div class="tg" id="themeGrid"></div></div>
       <div class="card"><h2 style="margin-bottom:12px">Aylıq büdcə</h2><div class="r2"><input id="setLimit" type="number" min="0" step="1" placeholder="Limit (₼)"><button class="btn primary" id="saveLimit">Yadda saxla</button></div></div>
-      <div class="card"><h2 style="margin-bottom:6px">Son dəyişikliklər</h2><div id="logList"></div></div>
+      <button type="button" class="card" id="openLogs" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer"><span class="ci" style="--c:var(--ac)"><i class="ti ti-history"></i></span><span style="flex:1"><b style="display:block;font-size:14px">Dəyişiklik jurnalı</b><span class="sub" id="logCount">Əlavə, redaktə və silmə tarixçəsi</span></span><i class="ti ti-chevron-right mu"></i></button>
       <div class="card"><h2 style="margin-bottom:12px">Hesab</h2><div class="fld"><label>Google hesabı</label><input id="setEmail" readonly></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="setExport"><i class="ti ti-download"></i> CSV ixrac</button><button class="btn" id="logoutBtn" style="color:var(--red)"><i class="ti ti-logout"></i> Çıxış</button></div></div>
     </section>
   </div>
@@ -374,7 +374,26 @@ function logRow(l,showName){
   const ic={create:["ti-plus","var(--green)"],edit:["ti-pencil","var(--amber)"],delete:["ti-trash","var(--red)"]}[l.action]||["ti-dots","var(--mu)"];
   const txt=l.action==="edit"?(l.changes||[]).map(c=>`${esc(c.f)}: ${esc(c.from||"—")} → ${esc(c.to||"—")}`).join("<br>"):`${l.action==="create"?"Əlavə edildi":"Silindi"} · ${money(l.amount)} · ${esc(l.category)}`;
   return`<div style="display:flex;gap:10px;padding:9px 0;border-top:1px solid var(--ln)"><span class="ci sm" style="--c:${ic[1]}"><i class="ti ${ic[0]}"></i></span><div style="flex:1;min-width:0"><div style="font-size:12.5px;line-height:1.45">${showName?`<b>${esc(l.product||"—")}</b> · `:""}${txt}</div><div class="sub">${esc(fmtDate(l.day))} · ${esc(l.hm)}</div></div></div>`}
-function renderLogs(){const el=$("logList");if(!el)return;el.innerHTML=logs.length?logs.slice(0,30).map(l=>logRow(l,true)).join(""):'<div class="empty">Hələ dəyişiklik yoxdur.</div>'}
+function renderLogs(){const el=$("logCount");if(el)el.textContent=logs.length?logs.length+" qeyd":"Hələ dəyişiklik yoxdur"}
+function logsHtml(list,showName){
+  if(!list.length)return'<div class="empty">Qeyd yoxdur.</div>';
+  const days={};list.forEach(l=>{(days[l.day]=days[l.day]||[]).push(l)});
+  return Object.keys(days).sort().reverse().map(d=>`<div class="sec">${esc(fmtDate(d))} · ${days[d].length}</div><div>${days[d].map(l=>logRow(l,showName)).join("")}</div>`).join("")}
+function openLogs(){
+  let flt="all";
+  const ov=openModal(`<div class="mh"><div><div class="sub">Tənzimləmələr</div><h2>Dəyişiklik jurnalı</h2></div><button class="btn xb" data-close><i class="ti ti-x"></i></button></div>
+  <div class="chips scroll" id="lf"><button class="chip on" data-f="all">Hamısı</button><button class="chip" data-f="create">Əlavə</button><button class="chip" data-f="edit">Redaktə</button><button class="chip" data-f="delete">Silmə</button></div>
+  <div class="fld" style="margin-top:10px"><input id="lq" type="search" placeholder="Məhsul axtar"></div><div id="lb"></div>`,"wide");
+  const draw=()=>{const q=lc(ov.querySelector("#lq").value.trim());
+    const l=logs.filter(x=>(flt==="all"||x.action===flt)&&(!q||lc(x.product).includes(q)||lc(x.prevProduct).includes(q)));
+    ov.querySelector("#lb").innerHTML=logsHtml(l,true)};
+  ov.querySelector("#lf").onclick=e=>{const b=e.target.closest("[data-f]");if(!b)return;flt=b.dataset.f;ov.querySelectorAll("#lf .chip").forEach(x=>x.classList.toggle("on",x===b));draw()};
+  ov.querySelector("#lq").addEventListener("input",draw);draw()}
+function productLogs(name){return logs.filter(x=>lc(x.product)===lc(name)||lc(x.prevProduct)===lc(name))}
+function openProductLogs(name,disp){
+  const l=productLogs(name);
+  openModal(`<div class="mh"><div style="display:flex;gap:12px;align-items:center">${prodIcon(name)}<div><div class="sub">Məhsul jurnalı</div><h2>${esc(disp)}</h2></div></div><button class="btn xb" data-close><i class="ti ti-x"></i></button></div>${logsHtml(l,false)}`,"wide")}
+$("openLogs").onclick=openLogs;
 
 /* ============ 9. ADD / EDIT FORM ============ */
 function recentCats(type){const n={};tx.filter(t=>t.type===type).forEach(t=>{const c=catKey(t);n[c]=(n[c]||0)+1});return CATS[type].map(c=>c[0]).sort((a,b)=>(n[b]||0)-(n[a]||0))}
@@ -486,20 +505,20 @@ function openProduct(name){
   let mk=todayStr().slice(0,7);
   const l=tx.filter(t=>t.type==="expense"&&lc(pname(t))===lc(name));
   const disp=pname(l[0]||{product:name});
-  const ov=openModal(`<div class="mh"><div style="display:flex;gap:12px;align-items:center">${prodIcon(name)}<div><div class="sub">Məhsul statistikası</div><h2>${esc(disp)}</h2></div></div><button class="btn xb" data-close><i class="ti ti-x"></i></button></div>
+  const ov=openModal(`<div class="mh"><div style="display:flex;gap:12px;align-items:center">${prodIcon(name)}<div><div class="sub">Məhsul statistikası</div><h2>${esc(disp)}</h2></div></div><div style="display:flex;gap:6px"><button class="btn xb" id="pmLog" aria-label="Məhsul jurnalı" style="position:relative"><i class="ti ti-history"></i><span id="pmLogN" class="hidden" style="position:absolute;top:-5px;right:-5px;min-width:17px;height:17px;border-radius:9px;background:var(--ac);color:var(--on);font-size:10px;line-height:17px;font-weight:700"></span></button><button class="btn xb" data-close><i class="ti ti-x"></i></button></div></div>
   <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px"><button class="btn" id="pmP"><i class="ti ti-chevron-left"></i></button><div style="flex:1;text-align:center;font-weight:600" id="pmT"></div><button class="btn" id="pmN"><i class="ti ti-chevron-right"></i></button></div><div id="pmB"></div>`,"wide");
   const draw=()=>{
     ov.querySelector("#pmT").textContent=monthName(mk);
-    const pl=logs.filter(x=>lc(x.product)===lc(name)||lc(x.prevProduct)===lc(name));
     const ml=l.filter(t=>t.date.slice(0,7)===mk),total=sum(ml),n=ml.length,prev=sum(l.filter(t=>t.date.slice(0,7)===addMonth(mk,-1)));
     const diff=prev?((total-prev)/prev*100):null;
     const months=[-5,-4,-3,-2,-1,0].map(i=>addMonth(mk,i)),vals=months.map(m=>sum(l.filter(t=>t.date.slice(0,7)===m))),mx=Math.max(1,...vals);
     ov.querySelector("#pmB").innerHTML=`<div class="card hero" style="margin:8px 0 0"><div style="font-size:12px;opacity:.8">${esc(monthName(mk))} ərzində ümumi xərc</div><div class="big" style="margin:2px 0 6px">${money(total)}</div><div class="hs"><span>${n} dəfə alınıb</span><span>orta ${money(n?total/n:0)}</span>${diff!==null?`<span>${diff>=0?"▲":"▼"} ${Math.abs(diff).toFixed(1).replace(".",",")}% keçən aya görə</span>`:""}</div></div>
     ${statsHtml(l)}
     <div class="sec">Son 6 ay</div><div class="dch" style="height:110px">${months.map((m,i)=>`<div class="dc"><div class="dbs" style="height:80px"><div class="db a" style="height:${Math.max(3,vals[i]/mx*100)}%"></div></div><small>${m.slice(5)}</small></div>`).join("")}</div>
-    <div class="sec">Alış tarixçəsi (${n})</div><div class="list" id="phL">${n?ml.map(txHtml).join(""):'<div class="empty">Bu ay alış yoxdur.</div>'}</div>
-    <div class="sec">Dəyişiklik jurnalı (${pl.length})</div><div>${pl.length?pl.map(x=>logRow(x,false)).join(""):'<div class="empty">Bu məhsul üzrə qeyd yoxdur.</div>'}</div>`;
+    <div class="sec">Alış tarixçəsi (${n})</div><div class="list" id="phL">${n?ml.map(txHtml).join(""):'<div class="empty">Bu ay alış yoxdur.</div>'}</div>`;
     wireSwipe(ov.querySelector("#phL"))};
+  ov.querySelector("#pmLog").onclick=()=>openProductLogs(name,disp);
+  {const n=productLogs(name).length,b=ov.querySelector("#pmLogN");if(n){b.textContent=n;b.classList.remove("hidden")}}
   ov.querySelector("#pmP").onclick=()=>{mk=addMonth(mk,-1);draw()};ov.querySelector("#pmN").onclick=()=>{mk=addMonth(mk,1);draw()};draw()}
 
 /* ============ 14. PRODUCTS PAGE ============ */
